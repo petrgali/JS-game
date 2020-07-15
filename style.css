@@ -1,0 +1,20 @@
+.container {
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+.bullet {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: #e15c22;
+}
+
+div .ship {
+    position: absolute;
+}
+
+img {
+    overflow: scroll;
+}
