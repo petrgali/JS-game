@@ -6,22 +6,24 @@ const drawTerrain = () => {
     document.getElementById('terrain').innerHTML += `<img src=${path}${maps[0]}>`
     document.getElementById('terrain').classList.add('container')
 }
-const drawShip = () => document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} class='ship'>`
+const drawShip = () => document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} id='ship'>`
 
 const drawBullet = (axisX, axisY) => document.getElementById('burstfire').innerHTML += `<div class='bullet' 
 style='top:${axisY}px; left:${axisX}px'></div>`;
 
+
 drawTerrain()
 drawShip()
 
+
 let terrain = document.getElementById('terrain')
-let ship = document.getElementsByClassName('ship')[0]
+let ship = document.getElementById('ship')
 
 //////////////////
 /// CONTROLLER ///
-let burst = document.getElementsByClassName('bullet')
+let bulletsDom = document.getElementsByClassName('bullet')
 let shipControlState = {}
-let bullets = []
+let bulletsArr = []
 
 document.addEventListener('keydown', (event) => {
     shipControlState[event.key] = true
@@ -30,13 +32,20 @@ document.addEventListener('keyup', (event) => {
     shipControlState[event.key] = false
 })
 
-let intervalID = setInterval(() => {
-    if (shipControlState[' ']) {
-        bullets.push({ left: _.x + 60, compare: _.x + 60 })
-        drawBullet(_.x + 60, _.y + 10)
-    }
-}, 50)
 
+
+setInterval(() => {
+    if (shipControlState[' '] && bulletsArr.length <= _.burstSize) {
+        bulletsArr.push({ left: _.x + _.bulletXoffset, compare: _.x + _.bulletXoffset })
+        drawBullet(_.x + _.bulletXoffset, _.y + _.bulletYoffet)
+    }
+}, 70)
+
+setInterval(() => {
+    let num = parseInt(ship.src.slice(-5, -4))
+    if (num === 4) return ship.src = `${path}${sprites[num - 4]}`
+    ship.src = `${path}${sprites[num]}`
+}, 300);
 ///////////////////
 ///////////////////
 
@@ -50,21 +59,30 @@ const shipMove = () => {
     ship.style.left = _.x + 'px'
 }
 const burstFire = () => {
-    for (let idx = 0; idx < bullets.length; idx++) {
-        if ((bullets[idx].left - bullets[idx].compare) >= _.firingRange) {
-            bullets.splice(idx, 1)
-            burst[idx].remove()
+    for (let idx = 0; idx < bulletsArr.length; idx++) {
+        if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange) {
+            removeBullet(idx)
         } else {
-            bullets[idx].left += _.firingSpeed
-            burst[idx].style.left = bullets[idx].left + 'px'
+            animateBullet(idx)
         }
     }
 }
+const animateBullet = (id) => {
+    bulletsArr[id].left += _.firingRate
+    bulletsDom[id].style.left = bulletsArr[id].left + 'px'
+    bulletsDom[id].style.opacity = 1 + (bulletsArr[id].compare - bulletsArr[id].left) / _.fadingRate
+}
+const removeBullet = (id) => {
+    bulletsArr.splice(id, 1)
+    bulletsDom[id].remove()
+}
+
 const terrainMove = () => terrain.scrollLeft += _.speedX
 
 
 
 /// VIEW ////
+
 
 export const render = () => {
     terrainMove()
@@ -74,6 +92,8 @@ export const render = () => {
         window.requestAnimationFrame(render)
     }
 }
+
+
 window.requestAnimationFrame(render)
 
 ////////////////////////
