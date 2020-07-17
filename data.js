@@ -3,10 +3,10 @@ export const path = './sources/sprites/'
 export const maps = ['level_map.png']
 
 export const sprites = [
-    'zoom1.png',
-    'zoom2.png',
-    'zoom3.png',
-    'zoom4.png',
+    'ship_mod1.png',
+    'ship_mod2.png',
+    'ship_mod3.png',
+    'ship_mod4.png',
 ]
 export const _ = {
     y: 200,           // ship start top position
@@ -18,7 +18,7 @@ export const _ = {
     firingRange: 400, // max fire range
     burstSize: 5,     // max bullets count in burst firemode
     bulletXoffset: 60,// bullet horizontal offset 
-    bulletYoffet: 10, // bullet vertical offset
+    bulletYoffet: 13, // bullet vertical offset
     fadingRate: 450,  // opacity changing speed rate
     brake: false,     // animation hand switch
 }

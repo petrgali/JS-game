@@ -85,7 +85,7 @@ const terrainMove = () => terrain.scrollLeft += _.speedX
 
 
 export const render = () => {
-    terrainMove()
+    // terrainMove()
     shipMove()
     burstFire()
     if (!_.brake) {

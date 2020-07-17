@@ -4,11 +4,20 @@
 }
 
 .bullet {
-    width: 5px;
-    height: 5px;
     border-radius: 50%;
     position: absolute;
-    background-color: #e15c22;
+    width: 6px;
+    height: 6px;
+    animation: fireball 0.5s infinite;
+}
+
+@keyframes fireball {
+    0%, 66% {
+        background-color: #f1ea0a;
+    }
+    33%, 100% {
+        background-color: #df0606;
+    }
 }
 
 div #ship {
