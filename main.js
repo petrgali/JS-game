@@ -1,30 +1,99 @@
 
+// const drawTerrain = () => {
+//     document.getElementById('terrain').innerHTML += `<img src=${path}${maps[0]}>`
+//     document.getElementById('terrain').classList.add('container')
+// }
+// drawTerrain()
+// let terrain = document.getElementById('terrain')
+// const terrainMove = () => terrain.scrollLeft += _.speedX
+
+
 import { path, sprites, maps, _ } from './data.js'
 
+const mothership = (() => {
+    let ship
+    return {
+        draw: () => {
+            document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} id='ship'>`
+            ship = document.getElementById('ship')
+        },
+        move: () => {
+            if (shipControlState['ArrowDown']) _.shipYposition += _.shipSpeedY
+            if (shipControlState['ArrowUp']) _.shipYposition -= _.shipSpeedY
+            if (shipControlState['ArrowLeft']) _.shipXposition -= _.shipSpeedX
+            if (shipControlState['ArrowRight']) _.shipXposition += _.shipSpeedX
 
-const drawTerrain = () => {
-    document.getElementById('terrain').innerHTML += `<img src=${path}${maps[0]}>`
-    document.getElementById('terrain').classList.add('container')
-}
-const drawShip = () => document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} id='ship'>`
+            mothership.positionCorrection()
+            mothership.positionRefresh()
+        },
+        positionCorrection: () => {
+            if (_.shipYposition < gamearea.top + _.gameareaBorder) {
+                _.shipYposition = gamearea.top + _.gameareaBorder
+            } else if (_.shipYposition > gamearea.bottom - _.shipSkinHeight - _.gameareaBorder) {
+                _.shipYposition = gamearea.bottom - _.shipSkinHeight - _.gameareaBorder
+            }
+            if (_.shipXposition < gamearea.left + _.gameareaBorder) {
+                _.shipXposition = gamearea.left + _.gameareaBorder
+            } else if (_.shipXposition > gamearea.right - _.shipSkinWidth - 2 * _.gameareaBorder) {
+                _.shipXposition = gamearea.right - _.shipSkinWidth - 2 * _.gameareaBorder
+            }
+        },
+        positionRefresh: () => {
+            ship.style.top = _.shipYposition + 'px'
+            ship.style.left = _.shipXposition + 'px'
+        },
+        animate: setInterval(() => {
+            let num = parseInt(ship.src.slice(-5, -4))
+            if (num === sprites.length) return ship.src = `${path}${sprites[num - sprites.length]}`
+            ship.src = `${path}${sprites[num]}`
+        }, 100)
+    }
+})()
 
-const drawBullet = (axisX, axisY) => document.getElementById('burstfire').innerHTML += `<div class='bullet' 
-style='top:${axisY}px; left:${axisX}px'></div>`;
-
-
-drawTerrain()
-drawShip()
-
-
-let terrain = document.getElementById('terrain')
-let ship = document.getElementById('ship')
+const bullet = (() => {
+    let bulletsDom = document.getElementsByClassName('bullet')
+    let bulletsArr = []
+    return {
+        draw: (axisX, axisY) => {
+            document.getElementById('burstfire').innerHTML += `<div class='bullet' 
+                style='top:${axisY}px; left:${axisX}px'></div>`
+        },
+        animateBullet: (id) => {
+            bulletsArr[id].left += _.firingRate
+            bulletsDom[id].style.left = bulletsArr[id].left + 'px'
+            bulletsDom[id].style.opacity = 1 + (bulletsArr[id].compare - bulletsArr[id].left) / _.fadingRate
+        },
+        removeBullet: (id) => {
+            bulletsArr.splice(id, 1)
+            bulletsDom[id].remove()
+        },
+        burstFire: () => {
+            for (let idx = 0; idx < bulletsArr.length; idx++) {
+                if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
+                    bulletsArr[idx].left >= gamearea.right - 2 * _.gameareaBorder) {
+                    bullet.removeBullet(idx)
+                } else {
+                    bullet.animateBullet(idx)
+                }
+            }
+        },
+        listener: setInterval(() => {
+            if (shipControlState[' '] && bulletsArr.length <= _.burstSize) {
+                bulletsArr.push({ left: _.shipXposition + _.bulletXoffset, compare: _.shipXposition + _.bulletXoffset })
+                bullet.draw(_.shipXposition + _.bulletXoffset, _.shipYposition + _.bulletYoffet)
+            }
+        }, 70)
+    }
+})()
 
 //////////////////
-/// CONTROLLER ///
-let bulletsDom = document.getElementsByClassName('bullet')
-let shipControlState = {}
-let bulletsArr = []
+//////////////////
+let gamearea = document.getElementById('gamefield').getBoundingClientRect()
+_.shipXposition += gamearea.left
+_.shipYposition += gamearea.top
 
+
+let shipControlState = {}
 document.addEventListener('keydown', (event) => {
     shipControlState[event.key] = true
 })
@@ -32,69 +101,32 @@ document.addEventListener('keyup', (event) => {
     shipControlState[event.key] = false
 })
 
-
-
-setInterval(() => {
-    if (shipControlState[' '] && bulletsArr.length <= _.burstSize) {
-        bulletsArr.push({ left: _.x + _.bulletXoffset, compare: _.x + _.bulletXoffset })
-        drawBullet(_.x + _.bulletXoffset, _.y + _.bulletYoffet)
-    }
-}, 70)
-
-setInterval(() => {
-    let num = parseInt(ship.src.slice(-5, -4))
-    if (num === 4) return ship.src = `${path}${sprites[num - 4]}`
-    ship.src = `${path}${sprites[num]}`
-}, 300);
 ///////////////////
 ///////////////////
 
-
-const shipMove = () => {
-    if (shipControlState['ArrowUp']) _.y -= _.shipSpeedY
-    if (shipControlState['ArrowDown']) _.y += _.shipSpeedY
-    if (shipControlState['ArrowLeft']) _.x -= _.shipSpeedX
-    if (shipControlState['ArrowRight']) _.x += _.shipSpeedX
-    ship.style.top = _.y + 'px'
-    ship.style.left = _.x + 'px'
-}
-const burstFire = () => {
-    for (let idx = 0; idx < bulletsArr.length; idx++) {
-        if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange) {
-            removeBullet(idx)
-        } else {
-            animateBullet(idx)
-        }
-    }
-}
-const animateBullet = (id) => {
-    bulletsArr[id].left += _.firingRate
-    bulletsDom[id].style.left = bulletsArr[id].left + 'px'
-    bulletsDom[id].style.opacity = 1 + (bulletsArr[id].compare - bulletsArr[id].left) / _.fadingRate
-}
-const removeBullet = (id) => {
-    bulletsArr.splice(id, 1)
-    bulletsDom[id].remove()
-}
-
-const terrainMove = () => terrain.scrollLeft += _.speedX
 
 
 
 /// VIEW ////
 
 
+mothership.draw()
+mothership.animate
+bullet.listener
+
 export const render = () => {
     // terrainMove()
-    shipMove()
-    burstFire()
+    mothership.move()
+    bullet.burstFire()
     if (!_.brake) {
         window.requestAnimationFrame(render)
     }
 }
-
-
 window.requestAnimationFrame(render)
+
+
+
+
 
 ////////////////////////
 /////CONTROL MANUAL/////
@@ -115,10 +147,6 @@ reload.addEventListener('click', function () {
 })
 /////////////
 /////////////
-
-
-///////////////////
-///////////////////
 
 
 

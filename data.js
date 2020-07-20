@@ -9,16 +9,19 @@ export const sprites = [
     'ship_mod4.png',
 ]
 export const _ = {
-    y: 200,           // ship start top position
-    x: 50,            // ship start left position
-    shipSpeedY: 1.5,  // ship vertical speed
-    shipSpeedX: 1,    // ship horizontal speed
-    speedX: 2,        // terrain horizontal scrolling speed
-    firingRate: 2.5,  // burst fire speed
-    firingRange: 400, // max fire range
-    burstSize: 5,     // max bullets count in burst firemode
-    bulletXoffset: 60,// bullet horizontal offset 
-    bulletYoffet: 13, // bullet vertical offset
-    fadingRate: 450,  // opacity changing speed rate
-    brake: false,     // animation hand switch
+    shipYposition: 200,  // ship init top position
+    shipXposition: 50,   // ship init left position
+    gameareaBorder: 4,   // CSS setting
+    shipSkinHeight: 32,  // ship skin size
+    shipSkinWidth: 64,   // ship skin size
+    shipSpeedY: 1.5,     // ship vertical speed
+    shipSpeedX: 1,       // ship horizontal speed
+    speedX: 2,           // terrain horizontal scrolling speed
+    firingRate: 3,       // burst fire speed
+    firingRange: 400,    // max fire range
+    burstSize: 3,        // max bullets count in burst firemode
+    bulletXoffset: 60,   // bullet horizontal offset 
+    bulletYoffet: 15,    // bullet vertical offset
+    fadingRate: 250,     // opacity changing speed rate - less is faster
+    brake: false,        // animation hand switch
 }
