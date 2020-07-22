@@ -8,7 +8,7 @@
 // const terrainMove = () => terrain.scrollLeft += _.speedX
 
 
-import { path, sprites, maps, _ } from './data.js'
+import { path, sprites, enemies, _ } from './data.js'
 
 const mothership = (() => {
     let ship
@@ -86,6 +86,36 @@ const bullet = (() => {
     }
 })()
 
+const enemy = (() => {
+    let enemiesDom = document.getElementsByClassName('enemy')
+    return {
+        draw: (x, y) => {
+            document.getElementById('enemies').innerHTML += `<div class='enemy'
+            style='top:${y}px; left:${x}px'></div>`
+        },
+        waiter: () => {
+            for (let id in enemies) {
+                enemies[id].leftOffset -= _.speedX
+                if (enemies[id].leftOffset + 10 > gamearea.right && enemies[id].leftOffset + 10 - _.speedX <= gamearea.right) {
+                    enemy.draw(enemies[id].leftOffset, enemies[id].topOffset)
+                } else if (enemies[id].leftOffset >= gamearea.left && enemies[id].leftOffset - _.speedX < gamearea.left) {
+                    enemy.remove(id)
+                }
+            }
+        },
+        move: () => {
+            for (let id = 0; id < enemiesDom.length; id++) {
+                enemiesDom[id].style.left = enemies[id].leftOffset - _.speedX + 'px'
+            }
+        },
+        remove: (id) => {
+            enemies.splice(id, 1)
+            enemiesDom[id].remove()
+        }
+
+    }
+
+})()
 //////////////////
 //////////////////
 let gamearea = document.getElementById('gamefield').getBoundingClientRect()
@@ -104,9 +134,6 @@ document.addEventListener('keyup', (event) => {
 ///////////////////
 ///////////////////
 
-
-
-
 /// VIEW ////
 
 
@@ -116,6 +143,8 @@ bullet.listener
 
 export const render = () => {
     // terrainMove()
+    enemy.waiter()
+    enemy.move()
     mothership.move()
     bullet.burstFire()
     if (!_.brake) {

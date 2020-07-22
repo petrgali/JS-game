@@ -7,8 +7,8 @@ body {
 }
 
 div #gamefield {
-    width: 480px;
-    height: 640px;
+    width: 720px;
+    height: 460px;
     margin: auto;
     border: 4px solid red;
     background-color: #000000;
@@ -18,11 +18,18 @@ img {
     overflow: scroll;
 }
 
+.enemy {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #21e008;
+}
+
 .bullet {
     border-radius: 50%;
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 5px;
+    height: 5px;
     animation: fireball 0.5s infinite;
 }
 
