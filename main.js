@@ -13,11 +13,11 @@ import { path, sprites, enemies, _ } from './data.js'
 const mothership = (() => {
     let ship
     return {
-        draw: () => {
+        spawn: () => {
             document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} id='ship'>`
             ship = document.getElementById('ship')
         },
-        move: () => {
+        controller: () => {
             if (shipControlState['ArrowDown']) _.shipYposition += _.shipSpeedY
             if (shipControlState['ArrowUp']) _.shipYposition -= _.shipSpeedY
             if (shipControlState['ArrowLeft']) _.shipXposition -= _.shipSpeedX
@@ -54,16 +54,16 @@ const bullet = (() => {
     let bulletsDom = document.getElementsByClassName('bullet')
     let bulletsArr = []
     return {
-        draw: (axisX, axisY) => {
+        spawn: (axisX, axisY) => {
             document.getElementById('burstfire').innerHTML += `<div class='bullet' 
                 style='top:${axisY}px; left:${axisX}px'></div>`
         },
-        animateBullet: (id) => {
+        animate: (id) => {
             bulletsArr[id].left += _.firingRate
             bulletsDom[id].style.left = bulletsArr[id].left + 'px'
             bulletsDom[id].style.opacity = 1 + (bulletsArr[id].compare - bulletsArr[id].left) / _.fadingRate
         },
-        removeBullet: (id) => {
+        remove: (id) => {
             bulletsArr.splice(id, 1)
             bulletsDom[id].remove()
         },
@@ -71,16 +71,16 @@ const bullet = (() => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
                 if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
                     bulletsArr[idx].left >= gamearea.right - 2 * _.gameareaBorder) {
-                    bullet.removeBullet(idx)
+                    bullet.remove(idx)
                 } else {
-                    bullet.animateBullet(idx)
+                    bullet.animate(idx)
                 }
             }
         },
         listener: setInterval(() => {
             if (shipControlState[' '] && bulletsArr.length <= _.burstSize) {
                 bulletsArr.push({ left: _.shipXposition + _.bulletXoffset, compare: _.shipXposition + _.bulletXoffset })
-                bullet.draw(_.shipXposition + _.bulletXoffset, _.shipYposition + _.bulletYoffet)
+                bullet.spawn(_.shipXposition + _.bulletXoffset, _.shipYposition + _.bulletYoffet)
             }
         }, 70)
     }
@@ -89,15 +89,15 @@ const bullet = (() => {
 const enemy = (() => {
     let enemiesDom = document.getElementsByClassName('enemy')
     return {
-        draw: (x, y) => {
+        spawn: (axisX, axisY) => {
             document.getElementById('enemies').innerHTML += `<div class='enemy'
-            style='top:${y}px; left:${x}px'></div>`
+            style='top:${axisY}px; left:${axisX}px'></div>`
         },
-        waiter: () => {
+        controller: () => {
             for (let id in enemies) {
                 enemies[id].leftOffset -= _.speedX
-                if (enemies[id].leftOffset + 10 > gamearea.right && enemies[id].leftOffset + 10 - _.speedX <= gamearea.right) {
-                    enemy.draw(enemies[id].leftOffset, enemies[id].topOffset)
+                if (enemies[id].leftOffset + _.enemyLength > gamearea.right && enemies[id].leftOffset + _.enemyLength - _.speedX <= gamearea.right) {
+                    enemy.spawn(enemies[id].leftOffset, enemies[id].topOffset)
                 } else if (enemies[id].leftOffset >= gamearea.left && enemies[id].leftOffset - _.speedX < gamearea.left) {
                     enemy.remove(id)
                 }
@@ -137,15 +137,15 @@ document.addEventListener('keyup', (event) => {
 /// VIEW ////
 
 
-mothership.draw()
+mothership.spawn()
 mothership.animate
 bullet.listener
 
 export const render = () => {
     // terrainMove()
-    enemy.waiter()
+    enemy.controller()
     enemy.move()
-    mothership.move()
+    mothership.controller()
     bullet.burstFire()
     if (!_.brake) {
         window.requestAnimationFrame(render)
