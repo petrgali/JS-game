@@ -1,5 +1,5 @@
 
-import { path, sprites, enemies, enemiesSprites, _ } from './data.js'
+import { path, sprites, enemies, _, hotKey } from './data.js'
 
 const mothership = (() => {
     let ship
@@ -7,6 +7,8 @@ const mothership = (() => {
         spawn: () => {
             document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} id='ship'>`
             ship = document.getElementById('ship')
+            _.shipXposition += gamearea.left
+            _.shipYposition += gamearea.top
         },
         positionCorrection: () => {
             if (_.shipYposition < gamearea.top + _.gameareaBorder) {
@@ -24,20 +26,22 @@ const mothership = (() => {
             ship.style.top = _.shipYposition + 'px'
             ship.style.left = _.shipXposition + 'px'
         },
+        remove: () => ship.remove(),
         controller: () => {
-            if (shipControlState['ArrowDown']) _.shipYposition += _.shipSpeedY
-            if (shipControlState['ArrowUp']) _.shipYposition -= _.shipSpeedY
-            if (shipControlState['ArrowLeft']) _.shipXposition -= _.shipSpeedX
-            if (shipControlState['ArrowRight']) _.shipXposition += _.shipSpeedX
+            if (controlState['ArrowDown']) _.shipYposition += _.shipSpeedY
+            if (controlState['ArrowUp']) _.shipYposition -= _.shipSpeedY
+            if (controlState['ArrowLeft']) _.shipXposition -= _.shipSpeedX
+            if (controlState['ArrowRight']) _.shipXposition += _.shipSpeedX
 
             mothership.positionCorrection()
+
             if (enemy.collision(_.shipXposition, _.shipSkinWidth, _.shipYposition, _.shipSkinHeight)) {
-                console.error('wasted')
-                _.brake = true
+                mothership.remove()
+            } else {
+                mothership.positionRefresh()
             }
-            mothership.positionRefresh()
         },
-        animate: setInterval(() => {
+        animate: () => setInterval(() => {
             let num = parseInt(ship.src.slice(-5, -4))
             if (num === sprites.length) return ship.src = `${path}${sprites[num - sprites.length]}`
             ship.src = `${path}${sprites[num]}`
@@ -53,7 +57,7 @@ const bullet = (() => {
             document.getElementById('burstfire').innerHTML += `<div class='bullet' 
                 style='top:${axisY}px; left:${axisX}px'></div>`
         },
-        animate: (id) => {
+        positionRefresh: (id) => {
             bulletsArr[id].left += _.firingRate
             Dom[id].style.left = bulletsArr[id].left + 'px'
             Dom[id].style.opacity = 1 + (bulletsArr[id].compare - bulletsArr[id].left) / _.fadingRate
@@ -69,12 +73,12 @@ const bullet = (() => {
                     enemy.collision(bulletsArr[idx].left, _.bulletSize, bulletsArr[idx].top, _.bulletSize)) {
                     bullet.remove(idx)
                 } else {
-                    bullet.animate(idx)
+                    bullet.positionRefresh(idx)
                 }
             }
         },
-        listener: setInterval(() => {
-            if (shipControlState[' '] && bulletsArr.length <= _.burstSize) {
+        listener: () => setInterval(() => {
+            if (controlState[' '] && bulletsArr.length <= _.burstSize) {
                 bulletsArr.push({
                     left: _.shipXposition + _.bulletXoffset, compare: _.shipXposition + _.bulletXoffset,
                     top: _.shipYposition + _.bulletYoffet
@@ -87,45 +91,46 @@ const bullet = (() => {
 
 const enemy = (() => {
     let Dom = document.getElementsByClassName('enemy')
+    let enemiesArr = Array.from(enemies)
     return {
-        spawn: (axisX, axisY) => {
+        spawn: (axisX, axisY, sprite) => {
             document.getElementById('enemies').innerHTML += `<div class='enemy'
             style='top:${axisY}px; left:${axisX}px;'>
-            <img src=${path}${enemiesSprites[0]}>
+            <img src=${path}${sprite}>
             </div>`
         },
         collision: (axisX, offsetX, axisY, offsetY) => {
             for (let id = 0; id < Dom.length; id++) {
                 if (axisY >= Dom[id].getBoundingClientRect().top - offsetY &&
-                    axisY <= Dom[id].getBoundingClientRect().top + _.enemyHeight &&
+                    axisY <= Dom[id].getBoundingClientRect().top + enemiesArr[id].type.height &&
                     axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
-                    axisX <= Dom[id].getBoundingClientRect().left + _.enemyLength) {
+                    axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length) {
                     enemy.remove(id)
                     return true
                 }
             }
             return false
         },
-        move: () => {
+        positionRefresh: () => {
             for (let id = 0; id < Dom.length; id++) {
-                Dom[id].style.left = enemies[id].leftOffset - _.speedX + 'px'
+                Dom[id].style.left = enemiesArr[id].leftOffset - _.speedX + 'px'
             }
         },
         remove: (id) => {
-            enemies.splice(id, 1)
+            enemiesArr.splice(id, 1)
             Dom[id].remove()
         },
         controller: () => {
-            for (let id in enemies) {
-                enemies[id].leftOffset -= _.speedX
-                if (enemies[id].leftOffset + _.enemyLength > gamearea.right &&
-                    enemies[id].leftOffset + _.enemyLength - _.speedX <= gamearea.right) {
-                    enemy.spawn(enemies[id].leftOffset, enemies[id].topOffset)
-                } else if (enemies[id].leftOffset >= gamearea.left && enemies[id].leftOffset - _.speedX < gamearea.left) {
+            for (let id in enemiesArr) {
+                enemiesArr[id].leftOffset -= _.speedX
+                if (enemiesArr[id].leftOffset + enemiesArr[id].type.length > gamearea.right &&
+                    enemiesArr[id].leftOffset + enemiesArr[id].type.length - _.speedX <= gamearea.right) {
+                    enemy.spawn(enemiesArr[id].leftOffset, enemiesArr[id].topOffset, enemiesArr[id].type.sprite)
+                } else if (enemiesArr[id].leftOffset >= gamearea.left && enemiesArr[id].leftOffset - _.speedX < gamearea.left) {
                     enemy.remove(id)
                 }
             }
-            enemy.move()
+            enemy.positionRefresh()
         },
 
     }
@@ -133,62 +138,63 @@ const enemy = (() => {
 
 //////////////////
 //////////////////
+
+let controlState = {}
 let gamearea = document.getElementById('gamefield').getBoundingClientRect()
-_.shipXposition += gamearea.left
-_.shipYposition += gamearea.top
 
-
-let shipControlState = {}
-document.addEventListener('keydown', (event) => {
-    shipControlState[event.key] = true
-})
-document.addEventListener('keyup', (event) => {
-    shipControlState[event.key] = false
-})
-
-///////////////////
-///////////////////
-
-/// VIEW ////
-
-
-mothership.spawn()
-mothership.animate
-bullet.listener
-
-export const render = () => {
+const render = () => {
     mothership.controller()
     bullet.controller()
     enemy.controller()
-    if (!_.brake) {
+    if (gameState.pause) {
+        window.cancelAnimationFrame(render)
+    } else {
         window.requestAnimationFrame(render)
     }
 }
-window.requestAnimationFrame(render)
+
+const start = () => {
+    document.addEventListener('keydown', (event) => {
+        controlState[event.key] = true
+    })
+    document.addEventListener('keyup', (event) => {
+        controlState[event.key] = false
+    })
+    mothership.spawn()
+    mothership.animate()
+    bullet.listener()
+    window.requestAnimationFrame(render)
+}
 
 
 
+export let gameState = {}
 
-
-////////////////////////
-/////CONTROL MANUAL/////
-let animate = document.getElementsByTagName('button')[0]
-animate.addEventListener('click', function () {
-    if (!_.brake) {
-        animate.innerText = 'ON Animation'
-        _.brake = true
-    } else {
-        animate.innerText = 'OFF Animation'
-        _.brake = false
-        window.requestAnimationFrame(render)
+export const initGame = (event) => {
+    switch (event.keyCode) {
+        case hotKey.start:
+            if (!gameState.start) {
+                gameState['start'] = true
+                start()
+            }
+            break
+        case hotKey.restart:
+            /////////////////
+            /////////////////
+            break
+        case hotKey.pause:
+            if (gameState.pause) {
+                gameState.pause = false
+                window.requestAnimationFrame(render)
+                break
+            }
+            gameState['pause'] = true
+            break
     }
-})
-let reload = document.getElementsByName('reset')[0]
-reload.addEventListener('click', function () {
-    terrain.scrollTo(0, 0)
-})
-/////////////
-/////////////
+}
+
+
+
 
 
 
