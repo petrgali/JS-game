@@ -25,7 +25,7 @@ export const _ = {
     gameareaBorder: 4,   // CSS setting - used for calculations 
     enemyLength: 24,     // CSS setting - used for calculations
     enemyHeight: 14,     // CSS setting - used for calculations
-    shipSkinHeight: 32,  // ship skin size
+    shipSkinHeight: 22,  // ship skin size
     shipSkinWidth: 64,   // ship skin size
     shipSpeedY: 1.5,     // ship vertical speed
     shipSpeedX: 1.5,     // ship horizontal speed

@@ -31,6 +31,10 @@ const mothership = (() => {
             if (shipControlState['ArrowRight']) _.shipXposition += _.shipSpeedX
 
             mothership.positionCorrection()
+            if (enemy.collision(_.shipXposition, _.shipSkinWidth, _.shipYposition, _.shipSkinHeight)) {
+                console.error('wasted')
+                _.brake = true
+            }
             mothership.positionRefresh()
         },
         animate: setInterval(() => {
@@ -62,7 +66,7 @@ const bullet = (() => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
                 if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
                     bulletsArr[idx].left >= gamearea.right - 2 * _.gameareaBorder ||
-                    enemy.collision(bulletsArr[idx].left, bulletsArr[idx].top)) {
+                    enemy.collision(bulletsArr[idx].left, _.bulletSize, bulletsArr[idx].top, _.bulletSize)) {
                     bullet.remove(idx)
                 } else {
                     bullet.animate(idx)
@@ -90,11 +94,12 @@ const enemy = (() => {
             <img src=${path}${enemiesSprites[0]}>
             </div>`
         },
-        collision: (axisX, axisY) => {
+        collision: (axisX, offsetX, axisY, offsetY) => {
             for (let id = 0; id < Dom.length; id++) {
-                if (axisY >= Dom[id].getBoundingClientRect().top - _.bulletSize &&
+                if (axisY >= Dom[id].getBoundingClientRect().top - offsetY &&
                     axisY <= Dom[id].getBoundingClientRect().top + _.enemyHeight &&
-                    axisX >= Dom[id].getBoundingClientRect().left) {
+                    axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
+                    axisX <= Dom[id].getBoundingClientRect().left + _.enemyLength) {
                     enemy.remove(id)
                     return true
                 }
