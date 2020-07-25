@@ -139,6 +139,7 @@ const enemy = (() => {
 //////////////////
 //////////////////
 
+let gameState = {}
 let controlState = {}
 let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 
@@ -146,49 +147,58 @@ const render = () => {
     mothership.controller()
     bullet.controller()
     enemy.controller()
-    if (gameState.pause) {
-        window.cancelAnimationFrame(render)
-    } else {
+    if (!gameState.pause) {
         window.requestAnimationFrame(render)
     }
 }
+const UI = (() => {
+    return {
 
-const start = () => {
-    document.addEventListener('keydown', (event) => {
-        controlState[event.key] = true
-    })
-    document.addEventListener('keyup', (event) => {
-        controlState[event.key] = false
-    })
-    mothership.spawn()
-    mothership.animate()
-    bullet.listener()
-    window.requestAnimationFrame(render)
-}
+    }
+})()
+
+const game = (() => {
+    return {
+        start: () => {
+            if (!gameState.start) {
+                gameState['start'] = true
+                document.addEventListener('keydown', (event) => {
+                    controlState[event.key] = true
+                })
+                document.addEventListener('keyup', (event) => {
+                    controlState[event.key] = false
+                })
+                mothership.spawn()
+                mothership.animate()
+                bullet.listener()
+                window.requestAnimationFrame(render)
+            }
+        },
+        pause: () => {
+            if (gameState.pause) {
+                gameState.pause = false
+                window.requestAnimationFrame(render)
+                return
+            }
+            gameState['pause'] = true
+            window.cancelAnimationFrame(render)
+        }
+    }
+})()
 
 
-
-export let gameState = {}
 
 export const initGame = (event) => {
     switch (event.keyCode) {
         case hotKey.start:
-            if (!gameState.start) {
-                gameState['start'] = true
-                start()
-            }
+            game.start()
             break
         case hotKey.restart:
             /////////////////
             /////////////////
             break
         case hotKey.pause:
-            if (gameState.pause) {
-                gameState.pause = false
-                window.requestAnimationFrame(render)
-                break
-            }
-            gameState['pause'] = true
+            game.pause()
             break
     }
 }

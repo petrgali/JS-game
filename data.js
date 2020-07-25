@@ -9,9 +9,9 @@ export const sprites = [
     'ship_mod4.png',
 ]
 export const hotKey = {
-    start: 13,
-    restart: 82,
-    pause: 17,
+    start: 13,     // Enter
+    restart: 82,   // r||R
+    pause: 17,     // ctrl 
 }
 
 const meta = {

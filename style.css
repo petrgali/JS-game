@@ -11,6 +11,8 @@ body {
 div #init_screen {
     animation: blinker 0.5s infinite;
     text-align: center;
+    font-size: 2vh;
+    color: azure;
 }
 
 div #gamefield {
