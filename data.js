@@ -10,7 +10,7 @@ export const sprites = [
 ]
 export const hotKey = {
     start: 13,     // Enter
-    restart: 82,   // r||R
+    restart: 16,   // shift
     pause: 17,     // ctrl 
 }
 

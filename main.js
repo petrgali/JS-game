@@ -151,17 +151,13 @@ const render = () => {
         window.requestAnimationFrame(render)
     }
 }
-const UI = (() => {
-    return {
-
-    }
-})()
 
 const game = (() => {
     return {
-        start: () => {
-            if (!gameState.start) {
-                gameState['start'] = true
+        play: () => {
+            if (!gameState.play) {
+                gameState['play'] = true
+                UI.hideMenu()
                 document.addEventListener('keydown', (event) => {
                     controlState[event.key] = true
                 })
@@ -177,21 +173,41 @@ const game = (() => {
         pause: () => {
             if (gameState.pause) {
                 gameState.pause = false
+                UI.hideMenu()
                 window.requestAnimationFrame(render)
                 return
             }
-            gameState['pause'] = true
-            window.cancelAnimationFrame(render)
+            if (gameState.play) {
+                gameState['pause'] = true
+                UI.showPause()
+                window.cancelAnimationFrame(render)
+            }
         }
     }
 })()
 
+export const UI = (() => {
+    let mainMenu
+    return {
+        showMenu: () => {
+            document.getElementById('gamefield').innerHTML += `<div id='menu_screen'>
+            press enter to start
+            </div>`
+            mainMenu = document.getElementById('menu_screen')
+        },
+        showPause: () => {
+            mainMenu.innerText = `**GAME MENU**\n\npress ctrl to resume\npress shift to restart`
+        },
+
+        hideMenu: () => mainMenu.textContent = ''
+    }
+})()
 
 
-export const initGame = (event) => {
+export const gameController = (event) => {
     switch (event.keyCode) {
         case hotKey.start:
-            game.start()
+            game.play()
             break
         case hotKey.restart:
             /////////////////

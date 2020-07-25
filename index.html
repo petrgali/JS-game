@@ -10,21 +10,17 @@
 
 <body>
     <div>
-        <div id='gamefield'>
-            <div id='init_screen'>
-                press 'enter'
-                to start
-            </div>
-        </div>
+        <div id='gamefield'></div>
         <div id='mothership'></div>
         <div id='burstfire'></div>
         <div id='enemies'></div>
     </div>
 
     <script type='module'>
-        import { initGame } from './main.js'
+        import { gameController, UI } from './main.js'
+        UI.showMenu()
         document.addEventListener('keydown', (event) => {
-            initGame(event)
+            gameController(event)
         })
     </script>
 

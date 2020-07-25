@@ -8,10 +8,11 @@ body {
     font-family: 'Press Start 2P', cursive;
 }
 
-div #init_screen {
+div #menu_screen {
     animation: blinker 0.5s infinite;
     text-align: center;
-    font-size: 2vh;
+    font-size: 100%;
+    margin-top: 100px;
     color: azure;
 }
 
