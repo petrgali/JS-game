@@ -13,10 +13,12 @@ export const hotKey = {
     shipDown: 'ArrowDown',      //
     shipLeft: 'ArrowLeft',      //  ship control keys bindings
     shipRight: 'ArrowRight',    //
-    shipFire: ' ',              // 
-    start: 13,                  // Enter
-    restart: 16,                // shift
-    pause: 17,                  // ctrl 
+    shipFire: ' ',              //// 
+    start: 13,                  //// Enter
+    restart: 16,                //// shift     game control keys bindings
+    pause: 17,                  //// ctrl 
+    yes: 89,                    //// y
+    no: 78                      //// n
 }
 
 const meta = {

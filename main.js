@@ -116,6 +116,7 @@ const enemy = (() => {
                     axisY <= Dom[id].getBoundingClientRect().top + enemiesArr[id].type.height &&
                     axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
                     axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length) {
+                    score += enemiesArr[id].type.points
                     enemy.remove(id)
                     return true
                 }
@@ -148,7 +149,8 @@ const enemy = (() => {
                 if (enemiesArr[id].leftOffset + enemiesArr[id].type.length > gamearea.right &&
                     enemiesArr[id].leftOffset + enemiesArr[id].type.length - _.speedX <= gamearea.right) {
                     enemy.spawn(enemiesArr[id].leftOffset, enemiesArr[id].topOffset, enemiesArr[id].type.sprite)
-                } else if (enemiesArr[id].leftOffset >= gamearea.left && enemiesArr[id].leftOffset - _.speedX < gamearea.left) {
+                } else if (enemiesArr[id].leftOffset >= gamearea.left + _.gameareaBorder &&
+                    enemiesArr[id].leftOffset - _.speedX < gamearea.left + _.gameareaBorder) {
                     enemy.remove(id)
                 }
             }
@@ -165,6 +167,7 @@ let shipY
 let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 let gameState = {}
 let controlState = {}
+let score = 0
 
 const render = () => {
     mothership.controller()
@@ -180,6 +183,7 @@ const game = (() => {
         play: () => {
             if (!gameState.play) {
                 gameState['play'] = true
+                UI.resetScore()
                 UI.hideMenu()
                 mothership.init()
                 bullet.init()
@@ -187,6 +191,7 @@ const game = (() => {
                 mothership.spawn()
 
                 if (!gameState.reset) {
+                    UI.playerScore()
                     document.addEventListener('keydown', (event) => {
                         controlState[event.key] = true
                     })
@@ -210,10 +215,12 @@ const game = (() => {
                 gameState['pause'] = true
                 UI.showPause()
                 cancelAnimationFrame(render)
+                return
             }
         },
         reset: () => {
-            if (gameState.pause) {
+            if (gameState.lostwarning) {
+                gameState.lostwarning = false
                 gameState.play = false
                 gameState.reset = true
                 bullet.removeAll()
@@ -223,12 +230,31 @@ const game = (() => {
                 game.pause()
                 gameState.reset = false
             }
+        },
+        lostWarning: () => {
+            if (gameState.pause) {
+                gameState['lostwarning'] = true
+                UI.lostWarning()
+            }
+        },
+        stepBackward: () => {
+            if (gameState.lostwarning) {
+                gameState.lostwarning = false
+                UI.showPause()
+            }
+        },
+        stepForward: () => {
+            if (gameState.lostwarning) {
+                game.reset()
+            }
         }
     }
 })()
 
 const UI = (() => {
     let mainMenu
+    let playerMenu
+    let scoreInfo
     return {
         showMenu: () => {
             document.getElementById('gamefield').innerHTML += `<div id='menu_screen'>
@@ -239,8 +265,20 @@ const UI = (() => {
         showPause: () => {
             mainMenu.innerText = `**GAME MENU**\n\npress ctrl to resume\npress shift to restart`
         },
-
-        hideMenu: () => mainMenu.textContent = ''
+        lostWarning: () => {
+            mainMenu.innerText = '**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n'
+        },
+        resetScore: () => score = 0,
+        hideMenu: () => mainMenu.textContent = '',
+        playerScore: () => {
+            document.getElementById('info').innerHTML += `<div id='score'>score ${score}</div>`
+            playerMenu = document.getElementById('info')
+            scoreInfo = document.getElementById('score')
+            UI.scoreListener()
+        },
+        scoreListener: () => setInterval(() => {
+            scoreInfo.innerText = `score ${score}`
+        }, 100)
     }
 })()
 
@@ -253,11 +291,17 @@ export const gameController = () => {
                 game.play()
                 break
             case hotKey.restart:
-                game.reset()
+                game.lostWarning()
                 break
             case hotKey.pause:
                 game.pause()
                 break
+            case hotKey.yes:
+                game.stepForward()
+                break
+            case hotKey.no:
+                game.stepBackward()
+
         }
     })
 }
