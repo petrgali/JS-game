@@ -9,9 +9,14 @@ export const sprites = [
     'ship_mod4.png',
 ]
 export const hotKey = {
-    start: 13,     // Enter
-    restart: 16,   // shift
-    pause: 17,     // ctrl 
+    shipUP: 'ArrowUp',          //  
+    shipDown: 'ArrowDown',      //
+    shipLeft: 'ArrowLeft',      //  ship control keys bindings
+    shipRight: 'ArrowRight',    //
+    shipFire: ' ',              // 
+    start: 13,                  // Enter
+    restart: 16,                // shift
+    pause: 17,                  // ctrl 
 }
 
 const meta = {
@@ -29,7 +34,6 @@ export const enemies = [
 export const _ = {
     shipYposition: 200,               // ship init top position
     shipXposition: 50,                // ship init left position
-    gameareaBorder: 4,                // CSS setting - used for calculations 
     shipSkinHeight: 22,               // ship skin size
     shipSkinWidth: 64,                // ship skin size
     shipSpeedY: 3.5,                  // ship vertical speed
@@ -42,4 +46,5 @@ export const _ = {
     bulletXoffset: 60,                // bullet horizontal offset 
     bulletYoffet: 10,                 // bullet vertical offset
     fadingRate: 450,                  // opacity changing speed rate - less is faster
+    gameareaBorder: 4,                // CSS setting - used for calculations 
 }

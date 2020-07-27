@@ -17,11 +17,8 @@
     </div>
 
     <script type='module'>
-        import { gameController, UI } from './main.js'
-        UI.showMenu()
-        document.addEventListener('keydown', (event) => {
-            gameController(event)
-        })
+        import { gameController } from './main.js'
+        gameController()
     </script>
 
 </body>

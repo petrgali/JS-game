@@ -7,35 +7,37 @@ const mothership = (() => {
         spawn: () => {
             document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} id='ship'>`
             ship = document.getElementById('ship')
-            _.shipXposition += gamearea.left
-            _.shipYposition += gamearea.top
         },
         positionCorrection: () => {
-            if (_.shipYposition < gamearea.top + _.gameareaBorder) {
-                _.shipYposition = gamearea.top + _.gameareaBorder
-            } else if (_.shipYposition > gamearea.bottom - _.shipSkinHeight - _.gameareaBorder) {
-                _.shipYposition = gamearea.bottom - _.shipSkinHeight - _.gameareaBorder
+            if (shipY < gamearea.top + _.gameareaBorder) {
+                shipY = gamearea.top + _.gameareaBorder
+            } else if (shipY > gamearea.bottom - _.shipSkinHeight - _.gameareaBorder) {
+                shipY = gamearea.bottom - _.shipSkinHeight - _.gameareaBorder
             }
-            if (_.shipXposition < gamearea.left + _.gameareaBorder) {
-                _.shipXposition = gamearea.left + _.gameareaBorder
-            } else if (_.shipXposition > gamearea.right - _.shipSkinWidth - 2 * _.gameareaBorder) {
-                _.shipXposition = gamearea.right - _.shipSkinWidth - 2 * _.gameareaBorder
+            if (shipX < gamearea.left + _.gameareaBorder) {
+                shipX = gamearea.left + _.gameareaBorder
+            } else if (shipX > gamearea.right - _.shipSkinWidth - 2 * _.gameareaBorder) {
+                shipX = gamearea.right - _.shipSkinWidth - 2 * _.gameareaBorder
             }
         },
         positionRefresh: () => {
-            ship.style.top = _.shipYposition + 'px'
-            ship.style.left = _.shipXposition + 'px'
+            ship.style.top = shipY + 'px'
+            ship.style.left = shipX + 'px'
         },
         remove: () => ship.remove(),
+        init: () => {
+            shipX = gamearea.left + _.shipXposition
+            shipY = gamearea.top + _.shipYposition
+        },
         controller: () => {
-            if (controlState['ArrowDown']) _.shipYposition += _.shipSpeedY
-            if (controlState['ArrowUp']) _.shipYposition -= _.shipSpeedY
-            if (controlState['ArrowLeft']) _.shipXposition -= _.shipSpeedX
-            if (controlState['ArrowRight']) _.shipXposition += _.shipSpeedX
+            if (controlState[hotKey.shipDown]) shipY += _.shipSpeedY
+            if (controlState[hotKey.shipUP]) shipY -= _.shipSpeedY
+            if (controlState[hotKey.shipLeft]) shipX -= _.shipSpeedX
+            if (controlState[hotKey.shipRight]) shipX += _.shipSpeedX
 
             mothership.positionCorrection()
 
-            if (enemy.collision(_.shipXposition, _.shipSkinWidth, _.shipYposition, _.shipSkinHeight)) {
+            if (enemy.collision(shipX, _.shipSkinWidth, shipY, _.shipSkinHeight)) {
                 mothership.remove()
             } else {
                 mothership.positionRefresh()
@@ -51,7 +53,7 @@ const mothership = (() => {
 
 const bullet = (() => {
     let Dom = document.getElementsByClassName('bullet')
-    let bulletsArr = []
+    let bulletsArr
     return {
         spawn: (axisX, axisY) => {
             document.getElementById('burstfire').innerHTML += `<div class='bullet' 
@@ -66,6 +68,15 @@ const bullet = (() => {
             bulletsArr.splice(id, 1)
             Dom[id].remove()
         },
+        removeAll: () => {
+            while (Dom.length > 0) {
+                Dom[Dom.length - 1].remove()
+            }
+            while (bulletsArr > 0) {
+                bulletsArr.splice(bulletsArr.length - 1, 1)
+            }
+        },
+        init: () => bulletsArr = [],
         controller: () => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
                 if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
@@ -78,12 +89,12 @@ const bullet = (() => {
             }
         },
         listener: () => setInterval(() => {
-            if (controlState[' '] && bulletsArr.length <= _.burstSize) {
+            if (controlState[hotKey.shipFire] && bulletsArr.length <= _.burstSize) {
                 bulletsArr.push({
-                    left: _.shipXposition + _.bulletXoffset, compare: _.shipXposition + _.bulletXoffset,
-                    top: _.shipYposition + _.bulletYoffet
+                    left: shipX + _.bulletXoffset, compare: shipX + _.bulletXoffset,
+                    top: shipY + _.bulletYoffet
                 })
-                bullet.spawn(_.shipXposition + _.bulletXoffset, _.shipYposition + _.bulletYoffet)
+                bullet.spawn(shipX + _.bulletXoffset, shipY + _.bulletYoffet)
             }
         }, 70)
     }
@@ -91,7 +102,7 @@ const bullet = (() => {
 
 const enemy = (() => {
     let Dom = document.getElementsByClassName('enemy')
-    let enemiesArr = Array.from(enemies)
+    let enemiesArr
     return {
         spawn: (axisX, axisY, sprite) => {
             document.getElementById('enemies').innerHTML += `<div class='enemy'
@@ -120,6 +131,17 @@ const enemy = (() => {
             enemiesArr.splice(id, 1)
             Dom[id].remove()
         },
+        removeAll: () => {
+            while (Dom.length > 0) {
+                Dom[Dom.length - 1].remove()
+            }
+            while (enemiesArr > 0) {
+                enemiesArr.splice(enemiesArr.length - 1, 1)
+            }
+        },
+        init: () => {
+            enemiesArr = JSON.parse(JSON.stringify(enemies))
+        },
         controller: () => {
             for (let id in enemiesArr) {
                 enemiesArr[id].leftOffset -= _.speedX
@@ -138,17 +160,18 @@ const enemy = (() => {
 
 //////////////////
 //////////////////
-
+let shipX
+let shipY
+let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 let gameState = {}
 let controlState = {}
-let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 
 const render = () => {
     mothership.controller()
     bullet.controller()
     enemy.controller()
     if (!gameState.pause) {
-        window.requestAnimationFrame(render)
+        requestAnimationFrame(render)
     }
 }
 
@@ -158,35 +181,53 @@ const game = (() => {
             if (!gameState.play) {
                 gameState['play'] = true
                 UI.hideMenu()
-                document.addEventListener('keydown', (event) => {
-                    controlState[event.key] = true
-                })
-                document.addEventListener('keyup', (event) => {
-                    controlState[event.key] = false
-                })
+                mothership.init()
+                bullet.init()
+                enemy.init()
                 mothership.spawn()
-                mothership.animate()
-                bullet.listener()
-                window.requestAnimationFrame(render)
+
+                if (!gameState.reset) {
+                    document.addEventListener('keydown', (event) => {
+                        controlState[event.key] = true
+                    })
+                    document.addEventListener('keyup', (event) => {
+                        controlState[event.key] = false
+                    })
+                    mothership.animate()
+                    bullet.listener()
+                    requestAnimationFrame(render)
+                }
             }
         },
         pause: () => {
             if (gameState.pause) {
                 gameState.pause = false
                 UI.hideMenu()
-                window.requestAnimationFrame(render)
+                requestAnimationFrame(render)
                 return
             }
             if (gameState.play) {
                 gameState['pause'] = true
                 UI.showPause()
-                window.cancelAnimationFrame(render)
+                cancelAnimationFrame(render)
+            }
+        },
+        reset: () => {
+            if (gameState.pause) {
+                gameState.play = false
+                gameState.reset = true
+                bullet.removeAll()
+                enemy.removeAll()
+                mothership.remove()
+                game.play()
+                game.pause()
+                gameState.reset = false
             }
         }
     }
 })()
 
-export const UI = (() => {
+const UI = (() => {
     let mainMenu
     return {
         showMenu: () => {
@@ -204,19 +245,21 @@ export const UI = (() => {
 })()
 
 
-export const gameController = (event) => {
-    switch (event.keyCode) {
-        case hotKey.start:
-            game.play()
-            break
-        case hotKey.restart:
-            /////////////////
-            /////////////////
-            break
-        case hotKey.pause:
-            game.pause()
-            break
-    }
+export const gameController = () => {
+    UI.showMenu()
+    document.addEventListener('keydown', (event) => {
+        switch (event.keyCode) {
+            case hotKey.start:
+                game.play()
+                break
+            case hotKey.restart:
+                game.reset()
+                break
+            case hotKey.pause:
+                game.pause()
+                break
+        }
+    })
 }
 
 
