@@ -178,13 +178,11 @@ let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 let gameState = {}
 let controlState = {}
 let score = 0
-let lifes = _.try
+
 
 const render = () => {
     if (!gameState.wasted) {
         mothership.controller()
-    } else {
-        game.wasted()
     }
     bullet.controller()
     enemy.controller()
@@ -206,7 +204,7 @@ const game = (() => {
                 mothership.spawn()
 
                 if (!gameState.reset) {
-                    UI.playerScore()
+                    UI.gameStat()
                     document.addEventListener('keydown', (event) => {
                         controlState[event.key] = true
                     })
@@ -216,6 +214,13 @@ const game = (() => {
                     mothership.animate()
                     bullet.listener()
                     requestAnimationFrame(render)
+                }
+                if (gameState.gameover) {
+                    UI.resetLifes()
+                    gameState.gameover = false
+                    gameState.play = true
+                    UI.gameStat()
+                    game.pause()
                 }
             }
         },
@@ -236,29 +241,30 @@ const game = (() => {
         reset: () => {
             if (gameState.lostwarning) {
                 gameState.lostwarning = false
-                gameState.play = false
-                gameState.reset = true
-                bullet.removeAll()
-                enemy.removeAll()
-                mothership.remove()
+                game.resetState()
+                game.clearField()
                 UI.resetScore()
+                UI.resetLifes()
+                UI.refreshLifes()
                 game.play()
                 game.pause()
                 gameState.reset = false
             }
             if (gameState.wasted) {
                 gameState.wasted = false
-                gameState.play = false
-                gameState.reset = true
-                lifes -= 1
+                game.resetState()
                 setTimeout(() => {
                     UI.refreshLifes()
-                    bullet.removeAll()
-                    enemy.removeAll()
-                    mothership.remove()
+                    game.clearField()
                     game.play()
                     gameState.reset = false
                 }, 2000)
+            }
+            if (gameState.gameover) {
+                game.resetState()
+                game.clearField()
+                UI.resetScore()
+                UI.showMenu()
             }
         },
         lostWarning: () => {
@@ -266,10 +272,6 @@ const game = (() => {
                 gameState['lostwarning'] = true
                 UI.lostWarning()
             }
-        },
-        wasted: () => {
-            UI.showWasted()
-            lifes > 0 ? game.reset() : console.log('game over')
         },
         stepBackward: () => {
             if (gameState.lostwarning) {
@@ -281,11 +283,21 @@ const game = (() => {
             if (gameState.lostwarning) {
                 game.reset()
             }
+        },
+        clearField: () => {
+            bullet.removeAll()
+            enemy.removeAll()
+            mothership.remove()
+        },
+        resetState: () => {
+            gameState.play = false
+            gameState.reset = true
         }
     }
 })()
 
 const UI = (() => {
+    let lifes
     let mainMenu
     let playerMenu
     let scoreInfo
@@ -294,11 +306,20 @@ const UI = (() => {
     let percent = 0
     let timeElapsed = 0
     return {
-        showMenu: () => {
-            document.getElementById('gamefield').innerHTML += `<div id='menu_screen'>
-            press enter to start
-            </div>`
+        init: () => {
+            document.getElementById('gamefield').innerHTML += `<div id='menu_screen'></div>`
+            document.getElementById('info').innerHTML += `<div id='score'></div>`
+            document.getElementById('info').innerHTML += `<div id='lifes'></div>`
+            document.getElementById('progress').innerHTML += `<div id='bar'></div>`
             mainMenu = document.getElementById('menu_screen')
+            playerMenu = document.getElementById('info')
+            scoreInfo = document.getElementById('score')
+            lifeInfo = document.getElementById('lifes')
+            progressBar = document.getElementById('bar')
+            UI.resetLifes()
+        },
+        showMenu: () => {
+            mainMenu.innerText = `press enter to start`
         },
         showPause: () => {
             mainMenu.innerText = `**GAME MENU**\n\npress ctrl to resume\npress shift to restart`
@@ -306,23 +327,35 @@ const UI = (() => {
         lostWarning: () => {
             mainMenu.innerText = '**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n'
         },
-        showWasted: () => {
-            mainMenu.innerText = 'REKT!!'
-        },
         resetScore: () => {
             score = 0
             timeElapsed = 0
         },
+        resetLifes: () => lifes = _.try,
         hideMenu: () => mainMenu.textContent = '',
-        playerScore: () => {
-            document.getElementById('info').innerHTML += `<div id='score'></div>`
-            document.getElementById('info').innerHTML += `<div id='lifes'>tries ${lifes}</div>`
-            playerMenu = document.getElementById('info')
-            scoreInfo = document.getElementById('score')
-            lifeInfo = document.getElementById('lifes')
-            document.getElementById('progress').innerHTML += `<div id='bar'></div>`
+        gameStat: () => {
             document.getElementById('progress').style.opacity = 1
-            progressBar = document.getElementById('bar')
+            lifeInfo.innerText = `tries ${lifes}`
+        },
+        hideStat: () => {
+            document.getElementById('progress').style.opacity = 0
+            lifeInfo.innerText = ``
+            scoreInfo.innerText = ``
+        },
+        wasted: () => {
+            mainMenu.innerText = 'REKT!!'
+            lifes -= 1
+            lifes >= 0 ? game.reset() : UI.gameOver()
+        },
+        gameOver: () => {
+            gameState['gameover'] = true
+            gameState.wasted = false
+            gameState.pause = true
+            UI.hideStat()
+            mainMenu.innerText = `**GAME OVER**\n\nfinal score ${score}`
+            setTimeout(() => {
+                game.reset()
+            }, 2000)
         },
         scoreRefresh: () => {
             scoreInfo.innerText = `score ${score}`
@@ -344,12 +377,16 @@ const UI = (() => {
         controller: () => {
             UI.scoreRefresh()
             UI.timeElapsed()
+            if (gameState.wasted) {
+                UI.wasted()
+            }
         }
     }
 })()
 
 
 export const userController = () => {
+    UI.init()
     UI.showMenu()
     document.addEventListener('keydown', (event) => {
         switch (event.keyCode) {

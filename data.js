@@ -31,7 +31,19 @@ export const enemies = [
     { topOffset: 260, leftOffset: 1650, type: meta.lightFighter },
     { topOffset: 280, leftOffset: 1700, type: meta.lightFighter },
     { topOffset: 320, leftOffset: 1750, type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 1800, type: meta.lightFighter }
+    { topOffset: 340, leftOffset: 1800, type: meta.lightFighter },
+    { topOffset: 80, leftOffset: 1900, type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 2000, type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 2150, type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 2150, type: meta.lightFighter },
+    { topOffset: 320, leftOffset: 2250, type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 2500, type: meta.lightFighter },
+    { topOffset: 80, leftOffset: 2600, type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 2650, type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 2750, type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 2900, type: meta.lightFighter },
+    { topOffset: 320, leftOffset: 3050, type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 3200, type: meta.lightFighter }
 ]
 export const _ = {
     shipYposition: 200,               // ship init top position
@@ -44,7 +56,7 @@ export const _ = {
     firingRate: 10,                    // burst fire speed
     firingRange: 450,                 // max fire range
     burstSize: 3,                     // max bullets count in burst firemode
-    bulletSize: 3,                    // CSS setting
+    bulletSize: 4,                    // CSS setting
     bulletXoffset: 60,                // bullet horizontal offset 
     bulletYoffet: 10,                 // bullet vertical offset
     fadingRate: 450,                  // opacity changing speed rate - less is faster
