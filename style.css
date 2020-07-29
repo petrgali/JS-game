@@ -21,6 +21,17 @@ div #info {
     margin-top: 0.5em;
 }
 
+#lifes {
+    position: absolute;
+    left: 12em;
+    display: inline;
+    width: 7em;
+}
+
+#score {
+    display: inline;
+}
+
 div #progress {
     position: relative;
     margin: auto;

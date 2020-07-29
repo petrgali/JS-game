@@ -24,7 +24,11 @@ const mothership = (() => {
             ship.style.top = shipY + 'px'
             ship.style.left = shipX + 'px'
         },
-        remove: () => ship.remove(),
+        remove: () => {
+            ship.remove()
+            shipX = 0
+            shipY = 0
+        },
         init: () => {
             shipX = gamearea.left + _.shipXposition
             shipY = gamearea.top + _.shipYposition
@@ -174,10 +178,13 @@ let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 let gameState = {}
 let controlState = {}
 let score = 0
+let lifes = _.try
 
 const render = () => {
     if (!gameState.wasted) {
         mothership.controller()
+    } else {
+        game.wasted()
     }
     bullet.controller()
     enemy.controller()
@@ -239,6 +246,20 @@ const game = (() => {
                 game.pause()
                 gameState.reset = false
             }
+            if (gameState.wasted) {
+                gameState.wasted = false
+                gameState.play = false
+                gameState.reset = true
+                lifes -= 1
+                setTimeout(() => {
+                    UI.refreshLifes()
+                    bullet.removeAll()
+                    enemy.removeAll()
+                    mothership.remove()
+                    game.play()
+                    gameState.reset = false
+                }, 2000)
+            }
         },
         lostWarning: () => {
             if (gameState.pause) {
@@ -248,6 +269,7 @@ const game = (() => {
         },
         wasted: () => {
             UI.showWasted()
+            lifes > 0 ? game.reset() : console.log('game over')
         },
         stepBackward: () => {
             if (gameState.lostwarning) {
@@ -268,6 +290,7 @@ const UI = (() => {
     let playerMenu
     let scoreInfo
     let progressBar
+    let lifeInfo
     let percent = 0
     let timeElapsed = 0
     return {
@@ -292,9 +315,11 @@ const UI = (() => {
         },
         hideMenu: () => mainMenu.textContent = '',
         playerScore: () => {
-            document.getElementById('info').innerHTML += `<div id='score'>score ${score}</div>`
+            document.getElementById('info').innerHTML += `<div id='score'></div>`
+            document.getElementById('info').innerHTML += `<div id='lifes'>tries ${lifes}</div>`
             playerMenu = document.getElementById('info')
             scoreInfo = document.getElementById('score')
+            lifeInfo = document.getElementById('lifes')
             document.getElementById('progress').innerHTML += `<div id='bar'></div>`
             document.getElementById('progress').style.opacity = 1
             progressBar = document.getElementById('bar')
@@ -312,12 +337,13 @@ const UI = (() => {
                     progressBar.style.width = `${percent}` + '%' :
                 percent
         },
+        refreshLifes: () => {
+            lifeInfo.innerText = `tries ${lifes}`
+            timeElapsed = 0
+        },
         controller: () => {
             UI.scoreRefresh()
             UI.timeElapsed()
-            if (gameState.wasted) {
-                game.wasted()
-            }
         }
     }
 })()
@@ -345,11 +371,3 @@ export const userController = () => {
         }
     })
 }
-
-
-
-
-
-
-
-

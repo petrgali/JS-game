@@ -41,12 +41,13 @@ export const _ = {
     shipSpeedY: 3.5,                  // ship vertical speed
     shipSpeedX: 3.5,                  // ship horizontal speed
     speedX: 3,                        // terrain horizontal scrolling speed
-    firingRate: 6,                    // burst fire speed
-    firingRange: 300,                 // max fire range
+    firingRate: 10,                    // burst fire speed
+    firingRange: 450,                 // max fire range
     burstSize: 3,                     // max bullets count in burst firemode
     bulletSize: 3,                    // CSS setting
     bulletXoffset: 60,                // bullet horizontal offset 
     bulletYoffet: 10,                 // bullet vertical offset
     fadingRate: 450,                  // opacity changing speed rate - less is faster
     gameareaBorder: 4,                // CSS setting - used for calculations 
+    try: 2
 }
