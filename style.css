@@ -21,6 +21,23 @@ div #info {
     margin-top: 0.5em;
 }
 
+div #progress {
+    position: relative;
+    margin: auto;
+    top: 29em;
+    width: 40em;
+    height: 1em;
+    border: 2px solid hotpink;
+    opacity: 0;
+}
+
+#bar {
+    position: relative;
+    background-color: ivory;
+    width: 0%;
+    height: 100%;
+}
+
 div #gamefield {
     width: 720px;
     height: 460px;

@@ -39,6 +39,7 @@ const mothership = (() => {
 
             if (enemy.collision(shipX, _.shipSkinWidth, shipY, _.shipSkinHeight)) {
                 mothership.remove()
+                gameState['wasted'] = true
             } else {
                 mothership.positionRefresh()
             }
@@ -156,6 +157,11 @@ const enemy = (() => {
             }
             enemy.positionRefresh()
         },
+        // progress: () => {
+        //     if (enemiesArr.length > 0) {
+        //         return enemiesArr[enemiesArr.length - 1].leftOffset
+        //     }
+        // }
 
     }
 })()
@@ -170,9 +176,12 @@ let controlState = {}
 let score = 0
 
 const render = () => {
-    mothership.controller()
+    if (!gameState.wasted) {
+        mothership.controller()
+    }
     bullet.controller()
     enemy.controller()
+    UI.controller()
     if (!gameState.pause) {
         requestAnimationFrame(render)
     }
@@ -183,7 +192,6 @@ const game = (() => {
         play: () => {
             if (!gameState.play) {
                 gameState['play'] = true
-                UI.resetScore()
                 UI.hideMenu()
                 mothership.init()
                 bullet.init()
@@ -226,6 +234,7 @@ const game = (() => {
                 bullet.removeAll()
                 enemy.removeAll()
                 mothership.remove()
+                UI.resetScore()
                 game.play()
                 game.pause()
                 gameState.reset = false
@@ -236,6 +245,9 @@ const game = (() => {
                 gameState['lostwarning'] = true
                 UI.lostWarning()
             }
+        },
+        wasted: () => {
+            UI.showWasted()
         },
         stepBackward: () => {
             if (gameState.lostwarning) {
@@ -255,6 +267,9 @@ const UI = (() => {
     let mainMenu
     let playerMenu
     let scoreInfo
+    let progressBar
+    let percent = 0
+    let timeElapsed = 0
     return {
         showMenu: () => {
             document.getElementById('gamefield').innerHTML += `<div id='menu_screen'>
@@ -268,22 +283,47 @@ const UI = (() => {
         lostWarning: () => {
             mainMenu.innerText = '**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n'
         },
-        resetScore: () => score = 0,
+        showWasted: () => {
+            mainMenu.innerText = 'REKT!!'
+        },
+        resetScore: () => {
+            score = 0
+            timeElapsed = 0
+        },
         hideMenu: () => mainMenu.textContent = '',
         playerScore: () => {
             document.getElementById('info').innerHTML += `<div id='score'>score ${score}</div>`
             playerMenu = document.getElementById('info')
             scoreInfo = document.getElementById('score')
-            UI.scoreListener()
+            document.getElementById('progress').innerHTML += `<div id='bar'></div>`
+            document.getElementById('progress').style.opacity = 1
+            progressBar = document.getElementById('bar')
         },
-        scoreListener: () => setInterval(() => {
+        scoreRefresh: () => {
             scoreInfo.innerText = `score ${score}`
-        }, 100)
+        },
+        timeElapsed: () => {
+            timeElapsed += _.speedX
+            percent = (timeElapsed / (enemies[enemies.length - 1].leftOffset - gamearea.right +
+                enemies[enemies.length - 1].type.length)) * 100
+            percent <= 100 ?
+                percent > 99.6 ?
+                    progressBar.style.width = 100 + '%' :
+                    progressBar.style.width = `${percent}` + '%' :
+                percent
+        },
+        controller: () => {
+            UI.scoreRefresh()
+            UI.timeElapsed()
+            if (gameState.wasted) {
+                game.wasted()
+            }
+        }
     }
 })()
 
 
-export const gameController = () => {
+export const userController = () => {
     UI.showMenu()
     document.addEventListener('keydown', (event) => {
         switch (event.keyCode) {
