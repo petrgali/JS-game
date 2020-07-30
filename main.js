@@ -183,10 +183,10 @@ let score = 0
 const render = () => {
     if (!gameState.wasted) {
         mothership.controller()
+        GUI.controller()
+        enemy.controller()
     }
     bullet.controller()
-    enemy.controller()
-    UI.controller()
     if (!gameState.pause) {
         requestAnimationFrame(render)
     }
@@ -195,16 +195,16 @@ const render = () => {
 const game = (() => {
     return {
         play: () => {
-            if (!gameState.play) {
+            if (!gameState.play || (gameState.play && gameState.reset)) {
                 gameState['play'] = true
-                UI.hideMenu()
+                GUI.hideMenu()
                 mothership.init()
                 bullet.init()
                 enemy.init()
                 mothership.spawn()
 
                 if (!gameState.reset) {
-                    UI.gameStat()
+                    GUI.gameStat()
                     document.addEventListener('keydown', (event) => {
                         controlState[event.key] = true
                     })
@@ -216,67 +216,80 @@ const game = (() => {
                     requestAnimationFrame(render)
                 }
                 if (gameState.gameover) {
-                    UI.resetLifes()
+                    GUI.resetLifes()
+                    GUI.gameStat()
                     gameState.gameover = false
-                    gameState.play = true
-                    UI.gameStat()
-                    game.pause()
+                    gameState.wasted = false
+                    gameState.reset = false
                 }
             }
         },
         pause: () => {
             if (gameState.pause) {
+                gameState.lostwarning = false
                 gameState.pause = false
-                UI.hideMenu()
+                GUI.hideMenu()
                 requestAnimationFrame(render)
                 return
             }
-            if (gameState.play) {
+            if (gameState.play && !gameState.wasted) {
                 gameState['pause'] = true
-                UI.showPause()
-                cancelAnimationFrame(render)
-                return
+                GUI.showPause()
             }
         },
         reset: () => {
             if (gameState.lostwarning) {
                 gameState.lostwarning = false
-                game.resetState()
+                gameState.play = false
+                gameState.reset = true
                 game.clearField()
-                UI.resetScore()
-                UI.resetLifes()
-                UI.refreshLifes()
+                GUI.resetScore()
+                GUI.resetLifes()
+                GUI.refreshLifes()
                 game.play()
                 game.pause()
                 gameState.reset = false
+                return
+            }
+            if (gameState.gameover) {
+                gameState.reset = true
+                game.clearField()
+                GUI.resetScore()
+                GUI.showMenu()
+                gameState.play = true
+                return
             }
             if (gameState.wasted) {
-                gameState.wasted = false
-                game.resetState()
                 setTimeout(() => {
-                    UI.refreshLifes()
+                    gameState.reset = true
+                    gameState.wasted = false
+                    gameState.play = false
+                    GUI.refreshLifes()
                     game.clearField()
                     game.play()
                     gameState.reset = false
                 }, 2000)
+                return
             }
-            if (gameState.gameover) {
-                game.resetState()
-                game.clearField()
-                UI.resetScore()
-                UI.showMenu()
-            }
+        },
+        over: () => {
+            gameState['gameover'] = true
+            GUI.hideStat()
+            GUI.gameOver()
+            setTimeout(() => {
+                game.reset()
+            }, 2000)
         },
         lostWarning: () => {
             if (gameState.pause) {
                 gameState['lostwarning'] = true
-                UI.lostWarning()
+                GUI.lostWarning()
             }
         },
         stepBackward: () => {
             if (gameState.lostwarning) {
                 gameState.lostwarning = false
-                UI.showPause()
+                GUI.showPause()
             }
         },
         stepForward: () => {
@@ -289,14 +302,10 @@ const game = (() => {
             enemy.removeAll()
             mothership.remove()
         },
-        resetState: () => {
-            gameState.play = false
-            gameState.reset = true
-        }
     }
 })()
 
-const UI = (() => {
+const GUI = (() => {
     let lifes
     let mainMenu
     let playerMenu
@@ -316,7 +325,7 @@ const UI = (() => {
             scoreInfo = document.getElementById('score')
             lifeInfo = document.getElementById('lifes')
             progressBar = document.getElementById('bar')
-            UI.resetLifes()
+            GUI.resetLifes()
         },
         showMenu: () => {
             mainMenu.innerText = `press enter to start`
@@ -345,17 +354,10 @@ const UI = (() => {
         wasted: () => {
             mainMenu.innerText = 'REKT!!'
             lifes -= 1
-            lifes >= 0 ? game.reset() : UI.gameOver()
+            lifes >= 0 ? game.reset() : game.over()
         },
         gameOver: () => {
-            gameState['gameover'] = true
-            gameState.wasted = false
-            gameState.pause = true
-            UI.hideStat()
             mainMenu.innerText = `**GAME OVER**\n\nfinal score ${score}`
-            setTimeout(() => {
-                game.reset()
-            }, 2000)
         },
         scoreRefresh: () => {
             scoreInfo.innerText = `score ${score}`
@@ -375,10 +377,10 @@ const UI = (() => {
             timeElapsed = 0
         },
         controller: () => {
-            UI.scoreRefresh()
-            UI.timeElapsed()
+            GUI.scoreRefresh()
+            GUI.timeElapsed()
             if (gameState.wasted) {
-                UI.wasted()
+                GUI.wasted()
             }
         }
     }
@@ -386,8 +388,8 @@ const UI = (() => {
 
 
 export const userController = () => {
-    UI.init()
-    UI.showMenu()
+    GUI.init()
+    GUI.showMenu()
     document.addEventListener('keydown', (event) => {
         switch (event.keyCode) {
             case hotKey.start:

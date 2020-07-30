@@ -61,5 +61,5 @@ export const _ = {
     bulletYoffet: 10,                 // bullet vertical offset
     fadingRate: 450,                  // opacity changing speed rate - less is faster
     gameareaBorder: 4,                // CSS setting - used for calculations 
-    try: 2
+    try: 1
 }
