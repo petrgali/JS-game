@@ -8,6 +8,12 @@ export const sprites = [
     'ship_mod3.png',
     'ship_mod4.png',
 ]
+export const splash = [
+    'splash1.png',
+    'splash2.png',
+    'splash3.png',
+    'splash4.png',
+]
 export const hotKey = {
     shipUP: 'ArrowUp',          //  
     shipDown: 'ArrowDown',      //
@@ -26,24 +32,24 @@ const meta = {
 }
 
 export const enemies = [
-    { topOffset: 80, leftOffset: 1500, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 1600, type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 1650, type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 1700, type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 1750, type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 1800, type: meta.lightFighter },
-    { topOffset: 80, leftOffset: 1900, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 2000, type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 2150, type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 2150, type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 2250, type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 2500, type: meta.lightFighter },
-    { topOffset: 80, leftOffset: 2600, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 2650, type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 2750, type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 2900, type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 3050, type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 3200, type: meta.lightFighter }
+    { topOffset: 80, leftOffset: 1500, active: true, type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 1600, active: true, type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 1650, active: true,type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 1700, active: true,type: meta.lightFighter },
+    { topOffset: 320, leftOffset: 1750, active: true,type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 1800, active: true,type: meta.lightFighter },
+    { topOffset: 80, leftOffset: 1900, active: true,type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 2000, active: true,type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 2150, active: true,type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 2150, active: true,type: meta.lightFighter },
+    { topOffset: 320, leftOffset: 2250, active: true,type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 2500, active: true,type: meta.lightFighter },
+    { topOffset: 80, leftOffset: 2600, active: true,type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 2650, active: true,type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 2750, active: true,type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 2900, active: true,type: meta.lightFighter },
+    { topOffset: 320, leftOffset: 3050, active: true,type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 3200, active: true,type: meta.lightFighter }
 ]
 export const _ = {
     shipYposition: 200,               // ship init top position

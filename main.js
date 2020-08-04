@@ -1,5 +1,5 @@
 
-import { path, sprites, enemies, _, hotKey } from './data.js'
+import { path, sprites, splash, enemies, _, hotKey } from './data.js'
 
 const mothership = (() => {
     let ship
@@ -26,8 +26,6 @@ const mothership = (() => {
         },
         remove: () => {
             ship.remove()
-            shipX = 0
-            shipY = 0
         },
         init: () => {
             shipX = gamearea.left + _.shipXposition
@@ -45,6 +43,9 @@ const mothership = (() => {
                 mothership.remove()
                 gameState['wasted'] = true
             } else {
+                if (enemy.total() < 1) {
+                    game.levelEnd()
+                }
                 mothership.positionRefresh()
             }
         },
@@ -94,7 +95,7 @@ const bullet = (() => {
             }
         },
         listener: () => setInterval(() => {
-            if (controlState[hotKey.shipFire] && bulletsArr.length <= _.burstSize) {
+            if (controlState[hotKey.shipFire] && bulletsArr.length <= _.burstSize && !gameState.wasted && !gameState.pause) {
                 bulletsArr.push({
                     left: shipX + _.bulletXoffset, compare: shipX + _.bulletXoffset,
                     top: shipY + _.bulletYoffet
@@ -122,6 +123,7 @@ const enemy = (() => {
                     axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
                     axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length) {
                     score += enemiesArr[id].type.points
+                    GUI.explode(enemiesArr[id].leftOffset, enemiesArr[id].topOffset)
                     enemy.remove(id)
                     return true
                 }
@@ -161,12 +163,7 @@ const enemy = (() => {
             }
             enemy.positionRefresh()
         },
-        // progress: () => {
-        //     if (enemiesArr.length > 0) {
-        //         return enemiesArr[enemiesArr.length - 1].leftOffset
-        //     }
-        // }
-
+        total: () => { return enemiesArr.length }
     }
 })()
 
@@ -186,6 +183,7 @@ const render = () => {
         GUI.controller()
         enemy.controller()
     }
+
     bullet.controller()
     if (!gameState.pause) {
         requestAnimationFrame(render)
@@ -242,7 +240,7 @@ const game = (() => {
                 gameState.lostwarning = false
                 gameState.play = false
                 gameState.reset = true
-                game.clearField()
+                GUI.clearField()
                 GUI.resetScore()
                 GUI.resetLifes()
                 GUI.refreshLifes()
@@ -253,7 +251,7 @@ const game = (() => {
             }
             if (gameState.gameover) {
                 gameState.reset = true
-                game.clearField()
+                GUI.clearField()
                 GUI.resetScore()
                 GUI.showMenu()
                 gameState.play = true
@@ -265,7 +263,7 @@ const game = (() => {
                     gameState.wasted = false
                     gameState.play = false
                     GUI.refreshLifes()
-                    game.clearField()
+                    GUI.clearField()
                     game.play()
                     gameState.reset = false
                 }, 2000)
@@ -278,6 +276,21 @@ const game = (() => {
             GUI.gameOver()
             setTimeout(() => {
                 game.reset()
+            }, 2000)
+        },
+        levelEnd: () => {
+            setTimeout(() => {
+                // gameState.pause = true
+                gameState.wasted = true
+                gameState.play = false
+                gameState.reset = true
+                GUI.clearField()
+                GUI.resetScore()
+                GUI.resetLifes()
+                GUI.refreshLifes()
+                game.play()
+                // game.pause()
+                gameState.reset = false
             }, 2000)
         },
         lostWarning: () => {
@@ -297,30 +310,29 @@ const game = (() => {
                 game.reset()
             }
         },
-        clearField: () => {
-            bullet.removeAll()
-            enemy.removeAll()
-            mothership.remove()
-        },
     }
 })()
 
 const GUI = (() => {
+    let splash
     let lifes
     let mainMenu
     let playerMenu
     let scoreInfo
     let progressBar
     let lifeInfo
+    let decal = document.getElementsByClassName('decal')
     let percent = 0
     let timeElapsed = 0
     return {
         init: () => {
             document.getElementById('gamefield').innerHTML += `<div id='menu_screen'></div>`
+            document.getElementById('gamefield').innerHTML += `<div id='splash'></div>`
             document.getElementById('info').innerHTML += `<div id='score'></div>`
             document.getElementById('info').innerHTML += `<div id='lifes'></div>`
             document.getElementById('progress').innerHTML += `<div id='bar'></div>`
             mainMenu = document.getElementById('menu_screen')
+            splash = document.getElementById('splash')
             playerMenu = document.getElementById('info')
             scoreInfo = document.getElementById('score')
             lifeInfo = document.getElementById('lifes')
@@ -335,6 +347,11 @@ const GUI = (() => {
         },
         lostWarning: () => {
             mainMenu.innerText = '**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n'
+        },
+        clearField: () => {
+            bullet.removeAll()
+            enemy.removeAll()
+            mothership.remove()
         },
         resetScore: () => {
             score = 0
@@ -355,6 +372,12 @@ const GUI = (() => {
             mainMenu.innerText = 'REKT!!'
             lifes -= 1
             lifes >= 0 ? game.reset() : game.over()
+        },
+        explode: (axisX, axisY) => {
+            splash.innerHTML += `<div class='decal' style='top:${axisY}px; left:${axisX}px'></div>`
+            setTimeout(() => {
+                decal[0].remove()
+            }, 600);
         },
         gameOver: () => {
             mainMenu.innerText = `**GAME OVER**\n\nfinal score ${score}`
