@@ -1,18 +1,11 @@
 export const path = './sources/sprites/'
 
-export const maps = ['level_map.png']
 
 export const sprites = [
     'ship_mod1.png',
     'ship_mod2.png',
     'ship_mod3.png',
     'ship_mod4.png',
-]
-export const splash = [
-    'splash1.png',
-    'splash2.png',
-    'splash3.png',
-    'splash4.png',
 ]
 export const hotKey = {
     shipUP: 'ArrowUp',          //  
@@ -32,24 +25,24 @@ const meta = {
 }
 
 export const enemies = [
-    { topOffset: 80, leftOffset: 1500, active: true, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 1600, active: true, type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 1650, active: true,type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 1700, active: true,type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 1750, active: true,type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 1800, active: true,type: meta.lightFighter },
-    { topOffset: 80, leftOffset: 1900, active: true,type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 2000, active: true,type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 2150, active: true,type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 2150, active: true,type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 2250, active: true,type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 2500, active: true,type: meta.lightFighter },
-    { topOffset: 80, leftOffset: 2600, active: true,type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 2650, active: true,type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 2750, active: true,type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 2900, active: true,type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 3050, active: true,type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 3200, active: true,type: meta.lightFighter }
+    { topOffset: 80, leftOffset: 1500, type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 1600, type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 1650, type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 1700, type: meta.lightFighter },
+    { topOffset: 320, leftOffset: 1750, type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 1800, type: meta.lightFighter },
+    { topOffset: 80, leftOffset: 1900, type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 2000, type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 2150, type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 2150, type: meta.lightFighter },
+    { topOffset: 320, leftOffset: 2250, type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 2500, type: meta.lightFighter },
+    { topOffset: 80, leftOffset: 2600, type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 2650, type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 2750, type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 2900, type: meta.lightFighter },
+    { topOffset: 320, leftOffset: 3050, type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 3200, type: meta.lightFighter }
 ]
 export const _ = {
     shipYposition: 200,               // ship init top position
@@ -59,7 +52,7 @@ export const _ = {
     shipSpeedY: 3.5,                  // ship vertical speed
     shipSpeedX: 3.5,                  // ship horizontal speed
     speedX: 3,                        // terrain horizontal scrolling speed
-    firingRate: 10,                    // burst fire speed
+    firingRate: 10,                   // burst fire speed
     firingRange: 450,                 // max fire range
     burstSize: 3,                     // max bullets count in burst firemode
     bulletSize: 4,                    // CSS setting
@@ -67,5 +60,6 @@ export const _ = {
     bulletYoffet: 10,                 // bullet vertical offset
     fadingRate: 450,                  // opacity changing speed rate - less is faster
     gameareaBorder: 4,                // CSS setting - used for calculations 
-    try: 1
+    try: 1,                           // number of lives
+    splashSize: 32                    // splash size - CSS value
 }

@@ -1,12 +1,19 @@
 
-import { path, sprites, splash, enemies, _, hotKey } from './data.js'
+import { path, sprites, enemies, _, hotKey } from './data.js'
 
 const mothership = (() => {
     let ship
     return {
+        init: () => {
+            shipX = gamearea.left + _.shipXposition
+            shipY = gamearea.top + _.shipYposition
+        },
         spawn: () => {
             document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} id='ship'>`
             ship = document.getElementById('ship')
+        },
+        remove: () => {
+            ship.remove()
         },
         positionCorrection: () => {
             if (shipY < gamearea.top + _.gameareaBorder) {
@@ -24,13 +31,15 @@ const mothership = (() => {
             ship.style.top = shipY + 'px'
             ship.style.left = shipX + 'px'
         },
-        remove: () => {
-            ship.remove()
+        sprite: () => {
+            let num = parseInt(ship.src.slice(-5, -4))
+            if (num === sprites.length) return ship.src = `${path}${sprites[num - sprites.length]}`
+            ship.src = `${path}${sprites[num]}`
         },
-        init: () => {
-            shipX = gamearea.left + _.shipXposition
-            shipY = gamearea.top + _.shipYposition
-        },
+        animate: () => setInterval(() => {
+            mothership.sprite()
+        }, 100),
+
         controller: () => {
             if (controlState[hotKey.shipDown]) shipY += _.shipSpeedY
             if (controlState[hotKey.shipUP]) shipY -= _.shipSpeedY
@@ -41,6 +50,7 @@ const mothership = (() => {
 
             if (enemy.collision(shipX, _.shipSkinWidth, shipY, _.shipSkinHeight)) {
                 mothership.remove()
+                GUI.explodeMothership()
                 gameState['wasted'] = true
             } else {
                 if (enemy.total() < 1) {
@@ -48,27 +58,18 @@ const mothership = (() => {
                 }
                 mothership.positionRefresh()
             }
-        },
-        animate: () => setInterval(() => {
-            let num = parseInt(ship.src.slice(-5, -4))
-            if (num === sprites.length) return ship.src = `${path}${sprites[num - sprites.length]}`
-            ship.src = `${path}${sprites[num]}`
-        }, 100)
+        }
     }
 })()
 
 const bullet = (() => {
     let Dom = document.getElementsByClassName('bullet')
-    let bulletsArr
+    let bulletsArr = []
     return {
+        init: () => bulletsArr.length = 0,
         spawn: (axisX, axisY) => {
             document.getElementById('burstfire').innerHTML += `<div class='bullet' 
                 style='top:${axisY}px; left:${axisX}px'></div>`
-        },
-        positionRefresh: (id) => {
-            bulletsArr[id].left += _.firingRate
-            Dom[id].style.left = bulletsArr[id].left + 'px'
-            Dom[id].style.opacity = 1 + (bulletsArr[id].compare - bulletsArr[id].left) / _.fadingRate
         },
         remove: (id) => {
             bulletsArr.splice(id, 1)
@@ -82,7 +83,24 @@ const bullet = (() => {
                 bulletsArr.splice(bulletsArr.length - 1, 1)
             }
         },
-        init: () => bulletsArr = [],
+        positionRefresh: (id) => {
+            bulletsArr[id].left += _.firingRate
+            Dom[id].style.left = bulletsArr[id].left + 'px'
+            Dom[id].style.opacity = 1 + (bulletsArr[id].compare - bulletsArr[id].left) / _.fadingRate
+        },
+        generator: () => {
+            if (controlState[hotKey.shipFire] && bulletsArr.length <= _.burstSize && !gameState.wasted && !gameState.pause) {
+                bulletsArr.push({
+                    left: shipX + _.bulletXoffset, compare: shipX + _.bulletXoffset,
+                    top: shipY + _.bulletYoffet
+                })
+                bullet.spawn(shipX + _.bulletXoffset, shipY + _.bulletYoffet)
+            }
+        },
+        listener: () => setInterval(() => {
+            bullet.generator()
+        }, 70),
+
         controller: () => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
                 if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
@@ -93,16 +111,7 @@ const bullet = (() => {
                     bullet.positionRefresh(idx)
                 }
             }
-        },
-        listener: () => setInterval(() => {
-            if (controlState[hotKey.shipFire] && bulletsArr.length <= _.burstSize && !gameState.wasted && !gameState.pause) {
-                bulletsArr.push({
-                    left: shipX + _.bulletXoffset, compare: shipX + _.bulletXoffset,
-                    top: shipY + _.bulletYoffet
-                })
-                bullet.spawn(shipX + _.bulletXoffset, shipY + _.bulletYoffet)
-            }
-        }, 70)
+        }
     }
 })()
 
@@ -110,30 +119,12 @@ const enemy = (() => {
     let Dom = document.getElementsByClassName('enemy')
     let enemiesArr
     return {
+        init: () => enemiesArr = JSON.parse(JSON.stringify(enemies)),
         spawn: (axisX, axisY, sprite) => {
             document.getElementById('enemies').innerHTML += `<div class='enemy'
             style='top:${axisY}px; left:${axisX}px;'>
             <img src=${path}${sprite}>
             </div>`
-        },
-        collision: (axisX, offsetX, axisY, offsetY) => {
-            for (let id = 0; id < Dom.length; id++) {
-                if (axisY >= Dom[id].getBoundingClientRect().top - offsetY &&
-                    axisY <= Dom[id].getBoundingClientRect().top + enemiesArr[id].type.height &&
-                    axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
-                    axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length) {
-                    score += enemiesArr[id].type.points
-                    GUI.explode(enemiesArr[id].leftOffset, enemiesArr[id].topOffset)
-                    enemy.remove(id)
-                    return true
-                }
-            }
-            return false
-        },
-        positionRefresh: () => {
-            for (let id = 0; id < Dom.length; id++) {
-                Dom[id].style.left = enemiesArr[id].leftOffset - _.speedX + 'px'
-            }
         },
         remove: (id) => {
             enemiesArr.splice(id, 1)
@@ -147,8 +138,26 @@ const enemy = (() => {
                 enemiesArr.splice(enemiesArr.length - 1, 1)
             }
         },
-        init: () => {
-            enemiesArr = JSON.parse(JSON.stringify(enemies))
+        total: () => { return enemiesArr.length },
+
+        collision: (axisX, offsetX, axisY, offsetY) => {
+            for (let id = 0; id < Dom.length; id++) {
+                if (axisY >= Dom[id].getBoundingClientRect().top - offsetY &&
+                    axisY <= Dom[id].getBoundingClientRect().top + enemiesArr[id].type.height &&
+                    axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
+                    axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length) {
+                    score += enemiesArr[id].type.points
+                    GUI.explodeEnemy(enemiesArr[id].leftOffset, enemiesArr[id].topOffset)
+                    enemy.remove(id)
+                    return true
+                }
+            }
+            return false
+        },
+        positionRefresh: () => {
+            for (let id = 0; id < Dom.length; id++) {
+                Dom[id].style.left = enemiesArr[id].leftOffset - _.speedX + 'px'
+            }
         },
         controller: () => {
             for (let id in enemiesArr) {
@@ -163,7 +172,6 @@ const enemy = (() => {
             }
             enemy.positionRefresh()
         },
-        total: () => { return enemiesArr.length }
     }
 })()
 
@@ -180,10 +188,11 @@ let score = 0
 const render = () => {
     if (!gameState.wasted) {
         mothership.controller()
-        GUI.controller()
         enemy.controller()
+        if (!gameState.levelend) {
+            GUI.controller()
+        }
     }
-
     bullet.controller()
     if (!gameState.pause) {
         requestAnimationFrame(render)
@@ -202,7 +211,6 @@ const game = (() => {
                 mothership.spawn()
 
                 if (!gameState.reset) {
-                    GUI.gameStat()
                     document.addEventListener('keydown', (event) => {
                         controlState[event.key] = true
                     })
@@ -214,12 +222,12 @@ const game = (() => {
                     requestAnimationFrame(render)
                 }
                 if (gameState.gameover) {
-                    GUI.resetLifes()
-                    GUI.gameStat()
                     gameState.gameover = false
                     gameState.wasted = false
                     gameState.reset = false
+                    gameState.levelend = false
                 }
+                GUI.gameStat()
             }
         },
         pause: () => {
@@ -230,7 +238,7 @@ const game = (() => {
                 requestAnimationFrame(render)
                 return
             }
-            if (gameState.play && !gameState.wasted) {
+            if (gameState.play && !gameState.wasted && !gameState.levelend) {
                 gameState['pause'] = true
                 GUI.showPause()
             }
@@ -240,9 +248,7 @@ const game = (() => {
                 gameState.lostwarning = false
                 gameState.play = false
                 gameState.reset = true
-                GUI.clearField()
-                GUI.resetScore()
-                GUI.resetLifes()
+                GUI.reset()
                 GUI.refreshLifes()
                 game.play()
                 game.pause()
@@ -251,8 +257,7 @@ const game = (() => {
             }
             if (gameState.gameover) {
                 gameState.reset = true
-                GUI.clearField()
-                GUI.resetScore()
+                GUI.reset()
                 GUI.showMenu()
                 gameState.play = true
                 return
@@ -270,27 +275,22 @@ const game = (() => {
                 return
             }
         },
+        levelEnd: () => {
+            gameState['levelend'] = true
+            gameState.gameover = true
+            gameState.wasted = true
+            GUI.hideStat()
+            GUI.levelEnd()
+            setTimeout(() => {
+                game.reset()
+            }, 2000)
+        },
         over: () => {
             gameState['gameover'] = true
             GUI.hideStat()
             GUI.gameOver()
             setTimeout(() => {
                 game.reset()
-            }, 2000)
-        },
-        levelEnd: () => {
-            setTimeout(() => {
-                // gameState.pause = true
-                gameState.wasted = true
-                gameState.play = false
-                gameState.reset = true
-                GUI.clearField()
-                GUI.resetScore()
-                GUI.resetLifes()
-                GUI.refreshLifes()
-                game.play()
-                // game.pause()
-                gameState.reset = false
             }, 2000)
         },
         lostWarning: () => {
@@ -348,16 +348,9 @@ const GUI = (() => {
         lostWarning: () => {
             mainMenu.innerText = '**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n'
         },
-        clearField: () => {
-            bullet.removeAll()
-            enemy.removeAll()
-            mothership.remove()
+        gameOver: () => {
+            mainMenu.innerText = `**GAME OVER**\n\nfinal score ${score}`
         },
-        resetScore: () => {
-            score = 0
-            timeElapsed = 0
-        },
-        resetLifes: () => lifes = _.try,
         hideMenu: () => mainMenu.textContent = '',
         gameStat: () => {
             document.getElementById('progress').style.opacity = 1
@@ -367,20 +360,6 @@ const GUI = (() => {
             document.getElementById('progress').style.opacity = 0
             lifeInfo.innerText = ``
             scoreInfo.innerText = ``
-        },
-        wasted: () => {
-            mainMenu.innerText = 'REKT!!'
-            lifes -= 1
-            lifes >= 0 ? game.reset() : game.over()
-        },
-        explode: (axisX, axisY) => {
-            splash.innerHTML += `<div class='decal' style='top:${axisY}px; left:${axisX}px'></div>`
-            setTimeout(() => {
-                decal[0].remove()
-            }, 600);
-        },
-        gameOver: () => {
-            mainMenu.innerText = `**GAME OVER**\n\nfinal score ${score}`
         },
         scoreRefresh: () => {
             scoreInfo.innerText = `score ${score}`
@@ -398,6 +377,41 @@ const GUI = (() => {
         refreshLifes: () => {
             lifeInfo.innerText = `tries ${lifes}`
             timeElapsed = 0
+        },
+        resetScore: () => {
+            score = 0
+            timeElapsed = 0
+        },
+        resetLifes: () => lifes = _.try,
+        levelEnd: () => {
+            mainMenu.innerText = `congratulations!\n\nyou survived!\n\nfinal score ${score}`
+        },
+        wasted: () => {
+            mainMenu.innerText = 'REKT!!'
+            lifes -= 1
+            lifes >= 0 ? game.reset() : game.over()
+        },
+        explodeEnemy: (axisX, axisY) => {
+            splash.innerHTML += `<div class='decal' style='top:${axisY - _.splashSize / 4}px; left:${axisX - _.splashSize / 2}px'></div>`
+            setTimeout(() => {
+                decal[0].remove()
+            }, 600);
+        },
+        explodeMothership: () => {
+            document.getElementById('mothership').innerHTML += `<div id='ship_decal' style='top:${shipY}px; left:${shipX}px'></div>`
+            setTimeout(() => {
+                document.getElementById('ship_decal').remove()
+            }, 600);
+        },
+        clearField: () => {
+            bullet.removeAll()
+            enemy.removeAll()
+            mothership.remove()
+        },
+        reset: () => {
+            GUI.clearField()
+            GUI.resetScore()
+            GUI.resetLifes()
         },
         controller: () => {
             GUI.scoreRefresh()
