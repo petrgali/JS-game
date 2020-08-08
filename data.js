@@ -60,6 +60,7 @@ export const _ = {
     bulletYoffet: 10,                 // bullet vertical offset
     fadingRate: 450,                  // opacity changing speed rate - less is faster
     gameareaBorder: 4,                // CSS setting - used for calculations 
+    borderOffset: 25,                 // dead zone for ship
     try: 1,                           // number of lives
     splashSize: 32                    // splash size - CSS value
 }

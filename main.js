@@ -16,10 +16,10 @@ const mothership = (() => {
             ship.remove()
         },
         positionCorrection: () => {
-            if (shipY < gamearea.top + _.gameareaBorder) {
-                shipY = gamearea.top + _.gameareaBorder
-            } else if (shipY > gamearea.bottom - _.shipSkinHeight - _.gameareaBorder) {
-                shipY = gamearea.bottom - _.shipSkinHeight - _.gameareaBorder
+            if (shipY < gamearea.top + _.gameareaBorder + _.borderOffset) {
+                shipY = gamearea.top + _.gameareaBorder + _.borderOffset
+            } else if (shipY > gamearea.bottom - _.shipSkinHeight - _.gameareaBorder - _.borderOffset) {
+                shipY = gamearea.bottom - _.shipSkinHeight - _.gameareaBorder - _.borderOffset
             }
             if (shipX < gamearea.left + _.gameareaBorder) {
                 shipX = gamearea.left + _.gameareaBorder
@@ -147,7 +147,7 @@ const enemy = (() => {
                     axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
                     axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length) {
                     score += enemiesArr[id].type.points
-                    GUI.explodeEnemy(enemiesArr[id].leftOffset, enemiesArr[id].topOffset)
+                    GUI.explodeEnemy(enemiesArr[id].leftOffset - gamearea.left, enemiesArr[id].topOffset)
                     enemy.remove(id)
                     return true
                 }
@@ -183,6 +183,7 @@ let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 let gameState = {}
 let controlState = {}
 let score = 0
+console.log(gamearea)
 
 
 const render = () => {
@@ -392,7 +393,7 @@ const GUI = (() => {
             lifes >= 0 ? game.reset() : game.over()
         },
         explodeEnemy: (axisX, axisY) => {
-            splash.innerHTML += `<div class='decal' style='top:${axisY - _.splashSize / 4}px; left:${axisX - _.splashSize / 2}px'></div>`
+            splash.innerHTML += `<div class='decal' style='top:${axisY - _.splashSize / 2}px; left:${axisX - _.splashSize / 2}px'></div>`
             setTimeout(() => {
                 decal[0].remove()
             }, 600);
