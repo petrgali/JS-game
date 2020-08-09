@@ -21,28 +21,29 @@ export const hotKey = {
 }
 
 const meta = {
-    lightFighter: { sprite: 'UFO.png', height: 14, length: 24, points: 100 }
+    lightFighter: { destructible: true, sprite: 'UFO.png', height: 14, length: 24, points: 100 },
+    comet: { destructible: false, height: 22, length: 32, points: 0 }
 }
 
 export const enemies = [
-    { topOffset: 80, leftOffset: 1500, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 1600, type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 1650, type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 1700, type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 1750, type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 1800, type: meta.lightFighter },
-    { topOffset: 80, leftOffset: 1900, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 2000, type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 2150, type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 2150, type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 2250, type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 2500, type: meta.lightFighter },
-    { topOffset: 80, leftOffset: 2600, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 2650, type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 2750, type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 2900, type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 3050, type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 3200, type: meta.lightFighter }
+    { topOffset: 80, leftOffset: 1500, dev: -0.5, type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 1600, dev: -1.5, type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 1650, dev: 0.5, type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 1700, type: meta.comet },
+    { topOffset: 320, leftOffset: 1750, dev: 1, type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 1800, type: meta.comet },
+    { topOffset: 80, leftOffset: 1900, dev: -0.7, type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 2000, type: meta.comet },
+    { topOffset: 260, leftOffset: 2150, dev: -0.4, type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 2150, dev: 0.7, type: meta.lightFighter },
+    { topOffset: 320, leftOffset: 2250, type: meta.comet },
+    { topOffset: 340, leftOffset: 2500, type: meta.comet },
+    { topOffset: 80, leftOffset: 2600, dev: 0.8, type: meta.lightFighter },
+    { topOffset: 220, leftOffset: 2650, dev: 1., type: meta.lightFighter },
+    { topOffset: 260, leftOffset: 2750, dev: -1, type: meta.lightFighter },
+    { topOffset: 280, leftOffset: 2900, type: meta.comet },
+    { topOffset: 320, leftOffset: 3050, dev: -0.5, type: meta.lightFighter },
+    { topOffset: 340, leftOffset: 3200, dev: -1.5, type: meta.lightFighter }
 ]
 export const _ = {
     shipYposition: 200,               // ship init top position
@@ -51,10 +52,10 @@ export const _ = {
     shipSkinWidth: 64,                // ship skin size
     shipSpeedY: 3.5,                  // ship vertical speed
     shipSpeedX: 3.5,                  // ship horizontal speed
-    speedX: 3,                        // terrain horizontal scrolling speed
+    speedX: 3,                        // enemy speed
     firingRate: 10,                   // burst fire speed
     firingRange: 450,                 // max fire range
-    burstSize: 3,                     // max bullets count in burst firemode
+    burstSize: 3,                     // max-1 bullets count in burst firemode
     bulletSize: 4,                    // CSS setting
     bulletXoffset: 60,                // bullet horizontal offset 
     bulletYoffet: 10,                 // bullet vertical offset
@@ -62,5 +63,6 @@ export const _ = {
     gameareaBorder: 4,                // CSS setting - used for calculations 
     borderOffset: 25,                 // dead zone for ship
     try: 1,                           // number of lives
-    splashSize: 32                    // splash size - CSS value
+    splashSize: 32,                   // splash size - CSS value
+    Ydev: 40                          // enemy vertical deviation range
 }

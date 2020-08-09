@@ -22,9 +22,9 @@ div #info {
 }
 
 #lifes {
+    display: inline;
     position: absolute;
     left: 12em;
-    display: inline;
     width: 7em;
 }
 
@@ -35,7 +35,7 @@ div #info {
 div #progress {
     position: relative;
     margin: auto;
-    top: 29em;
+    top: 437px;
     width: 40em;
     height: 1em;
     border: 2px solid hotpink;
@@ -81,6 +81,13 @@ div #ship_decal {
     animation: explode 0.6s infinite;
 }
 
+div .enemy.comet {
+    position: absolute;
+    width: 32px;
+    height: 22px;
+    animation: comet 0.3s infinite;
+}
+
 .bullet {
     border-radius: 50%;
     position: absolute;
@@ -113,6 +120,21 @@ div #ship_decal {
     }
     33%, 100% {
         background-color: #df0606;
+    }
+}
+
+@keyframes comet {
+    0% {
+        background-image: url('./sources/sprites/comet_mod1.png')
+    }
+    33% {
+        background-image: url('./sources/sprites/comet_mod2.png')
+    }
+    66% {
+        background-image: url('./sources/sprites/comet_mod3.png')
+    }
+    100% {
+        background-image: url('./sources/sprites/comet_mod4.png')
     }
 }
 

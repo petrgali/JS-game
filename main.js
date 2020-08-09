@@ -85,8 +85,8 @@ const bullet = (() => {
         },
         positionRefresh: (id) => {
             bulletsArr[id].left += _.firingRate
-            Dom[id].style.left = bulletsArr[id].left + 'px'
             Dom[id].style.opacity = 1 + (bulletsArr[id].compare - bulletsArr[id].left) / _.fadingRate
+            Dom[id].style.left = bulletsArr[id].left + 'px'
         },
         generator: () => {
             if (controlState[hotKey.shipFire] && bulletsArr.length <= _.burstSize && !gameState.wasted && !gameState.pause) {
@@ -122,9 +122,10 @@ const enemy = (() => {
         init: () => enemiesArr = JSON.parse(JSON.stringify(enemies)),
         spawn: (axisX, axisY, sprite) => {
             document.getElementById('enemies').innerHTML += `<div class='enemy'
-            style='top:${axisY}px; left:${axisX}px;'>
-            <img src=${path}${sprite}>
-            </div>`
+            style='top:${axisY}px; left:${axisX}px;'></div>`
+
+            if (!!sprite) { Dom[Dom.length - 1].innerHTML += `<img src=${path}${sprite}>` }
+            else { Dom[Dom.length - 1].classList.add('comet') }
         },
         remove: (id) => {
             enemiesArr.splice(id, 1)
@@ -147,16 +148,29 @@ const enemy = (() => {
                     axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
                     axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length) {
                     score += enemiesArr[id].type.points
-                    GUI.explodeEnemy(enemiesArr[id].leftOffset - gamearea.left, enemiesArr[id].topOffset)
-                    enemy.remove(id)
+                    if (enemiesArr[id].type.destructible) {
+                        GUI.explodeEnemy(Dom[id].getBoundingClientRect().left - gamearea.left,
+                            Dom[id].getBoundingClientRect().top)
+                        enemy.remove(id)
+                    }
                     return true
                 }
             }
             return false
         },
+        verticalDeviation: (num, id) => {
+            if (num + enemiesArr[id].dev >= enemiesArr[id].topOffset + _.Ydev ||
+                num + enemiesArr[id].dev <= enemiesArr[id].topOffset - _.Ydev) {
+                enemiesArr[id].dev = -enemiesArr[id].dev
+            }
+            return num + enemiesArr[id].dev
+        },
         positionRefresh: () => {
             for (let id = 0; id < Dom.length; id++) {
                 Dom[id].style.left = enemiesArr[id].leftOffset - _.speedX + 'px'
+                if (enemiesArr[id].type.destructible) {
+                    Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top, id) + 'px'
+                }
             }
         },
         controller: () => {
@@ -183,7 +197,7 @@ let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 let gameState = {}
 let controlState = {}
 let score = 0
-console.log(gamearea)
+
 
 
 const render = () => {
@@ -299,18 +313,7 @@ const game = (() => {
                 gameState['lostwarning'] = true
                 GUI.lostWarning()
             }
-        },
-        stepBackward: () => {
-            if (gameState.lostwarning) {
-                gameState.lostwarning = false
-                GUI.showPause()
-            }
-        },
-        stepForward: () => {
-            if (gameState.lostwarning) {
-                game.reset()
-            }
-        },
+        }
     }
 })()
 
@@ -393,16 +396,31 @@ const GUI = (() => {
             lifes >= 0 ? game.reset() : game.over()
         },
         explodeEnemy: (axisX, axisY) => {
-            splash.innerHTML += `<div class='decal' style='top:${axisY - _.splashSize / 2}px; left:${axisX - _.splashSize / 2}px'></div>`
+            splash.innerHTML += `<div class='decal' style='top:${axisY - _.splashSize / 2}px; 
+            left:${axisX - _.splashSize / 2}px'></div>`
+
             setTimeout(() => {
                 decal[0].remove()
             }, 600);
         },
         explodeMothership: () => {
-            document.getElementById('mothership').innerHTML += `<div id='ship_decal' style='top:${shipY}px; left:${shipX}px'></div>`
+            document.getElementById('mothership').innerHTML += `<div id='ship_decal' 
+            style='top:${shipY}px; left:${shipX}px'></div>`
+
             setTimeout(() => {
                 document.getElementById('ship_decal').remove()
             }, 600);
+        },
+        stepBackward: () => {
+            if (gameState.lostwarning) {
+                gameState.lostwarning = false
+                GUI.showPause()
+            }
+        },
+        stepForward: () => {
+            if (gameState.lostwarning) {
+                game.reset()
+            }
         },
         clearField: () => {
             bullet.removeAll()
@@ -440,10 +458,10 @@ export const userController = () => {
                 game.pause()
                 break
             case hotKey.yes:
-                game.stepForward()
+                GUI.stepForward()
                 break
             case hotKey.no:
-                game.stepBackward()
+                GUI.stepBackward()
 
         }
     })
