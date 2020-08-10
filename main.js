@@ -104,7 +104,7 @@ const bullet = (() => {
         controller: () => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
                 if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
-                    bulletsArr[idx].left >= gamearea.right - 2 * _.gameareaBorder ||
+                    bulletsArr[idx].left >= gamearea.right - 2 * _.gameareaBorder - _.bulletSize ||
                     enemy.collision(bulletsArr[idx].left, _.bulletSize, bulletsArr[idx].top, _.bulletSize)) {
                     bullet.remove(idx)
                 } else {
