@@ -45,7 +45,6 @@ div #progress {
 div #bar {
     position: relative;
     background-color: ivory;
-    width: 0%;
     height: 100%;
 }
 
@@ -55,6 +54,7 @@ div #bar {
     margin: auto;
     border: 4px solid red;
     background: #000 url('./sources/stars.png') repeat top center;
+    /* background: black; */
     color: azure;
     position: relative;
 }
@@ -166,4 +166,57 @@ div .enemy.comet {
     100% {
         background-image: url('./sources/sprites/splash4.png')
     }
+}
+
+@keyframes star_move {
+    from {
+        left: 0;
+        top: 0;
+    }
+    to {
+        left: -10000px;
+        top: -2000px;
+    }
+}
+
+#background {
+    background: url('./sources/background.png') repeat 5% 5%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    animation-name: star_move;
+    animation-duration: 200s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+#midground {
+    background: url('./sources/midground.png') repeat 20% 20%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    animation-name: star_move;
+    animation-duration: 150s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+#foreground {
+    background: url('./sources/foreground.png') repeat 35% 35%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 300;
+    animation-name: star_move;
+    animation-duration: 100s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }

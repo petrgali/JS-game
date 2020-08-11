@@ -447,6 +447,11 @@ export const userController = () => {
     GUI.init()
     GUI.showMenu()
     document.addEventListener('keydown', (event) => {
+        if (event.keyCode == 61 ||
+            event.keyCode == 107 || event.keyCode == 173 ||
+            event.keyCode == 109 || event.keyCode == 187 ||
+            event.keyCode == 189) event.preventDefault()
+
         switch (event.keyCode) {
             case hotKey.start:
                 game.play()
@@ -462,7 +467,9 @@ export const userController = () => {
                 break
             case hotKey.no:
                 GUI.stepBackward()
-
         }
+    })
+    window.addEventListener('wheel', (event) => {
+        event.preventDefault()
     })
 }
