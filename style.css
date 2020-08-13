@@ -35,16 +35,16 @@ div #info {
 div #progress {
     position: relative;
     margin: auto;
-    top: 437px;
+    top: 432px;
     width: 40em;
     height: 1em;
-    border: 2px solid hotpink;
+    border: 2px solid greenyellow;
     opacity: 0;
 }
 
 div #bar {
     position: relative;
-    background-color: ivory;
+    background-color: rgb(218, 82, 82);
     height: 100%;
 }
 
@@ -52,11 +52,9 @@ div #bar {
     width: 720px;
     height: 460px;
     margin: auto;
-    border: 4px solid red;
-    /* background: #000 url('./sources/stars.png') repeat top center; */
-    /* background: black; */
     color: azure;
     position: relative;
+    clip-path: inset(1% 1% 1% 1%);
 }
 
 img {

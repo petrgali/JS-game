@@ -21,10 +21,10 @@ const mothership = (() => {
             } else if (shipY > gamearea.bottom - _.shipSkinHeight - _.gameareaBorder - _.borderOffset) {
                 shipY = gamearea.bottom - _.shipSkinHeight - _.gameareaBorder - _.borderOffset
             }
-            if (shipX < gamearea.left + _.gameareaBorder) {
-                shipX = gamearea.left + _.gameareaBorder
-            } else if (shipX > gamearea.right - _.shipSkinWidth - 2 * _.gameareaBorder) {
-                shipX = gamearea.right - _.shipSkinWidth - 2 * _.gameareaBorder
+            if (shipX < gamearea.left + _.borderOffset / 2) {
+                shipX = gamearea.left + _.borderOffset / 2
+            } else if (shipX > gamearea.right - _.shipSkinWidth - _.borderOffset / 2) {
+                shipX = gamearea.right - _.shipSkinWidth - _.borderOffset / 2
             }
         },
         positionRefresh: () => {
@@ -104,7 +104,7 @@ const bullet = (() => {
         controller: () => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
                 if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
-                    bulletsArr[idx].left >= gamearea.right - 2 * _.gameareaBorder - _.bulletSize ||
+                    bulletsArr[idx].left >= gamearea.right - _.borderOffset ||
                     enemy.collision(bulletsArr[idx].left, _.bulletSize, bulletsArr[idx].top, _.bulletSize)) {
                     bullet.remove(idx)
                 } else {
@@ -176,8 +176,8 @@ const enemy = (() => {
         controller: () => {
             for (let id in enemiesArr) {
                 enemiesArr[id].leftOffset -= _.speedX
-                if (enemiesArr[id].leftOffset + enemiesArr[id].type.length > gamearea.right &&
-                    enemiesArr[id].leftOffset + enemiesArr[id].type.length - _.speedX <= gamearea.right) {
+                if (enemiesArr[id].leftOffset + enemiesArr[id].type.length > gamearea.right - _.speedX &&
+                    enemiesArr[id].leftOffset + enemiesArr[id].type.length - _.speedX <= gamearea.right - _.speedX) {
                     enemy.spawn(enemiesArr[id].leftOffset, enemiesArr[id].topOffset, enemiesArr[id].type.sprite)
                 } else if (enemiesArr[id].leftOffset >= gamearea.left + _.gameareaBorder &&
                     enemiesArr[id].leftOffset - _.speedX < gamearea.left + _.gameareaBorder) {
