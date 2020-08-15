@@ -1,6 +1,7 @@
 
 import { path, sprites, _, hotKey } from './data.js'
 import { enemies } from './level_set.js'
+let snd = new Audio('./sources/sfx/explode.mp3')
 
 const mothership = (() => {
     let ship
@@ -151,6 +152,8 @@ const enemy = (() => {
                         GUI.explodeEnemy(Dom[id].getBoundingClientRect().left - gamearea.left,
                             Dom[id].getBoundingClientRect().top)
                         enemy.remove(id)
+                        snd.play()
+                        snd.currentTime = 0
                     }
                     return true
                 }
@@ -197,7 +200,8 @@ let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 let gameState = {}
 let controlState = {}
 let score = 0
-
+//////////////////
+//////////////////
 
 
 const render = () => {
