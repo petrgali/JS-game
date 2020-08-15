@@ -10,7 +10,7 @@ export const enemies = [
     { topOffset: 220, leftOffset: 1650, type: meta.speedComet },
     { topOffset: 320, leftOffset: 1850, type: meta.speedComet },
     { topOffset: 340, leftOffset: 1950, type: meta.speedComet },
-    { topOffset: 280, leftOffset: 2000, type: meta.speedComet },
+    { topOffset: 280, leftOffset: 1970, type: meta.speedComet },
     { topOffset: 80, leftOffset: 1800, dev: -0.5, type: meta.lightFighter },
     { topOffset: 220, leftOffset: 1840, dev: -1.5, type: meta.lightFighter },
     { topOffset: 260, leftOffset: 1940, dev: 0.5, type: meta.lightFighter },

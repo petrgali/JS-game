@@ -6,5 +6,7 @@
  * "BOSS" level
  * player profile
  * highscore rankings
- * maps
+ * ?maps generator?
+ * different maps
+ 
  ***
