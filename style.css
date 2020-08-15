@@ -86,6 +86,12 @@ div .enemy.comet {
     animation: comet 0.3s infinite;
 }
 
+div .enemy.fighter {
+    width: 24px;
+    height: 14px;
+    background-image: url('./sources/sprites/UFO.png');
+}
+
 .bullet {
     border-radius: 50%;
     position: absolute;

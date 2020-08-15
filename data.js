@@ -20,31 +20,6 @@ export const hotKey = {
     no: 78                      //// n
 }
 
-const meta = {
-    lightFighter: { destructible: true, sprite: 'UFO.png', height: 14, length: 24, points: 100 },
-    comet: { destructible: false, height: 22, length: 32, points: 0 }
-}
-
-export const enemies = [
-    { topOffset: 80, leftOffset: 1500, dev: -0.5, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 1600, dev: -1.5, type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 1650, dev: 0.5, type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 1700, type: meta.comet },
-    { topOffset: 320, leftOffset: 1750, dev: 1, type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 1800, type: meta.comet },
-    { topOffset: 80, leftOffset: 1900, dev: -0.7, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 2000, type: meta.comet },
-    { topOffset: 260, leftOffset: 2150, dev: -0.4, type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 2150, dev: 0.7, type: meta.lightFighter },
-    { topOffset: 320, leftOffset: 2250, type: meta.comet },
-    { topOffset: 340, leftOffset: 2500, type: meta.comet },
-    { topOffset: 80, leftOffset: 2600, dev: 0.8, type: meta.lightFighter },
-    { topOffset: 220, leftOffset: 2650, dev: 1., type: meta.lightFighter },
-    { topOffset: 260, leftOffset: 2750, dev: -1, type: meta.lightFighter },
-    { topOffset: 280, leftOffset: 2900, type: meta.comet },
-    { topOffset: 320, leftOffset: 3050, dev: -0.5, type: meta.lightFighter },
-    { topOffset: 340, leftOffset: 3200, dev: -1.5, type: meta.lightFighter }
-]
 export const _ = {
     shipYposition: 200,               // ship init top position
     shipXposition: 50,                // ship init left position

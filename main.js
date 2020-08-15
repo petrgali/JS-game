@@ -1,5 +1,6 @@
 
-import { path, sprites, enemies, _, hotKey } from './data.js'
+import { path, sprites, _, hotKey } from './data.js'
+import { enemies } from './level_set.js'
 
 const mothership = (() => {
     let ship
@@ -120,12 +121,10 @@ const enemy = (() => {
     let enemiesArr
     return {
         init: () => enemiesArr = JSON.parse(JSON.stringify(enemies)),
-        spawn: (axisX, axisY, sprite) => {
+        spawn: (axisX, axisY, objType) => {
             document.getElementById('enemies').innerHTML += `<div class='enemy'
             style='top:${axisY}px; left:${axisX}px;'></div>`
-
-            if (!!sprite) { Dom[Dom.length - 1].innerHTML += `<img src=${path}${sprite}>` }
-            else { Dom[Dom.length - 1].classList.add('comet') }
+            Dom[Dom.length - 1].classList.add(objType)
         },
         remove: (id) => {
             enemiesArr.splice(id, 1)
@@ -167,7 +166,7 @@ const enemy = (() => {
         },
         positionRefresh: () => {
             for (let id = 0; id < Dom.length; id++) {
-                Dom[id].style.left = enemiesArr[id].leftOffset - _.speedX + 'px'
+                Dom[id].style.left = enemiesArr[id].leftOffset - enemiesArr[id].type.speed + 'px'
                 if (enemiesArr[id].type.destructible) {
                     Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top, id) + 'px'
                 }
@@ -175,12 +174,13 @@ const enemy = (() => {
         },
         controller: () => {
             for (let id in enemiesArr) {
-                enemiesArr[id].leftOffset -= _.speedX
-                if (enemiesArr[id].leftOffset + enemiesArr[id].type.length > gamearea.right - _.speedX &&
-                    enemiesArr[id].leftOffset + enemiesArr[id].type.length - _.speedX <= gamearea.right - _.speedX) {
-                    enemy.spawn(enemiesArr[id].leftOffset, enemiesArr[id].topOffset, enemiesArr[id].type.sprite)
+                enemiesArr[id].leftOffset -= enemiesArr[id].type.speed
+                if (enemiesArr[id].leftOffset + enemiesArr[id].type.length > gamearea.right - enemiesArr[id].type.speed &&
+                    enemiesArr[id].leftOffset + enemiesArr[id].type.length - enemiesArr[id].type.speed <=
+                    gamearea.right - enemiesArr[id].type.speed) {
+                    enemy.spawn(enemiesArr[id].leftOffset, enemiesArr[id].topOffset, enemiesArr[id].type.class)
                 } else if (enemiesArr[id].leftOffset >= gamearea.left + _.gameareaBorder &&
-                    enemiesArr[id].leftOffset - _.speedX < gamearea.left + _.gameareaBorder) {
+                    enemiesArr[id].leftOffset - enemiesArr[id].type.speed < gamearea.left + _.gameareaBorder) {
                     enemy.remove(id)
                 }
             }
