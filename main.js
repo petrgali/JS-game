@@ -169,7 +169,7 @@ const enemy = (() => {
         },
         positionRefresh: () => {
             for (let id = 0; id < Dom.length; id++) {
-                Dom[id].style.left = enemiesArr[id].leftOffset - enemiesArr[id].type.speed + 'px'
+                Dom[id].style.left = enemiesArr[id].leftOffset + gamearea.right - enemiesArr[id].type.speed + 'px'
                 if (enemiesArr[id].type.destructible) {
                     Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top, id) + 'px'
                 }
@@ -178,12 +178,13 @@ const enemy = (() => {
         controller: () => {
             for (let id in enemiesArr) {
                 enemiesArr[id].leftOffset -= enemiesArr[id].type.speed
-                if (enemiesArr[id].leftOffset + enemiesArr[id].type.length > gamearea.right - enemiesArr[id].type.speed &&
-                    enemiesArr[id].leftOffset + enemiesArr[id].type.length - enemiesArr[id].type.speed <=
+                let position = enemiesArr[id].leftOffset + gamearea.right
+                if (position + enemiesArr[id].type.length > gamearea.right - enemiesArr[id].type.speed &&
+                    position + enemiesArr[id].type.length - enemiesArr[id].type.speed <=
                     gamearea.right - enemiesArr[id].type.speed) {
-                    enemy.spawn(enemiesArr[id].leftOffset, enemiesArr[id].topOffset, enemiesArr[id].type.class)
-                } else if (enemiesArr[id].leftOffset >= gamearea.left + _.gameareaBorder &&
-                    enemiesArr[id].leftOffset - enemiesArr[id].type.speed < gamearea.left + _.gameareaBorder) {
+                    enemy.spawn(position, enemiesArr[id].topOffset, enemiesArr[id].type.class)
+                } else if (position >= gamearea.left + _.gameareaBorder &&
+                    position - enemiesArr[id].type.speed < gamearea.left + _.gameareaBorder) {
                     enemy.remove(id)
                 }
             }
@@ -374,7 +375,7 @@ const GUI = (() => {
         },
         timeElapsed: () => {
             timeElapsed += _.speedX
-            percent = (timeElapsed / (enemies[enemies.length - 1].leftOffset - gamearea.right +
+            percent = (timeElapsed / (enemies[enemies.length - 1].leftOffset +
                 enemies[enemies.length - 1].type.length)) * 100
             percent <= 100 ?
                 percent > 99.6 ?
@@ -451,11 +452,6 @@ export const userController = () => {
     GUI.init()
     GUI.showMenu()
     document.addEventListener('keydown', (event) => {
-        if (event.keyCode == 61 ||
-            event.keyCode == 107 || event.keyCode == 173 ||
-            event.keyCode == 109 || event.keyCode == 187 ||
-            event.keyCode == 189) event.preventDefault()
-
         switch (event.keyCode) {
             case hotKey.start:
                 game.play()
@@ -472,8 +468,5 @@ export const userController = () => {
             case hotKey.no:
                 GUI.stepBackward()
         }
-    })
-    window.addEventListener('wheel', (event) => {
-        event.preventDefault()
     })
 }
