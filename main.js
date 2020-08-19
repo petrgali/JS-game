@@ -1,7 +1,7 @@
 
-import { path, sprites, _, hotKey } from './data.js'
+import { path, sprites, sounds, effects, _, hotKey } from './data.js'
 import { enemies } from './level_set.js'
-let snd = new Audio('./sources/sfx/explode.mp3')
+
 
 const mothership = (() => {
     let ship
@@ -52,6 +52,7 @@ const mothership = (() => {
 
             if (enemy.collision(shipX, _.shipSkinWidth, shipY, _.shipSkinHeight)) {
                 mothership.remove()
+                SFX.play(effects.explode)
                 GUI.explodeMothership()
                 gameState['wasted'] = true
             } else {
@@ -96,12 +97,13 @@ const bullet = (() => {
                     left: shipX + _.bulletXoffset, compare: shipX + _.bulletXoffset,
                     top: shipY + _.bulletYoffet
                 })
+                SFX.play(effects.shot)
                 bullet.spawn(shipX + _.bulletXoffset, shipY + _.bulletYoffet)
             }
         },
         listener: () => setInterval(() => {
             bullet.generator()
-        }, 70),
+        }, 120),
 
         controller: () => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
@@ -120,6 +122,7 @@ const bullet = (() => {
 const enemy = (() => {
     let Dom = document.getElementsByClassName('enemy')
     let enemiesArr
+    let position
     return {
         init: () => enemiesArr = JSON.parse(JSON.stringify(enemies)),
         spawn: (axisX, axisY, objType) => {
@@ -151,9 +154,8 @@ const enemy = (() => {
                     if (enemiesArr[id].type.destructible) {
                         GUI.explodeEnemy(Dom[id].getBoundingClientRect().left - gamearea.left,
                             Dom[id].getBoundingClientRect().top)
+                        SFX.play(effects.explode)
                         enemy.remove(id)
-                        snd.play()
-                        snd.currentTime = 0
                     }
                     return true
                 }
@@ -178,7 +180,7 @@ const enemy = (() => {
         controller: () => {
             for (let id in enemiesArr) {
                 enemiesArr[id].leftOffset -= enemiesArr[id].type.speed
-                let position = enemiesArr[id].leftOffset + gamearea.right
+                position = enemiesArr[id].leftOffset + gamearea.right
                 if (position + enemiesArr[id].type.length > gamearea.right - enemiesArr[id].type.speed &&
                     position + enemiesArr[id].type.length - enemiesArr[id].type.speed <=
                     gamearea.right - enemiesArr[id].type.speed) {
@@ -201,6 +203,9 @@ let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 let gameState = {}
 let controlState = {}
 let score = 0
+let sound = null
+let context
+let buffer
 //////////////////
 //////////////////
 
@@ -447,9 +452,67 @@ const GUI = (() => {
     }
 })()
 
+const SFX = (() => {
+    return {
+        init: () => {
+            context = new (window.AudioContext || window.webkitAudioContext)
+            buffer = new Buffer(context, sounds)
+            buffer.loadAll()
+        },
+        play: (idx) => {
+            sound = new Sound(context, buffer.getSoundByIndex(idx))
+            sound.play()
+        }
+    }
+})()
+
+
+class Sound {
+    constructor(context, buffer) {
+        this.context = context
+        this.buffer = buffer
+    }
+    init() {
+        this.source = this.context.createBufferSource()
+        this.source.buffer = this.buffer
+        this.source.connect(this.context.destination)
+    }
+    play() {
+        this.init()
+        this.source.start(this.context.currentTime)
+    }
+}
+class Buffer {
+    constructor(context, urls) {
+        this.context = context
+        this.urls = urls
+        this.buffer = []
+    }
+    loadSound(url, index) {
+        let request = new XMLHttpRequest()
+        request.open('get', url, true)
+        request.responseType = 'arraybuffer'
+        let thisBuffer = this
+        request.onload = function () {
+            thisBuffer.context.decodeAudioData(request.response, function (buffer) {
+                thisBuffer.buffer[index] = buffer
+            })
+        }
+        request.send()
+    }
+    loadAll() {
+        this.urls.forEach((url, index) => {
+            this.loadSound(url, index)
+        })
+    }
+    getSoundByIndex(index) {
+        return this.buffer[index]
+    }
+}
 
 export const userController = () => {
     GUI.init()
+    SFX.init()
     GUI.showMenu()
     document.addEventListener('keydown', (event) => {
         switch (event.keyCode) {

@@ -89,7 +89,7 @@ div .enemy.comet {
 div .enemy.fighter {
     width: 24px;
     height: 14px;
-    background-image: url('./sources/sprites/UFO.png');
+    background-image: url('./assets/sprites/UFO.png');
 }
 
 .bullet {
@@ -129,46 +129,46 @@ div .enemy.fighter {
 
 @keyframes comet {
     0% {
-        background-image: url('./sources/sprites/comet_mod1.png')
+        background-image: url('./assets/sprites/comet_mod1.png')
     }
     33% {
-        background-image: url('./sources/sprites/comet_mod2.png')
+        background-image: url('./assets/sprites/comet_mod2.png')
     }
     66% {
-        background-image: url('./sources/sprites/comet_mod3.png')
+        background-image: url('./assets/sprites/comet_mod3.png')
     }
     100% {
-        background-image: url('./sources/sprites/comet_mod4.png')
+        background-image: url('./assets/sprites/comet_mod4.png')
     }
 }
 
 @keyframes explode {
     0% {
-        background-image: url('./sources/sprites/ship_splash1.png')
+        background-image: url('./assets/sprites/ship_splash1.png')
     }
     33% {
-        background-image: url('./sources/sprites/ship_splash2.png')
+        background-image: url('./assets/sprites/ship_splash2.png')
     }
     66% {
-        background-image: url('./sources/sprites/ship_splash3.png')
+        background-image: url('./assets/sprites/ship_splash3.png')
     }
     100% {
-        background-image: url('./sources/sprites/ship_splash4.png')
+        background-image: url('./assets/sprites/ship_splash4.png')
     }
 }
 
 @keyframes splash {
     0% {
-        background-image: url('./sources/sprites/splash1.png')
+        background-image: url('./assets/sprites/splash1.png')
     }
     33% {
-        background-image: url('./sources/sprites/splash2.png')
+        background-image: url('./assets/sprites/splash2.png')
     }
     66% {
-        background-image: url('./sources/sprites/splash3.png')
+        background-image: url('./assets/sprites/splash3.png')
     }
     100% {
-        background-image: url('./sources/sprites/splash4.png')
+        background-image: url('./assets/sprites/splash4.png')
     }
 }
 
@@ -184,7 +184,7 @@ div .enemy.fighter {
 }
 
 #background {
-    background: url('./sources/background.png') repeat 5% 5%;
+    background: url('./assets/background.png') repeat 5% 5%;
     position: absolute;
     top: 0;
     left: 0;
@@ -198,7 +198,7 @@ div .enemy.fighter {
 }
 
 #midground {
-    background: url('./sources/midground.png') repeat 20% 20%;
+    background: url('./assets/midground.png') repeat 20% 20%;
     position: absolute;
     top: 0;
     left: 0;
@@ -212,7 +212,7 @@ div .enemy.fighter {
 }
 
 #foreground {
-    background: url('./sources/foreground.png') repeat 35% 35%;
+    background: url('./assets/foreground.png') repeat 35% 35%;
     position: absolute;
     top: 0;
     left: 0;

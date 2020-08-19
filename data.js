@@ -1,5 +1,13 @@
-export const path = './sources/sprites/'
+export const path = './assets/sprites/'
 
+export const sounds = [
+    './assets/sfx/shot.mp3',
+    './assets/sfx/explode.mp3'
+]
+export const effects = {
+    shot: 0,
+    explode: 1
+}
 
 export const sprites = [
     'ship_mod1.png',
