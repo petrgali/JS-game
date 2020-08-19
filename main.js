@@ -203,9 +203,7 @@ let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 let gameState = {}
 let controlState = {}
 let score = 0
-let sound = null
-let context
-let buffer
+
 //////////////////
 //////////////////
 
@@ -453,6 +451,9 @@ const GUI = (() => {
 })()
 
 const SFX = (() => {
+    let sound = null
+    let context
+    let buffer
     return {
         init: () => {
             context = new (window.AudioContext || window.webkitAudioContext)
