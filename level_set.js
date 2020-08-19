@@ -1,7 +1,7 @@
 const meta = {
-    lightFighter: { class: 'fighter', destructible: true, speed: 4, height: 14, length: 24, points: 100 },
+    lightFighter: { class: 'fighter', destructible: true, speed: 2.5, height: 14, length: 24, points: 100 },
     speedComet: { class: 'comet', destructible: false, speed: 5, height: 22, length: 32, points: 0 },
-    comet: { class: 'comet', destructible: false, speed: 4, height: 22, length: 32, points: 0 }
+    comet: { class: 'comet', destructible: false, speed: 2.5, height: 22, length: 32, points: 0 }
 }
 
 export const enemies = [

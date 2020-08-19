@@ -103,13 +103,13 @@ const bullet = (() => {
         },
         listener: () => setInterval(() => {
             bullet.generator()
-        }, 120),
+        }, 100),
 
         controller: () => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
                 if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
                     bulletsArr[idx].left >= gamearea.right - _.borderOffset ||
-                    enemy.collision(bulletsArr[idx].left, _.bulletSize, bulletsArr[idx].top, _.bulletSize)) {
+                    enemy.collision(bulletsArr[idx].left, _.bulletXsize, bulletsArr[idx].top, _.bulletYsize)) {
                     bullet.remove(idx)
                 } else {
                     bullet.positionRefresh(idx)
@@ -149,7 +149,7 @@ const enemy = (() => {
                 if (axisY >= Dom[id].getBoundingClientRect().top - offsetY &&
                     axisY <= Dom[id].getBoundingClientRect().top + enemiesArr[id].type.height &&
                     axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
-                    axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length) {
+                    axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length / 3) {
                     score += enemiesArr[id].type.points
                     if (enemiesArr[id].type.destructible) {
                         GUI.explodeEnemy(Dom[id].getBoundingClientRect().left - gamearea.left,

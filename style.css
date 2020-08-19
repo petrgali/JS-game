@@ -35,9 +35,9 @@ div #info {
 div #progress {
     position: relative;
     margin: auto;
-    top: 432px;
-    width: 40em;
-    height: 1em;
+    top: 94%;
+    width: 80%;
+    height: 3%;
     border: 2px solid greenyellow;
     opacity: 0;
 }
@@ -49,8 +49,9 @@ div #bar {
 }
 
 #gamefield {
-    width: 720px;
-    height: 460px;
+    background-color: black;
+    width: 450px;
+    height: 450px;
     margin: auto;
     color: azure;
     position: relative;
@@ -93,10 +94,10 @@ div .enemy.fighter {
 }
 
 .bullet {
-    border-radius: 50%;
+    /* border-radius: 50%; */
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 2px;
     animation: fireball 0.5s infinite;
 }
 

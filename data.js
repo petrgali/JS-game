@@ -33,13 +33,14 @@ export const _ = {
     shipXposition: 50,                // ship init left position
     shipSkinHeight: 22,               // ship skin size
     shipSkinWidth: 64,                // ship skin size
-    shipSpeedY: 3.5,                  // ship vertical speed
+    shipSpeedY: 5,                    // ship vertical speed
     shipSpeedX: 3.5,                  // ship horizontal speed
-    speedX: 4,                        // enemy speed
+    speedX: 2.5,                        // enemy speed
     firingRate: 10,                   // burst fire speed
     firingRange: 450,                 // max fire range
     burstSize: 3,                     // max-1 bullets count in burst firemode
-    bulletSize: 4,                    // CSS setting
+    bulletXsize: 6,                   // CSS setting
+    bulletYsize: 2,                   // CSS setting
     bulletXoffset: 60,                // bullet horizontal offset 
     bulletYoffet: 10,                 // bullet vertical offset
     fadingRate: 450,                  // opacity changing speed rate - less is faster
