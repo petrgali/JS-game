@@ -329,6 +329,7 @@ const game = (() => {
 const GUI = (() => {
     let splash
     let lifes
+    let indicator
     let mainMenu
     let playerMenu
     let scoreInfo
@@ -358,11 +359,14 @@ const GUI = (() => {
         hideMenu: () => mainMenu.textContent = '',
         gameStat: () => {
             document.getElementById('progress').style.opacity = 1
-            lifeInfo.innerText = `tries ${lifes}`
+            for (let i = 0; i <= lifes; i++) {
+                lifeInfo.innerHTML += `<div class='life'></div>`
+            }
+            indicator = document.getElementsByClassName('life')
         },
         hideStat: () => {
             document.getElementById('progress').style.opacity = 0
-            lifeInfo.innerText = ``
+            lifeInfo.innerHTML = ``
             scoreInfo.innerText = ``
         },
         scoreRefresh: () => {
@@ -379,7 +383,9 @@ const GUI = (() => {
                 percent
         },
         refreshLifes: () => {
-            lifeInfo.innerText = `tries ${lifes}`
+            while (indicator.length > 0) {
+                indicator[indicator.length - 1].remove()
+            }
             timeElapsed = 0
         },
         resetScore: () => {

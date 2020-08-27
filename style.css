@@ -22,10 +22,20 @@ div #info {
 }
 
 #lifes {
-    display: inline;
     position: absolute;
+    display: inline;
     left: 12em;
-    width: 7em;
+    width: 8em;
+}
+
+#lifes .life {
+    position: relative;
+    margin-left: 5%;
+    display: inline-block;
+    background-image: url('./assets/sprites/life_indicator.png');
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 16px;
 }
 
 #score {
