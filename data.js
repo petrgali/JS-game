@@ -1,14 +1,6 @@
-export const path = './assets/sprites/'
 
-export const sounds = [
-    './assets/sfx/shot.mp3',
-    './assets/sfx/explode.mp3'
-]
-export const effects = {
-    shot: 0,
-    explode: 1
-}
 export const message = {
+    loading: `please wait\nloading resources...`,
     start: `press enter to start`,
     pause: `**GAME MENU**\n\npress ctrl to resume\npress shift to restart`,
     warning: '**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n',
@@ -17,12 +9,6 @@ export const message = {
     gameover: `**GAME OVER**\n\nfinal score `
 }
 
-export const sprites = [
-    'ship_mod1.png',
-    'ship_mod2.png',
-    'ship_mod3.png',
-    'ship_mod4.png',
-]
 export const hotKey = {
     shipUP: 'ArrowUp',          //  
     shipDown: 'ArrowDown',      //

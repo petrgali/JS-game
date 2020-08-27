@@ -1,5 +1,6 @@
 
-import { path, sprites, sounds, message, effects, _, hotKey } from './data.js'
+import { path, sprites, resources, sounds, effects } from './resources.js'
+import { message, _, hotKey } from './data.js'
 import { enemies } from './level_set.js'
 
 
@@ -499,9 +500,18 @@ class Buffer {
     }
 }
 
-export const userController = () => {
+const preloadImage = (src) =>
+    new Promise(resolve => {
+        const image = new Image()
+        image.onload = resolve
+        image.src = src
+    })
+
+export const userController = async () => {
     GUI.init()
     SFX.init()
+    GUI.showMenu(message.loading)
+    await Promise.all(resources.map(x => preloadImage(path.concat(x))))
     GUI.showMenu(message.start)
     document.addEventListener('keydown', (event) => {
         switch (event.keyCode) {
