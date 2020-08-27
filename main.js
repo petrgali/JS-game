@@ -304,7 +304,7 @@ const game = (() => {
             gameState.gameover = true
             gameState.wasted = true
             GUI.hideStat()
-            GUI.showMenu(message.levelend.concat(score))
+            GUI.showMenu(message.levelend.concat(GUI.finalScore()))
             setTimeout(() => {
                 game.reset()
             }, 2000)
@@ -312,7 +312,7 @@ const game = (() => {
         over: () => {
             gameState['gameover'] = true
             GUI.hideStat()
-            GUI.showMenu(message.gameover.concat(score))
+            GUI.showMenu(message.gameover.concat(GUI.finalScore()))
             setTimeout(() => {
                 game.reset()
             }, 2000)
@@ -339,6 +339,7 @@ const GUI = (() => {
     let percent = 0
     let timeElapsed = 0
     return {
+        finalScore: () => score + lifes * _.multiplier,
         init: () => {
             document.getElementById('gamefield').innerHTML += `<div id='menu_screen'></div>`
             document.getElementById('gamefield').innerHTML += `<div id='splash'></div>`
@@ -359,7 +360,7 @@ const GUI = (() => {
         hideMenu: () => mainMenu.textContent = '',
         gameStat: () => {
             document.getElementById('progress').style.opacity = 1
-            for (let i = 0; i <= lifes; i++) {
+            for (let i = 0; i < lifes; i++) {
                 lifeInfo.innerHTML += `<div class='life'></div>`
             }
             indicator = document.getElementsByClassName('life')
@@ -395,7 +396,7 @@ const GUI = (() => {
         resetLifes: () => lifes = _.try,
         wasted: () => {
             lifes -= 1
-            lifes >= 0 ? game.reset() : game.over()
+            lifes >= 1 ? game.reset() : game.over()
         },
         explodeEnemy: (axisX, axisY) => {
             splash.innerHTML += `<div class='decal' style='top:${axisY - _.splashSize / 2}px; 

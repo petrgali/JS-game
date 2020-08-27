@@ -29,7 +29,7 @@ export const _ = {
     shipSkinWidth: 64,                // ship skin size
     shipSpeedY: 5,                    // ship vertical speed
     shipSpeedX: 3.5,                  // ship horizontal speed
-    speedX: 2.5,                        // enemy speed
+    speedX: 2.5,                      // enemy speed
     firingRate: 10,                   // burst fire speed
     firingRange: 450,                 // max fire range
     burstSize: 3,                     // max-1 bullets count in burst firemode
@@ -41,6 +41,7 @@ export const _ = {
     gameareaBorder: 4,                // CSS setting - used for calculations 
     borderOffset: 25,                 // dead zone for ship
     try: 2,                           // number of lives
+    multiplier: 1000,                 // final score multiplier
     splashSize: 32,                   // splash size - CSS value
     Ydev: 40                          // enemy vertical deviation range
 }
