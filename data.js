@@ -8,6 +8,14 @@ export const effects = {
     shot: 0,
     explode: 1
 }
+export const message = {
+    start: `press enter to start`,
+    pause: `**GAME MENU**\n\npress ctrl to resume\npress shift to restart`,
+    warning: '**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n',
+    wasted: `REKT!!`,
+    levelend: `congratulations!\n\nyou survived!\n\nfinal score `,
+    gameover: `**GAME OVER**\n\nfinal score `
+}
 
 export const sprites = [
     'ship_mod1.png',

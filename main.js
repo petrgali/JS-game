@@ -1,5 +1,5 @@
 
-import { path, sprites, sounds, effects, _, hotKey } from './data.js'
+import { path, sprites, sounds, message, effects, _, hotKey } from './data.js'
 import { enemies } from './level_set.js'
 
 
@@ -103,7 +103,7 @@ const bullet = (() => {
         },
         listener: () => setInterval(() => {
             bullet.generator()
-        }, 100),
+        }, 120),
 
         controller: () => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
@@ -263,7 +263,7 @@ const game = (() => {
             }
             if (gameState.play && !gameState.wasted && !gameState.levelend) {
                 gameState['pause'] = true
-                GUI.showPause()
+                GUI.showMenu(message.pause)
             }
         },
         reset: () => {
@@ -281,7 +281,7 @@ const game = (() => {
             if (gameState.gameover) {
                 gameState.reset = true
                 GUI.reset()
-                GUI.showMenu()
+                GUI.showMenu(message.start)
                 gameState.play = true
                 return
             }
@@ -303,7 +303,7 @@ const game = (() => {
             gameState.gameover = true
             gameState.wasted = true
             GUI.hideStat()
-            GUI.levelEnd()
+            GUI.showMenu(message.levelend.concat(score))
             setTimeout(() => {
                 game.reset()
             }, 2000)
@@ -311,7 +311,7 @@ const game = (() => {
         over: () => {
             gameState['gameover'] = true
             GUI.hideStat()
-            GUI.gameOver()
+            GUI.showMenu(message.gameover.concat(score))
             setTimeout(() => {
                 game.reset()
             }, 2000)
@@ -319,7 +319,7 @@ const game = (() => {
         lostWarning: () => {
             if (gameState.pause) {
                 gameState['lostwarning'] = true
-                GUI.lostWarning()
+                GUI.showMenu(message.warning)
             }
         }
     }
@@ -351,17 +351,8 @@ const GUI = (() => {
             progressBar = document.getElementById('bar')
             GUI.resetLifes()
         },
-        showMenu: () => {
-            mainMenu.innerText = `press enter to start`
-        },
-        showPause: () => {
-            mainMenu.innerText = `**GAME MENU**\n\npress ctrl to resume\npress shift to restart`
-        },
-        lostWarning: () => {
-            mainMenu.innerText = '**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n'
-        },
-        gameOver: () => {
-            mainMenu.innerText = `**GAME OVER**\n\nfinal score ${score}`
+        showMenu: (text) => {
+            mainMenu.innerText = text
         },
         hideMenu: () => mainMenu.textContent = '',
         gameStat: () => {
@@ -395,11 +386,7 @@ const GUI = (() => {
             timeElapsed = 0
         },
         resetLifes: () => lifes = _.try,
-        levelEnd: () => {
-            mainMenu.innerText = `congratulations!\n\nyou survived!\n\nfinal score ${score}`
-        },
         wasted: () => {
-            mainMenu.innerText = 'REKT!!'
             lifes -= 1
             lifes >= 0 ? game.reset() : game.over()
         },
@@ -422,7 +409,7 @@ const GUI = (() => {
         stepBackward: () => {
             if (gameState.lostwarning) {
                 gameState.lostwarning = false
-                GUI.showPause()
+                GUI.showMenu(message.pause)
             }
         },
         stepForward: () => {
@@ -444,6 +431,7 @@ const GUI = (() => {
             GUI.scoreRefresh()
             GUI.timeElapsed()
             if (gameState.wasted) {
+                GUI.showMenu(message.wasted)
                 GUI.wasted()
             }
         }
@@ -514,7 +502,7 @@ class Buffer {
 export const userController = () => {
     GUI.init()
     SFX.init()
-    GUI.showMenu()
+    GUI.showMenu(message.start)
     document.addEventListener('keydown', (event) => {
         switch (event.keyCode) {
             case hotKey.start:
