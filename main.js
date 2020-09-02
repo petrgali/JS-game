@@ -3,13 +3,20 @@ import { path, sprites, resources, sounds, effects } from './resources.js'
 import { message, _, hotKey } from './data.js'
 import { enemies } from './level_set.js'
 
+let shipX
+let shipY
+let gamearea = document.getElementById('gamefield').getBoundingClientRect()
+let gameState = {}
+let controlState = {}
+let score = 0
+
 
 const mothership = (() => {
     let ship
     return {
         init: () => {
-            shipX = gamearea.left + _.shipXposition
-            shipY = gamearea.top + _.shipYposition
+            shipX = _.shipXposition
+            shipY = _.shipYposition
         },
         spawn: () => {
             document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} id='ship'>`
@@ -19,15 +26,15 @@ const mothership = (() => {
             ship.remove()
         },
         positionCorrection: () => {
-            if (shipY < gamearea.top + _.gameareaBorder + _.borderOffset) {
-                shipY = gamearea.top + _.gameareaBorder + _.borderOffset
-            } else if (shipY > gamearea.bottom - _.shipSkinHeight - _.gameareaBorder - _.borderOffset) {
-                shipY = gamearea.bottom - _.shipSkinHeight - _.gameareaBorder - _.borderOffset
+            if (shipY < _.gameareaBorder + _.borderOffset) {
+                shipY = _.gameareaBorder + _.borderOffset
+            } else if (shipY > gamearea.bottom - gamearea.top - _.shipSkinHeight - _.gameareaBorder - _.borderOffset) {
+                shipY = gamearea.bottom - gamearea.top - _.shipSkinHeight - _.gameareaBorder - _.borderOffset
             }
-            if (shipX < gamearea.left + _.borderOffset / 2) {
-                shipX = gamearea.left + _.borderOffset / 2
-            } else if (shipX > gamearea.right - _.shipSkinWidth - _.borderOffset / 2) {
-                shipX = gamearea.right - _.shipSkinWidth - _.borderOffset / 2
+            if (shipX < _.borderOffset / 2) {
+                shipX = _.borderOffset / 2
+            } else if (shipX > gamearea.right - gamearea.left - _.shipSkinWidth - _.borderOffset / 2) {
+                shipX = gamearea.right - gamearea.left - _.shipSkinWidth - _.borderOffset / 2
             }
         },
         positionRefresh: () => {
@@ -44,6 +51,7 @@ const mothership = (() => {
         }, 100),
 
         controller: () => {
+
             if (controlState[hotKey.shipDown]) shipY += _.shipSpeedY
             if (controlState[hotKey.shipUP]) shipY -= _.shipSpeedY
             if (controlState[hotKey.shipLeft]) shipX -= _.shipSpeedX
@@ -124,6 +132,7 @@ const enemy = (() => {
     let Dom = document.getElementsByClassName('enemy')
     let enemiesArr
     let position
+    let normalized = gamearea.right - gamearea.left
     return {
         init: () => enemiesArr = JSON.parse(JSON.stringify(enemies)),
         spawn: (axisX, axisY, objType) => {
@@ -146,14 +155,15 @@ const enemy = (() => {
         total: () => { return enemiesArr.length },
 
         collision: (axisX, offsetX, axisY, offsetY) => {
+
             for (let id = 0; id < Dom.length; id++) {
-                if (axisY >= Dom[id].getBoundingClientRect().top - offsetY &&
-                    axisY <= Dom[id].getBoundingClientRect().top + enemiesArr[id].type.height &&
-                    axisX >= Dom[id].getBoundingClientRect().left - offsetX &&
-                    axisX <= Dom[id].getBoundingClientRect().left + enemiesArr[id].type.length / 3) {
+                if (axisY >= Dom[id].getBoundingClientRect().top - gamearea.top - offsetY &&
+                    axisY <= Dom[id].getBoundingClientRect().top - gamearea.top + enemiesArr[id].type.height &&
+                    axisX >= enemiesArr[id].leftOffset + normalized - offsetX &&
+                    axisX <= enemiesArr[id].leftOffset + normalized + enemiesArr[id].type.length / 3) {
                     score += enemiesArr[id].type.points
                     if (enemiesArr[id].type.destructible) {
-                        GUI.explodeEnemy(Dom[id].getBoundingClientRect().left - gamearea.left,
+                        GUI.explodeEnemy(enemiesArr[id].leftOffset + normalized,
                             Dom[id].getBoundingClientRect().top)
                         SFX.play(effects.explode)
                         enemy.remove(id)
@@ -172,9 +182,9 @@ const enemy = (() => {
         },
         positionRefresh: () => {
             for (let id = 0; id < Dom.length; id++) {
-                Dom[id].style.left = enemiesArr[id].leftOffset + gamearea.right - enemiesArr[id].type.speed + 'px'
+                Dom[id].style.left = enemiesArr[id].leftOffset + normalized - enemiesArr[id].type.speed + 'px'
                 if (enemiesArr[id].type.destructible) {
-                    Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top, id) + 'px'
+                    Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top - gamearea.top, id) + 'px'
                 }
             }
         },
@@ -196,17 +206,8 @@ const enemy = (() => {
     }
 })()
 
-//////////////////
-//////////////////
-let shipX
-let shipY
-let gamearea = document.getElementById('gamefield').getBoundingClientRect()
-let gameState = {}
-let controlState = {}
-let score = 0
 
-//////////////////
-//////////////////
+
 
 
 const render = () => {
@@ -513,6 +514,7 @@ const preloadImage = (src) =>
         image.onload = resolve
         image.src = src
     })
+
 
 export const userController = async () => {
     GUI.init()
