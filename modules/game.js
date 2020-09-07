@@ -31,7 +31,7 @@ export const game = (() => {
                 GUI.hideMenu()
                 mothership.init()
                 bullet.init()
-                enemy.init()
+                enemy.test_init()
                 mothership.spawn()
 
                 if (!gameState.reset) {
@@ -41,6 +41,7 @@ export const game = (() => {
                     document.addEventListener('keyup', (event) => {
                         controlState[event.key] = false
                     })
+                    enemy.init()
                     mothership.animate()
                     bullet.listener()
                     requestAnimationFrame(render)

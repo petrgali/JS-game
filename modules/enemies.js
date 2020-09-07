@@ -1,4 +1,4 @@
-import { enemies } from '../config/level_set.js'
+import { enemies, introLength, timeOffset } from '../config/level_set.js'
 import { effects } from '../config/resources.js'
 import { _ } from '../config/data.js'
 import { GUI, gamearea } from './view.js'
@@ -18,6 +18,13 @@ export const enemy = (() => {
         init: () => {
             enemiesArr = JSON.parse(JSON.stringify(enemies))
             normalized = gamearea.right - gamearea.left
+        },
+        test_init: () => {
+            enemiesArr = JSON.parse(JSON.stringify(enemies))
+            enemiesArr.splice(0, introLength)
+            enemiesArr.forEach((line) => {
+                line.leftOffset -= timeOffset
+            })
         },
         spawn: (axisX, axisY, objType) => {
             document.getElementById('enemies').innerHTML += `<div class='enemy'
