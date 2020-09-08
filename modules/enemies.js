@@ -1,4 +1,4 @@
-import { enemies, introLength, timeOffset } from '../config/level_set.js'
+import { enemies, tutorial, timeOffset } from '../config/level_set.js'
 import { effects } from '../config/resources.js'
 import { _ } from '../config/data.js'
 import { GUI, gamearea } from './view.js'
@@ -12,16 +12,19 @@ export const enemy = (() => {
     let position
     let normalized
     let score = 0
+    let removed = 0
     return {
+        skipTutorial: () => { if (removed >= tutorial) return true },
         score: () => score,
         resetScore: () => score = 0,
-        init: () => {
+        initTutorial: () => {
+            removed = 0
             enemiesArr = JSON.parse(JSON.stringify(enemies))
             normalized = gamearea.right - gamearea.left
         },
-        test_init: () => {
+        init: () => {
             enemiesArr = JSON.parse(JSON.stringify(enemies))
-            enemiesArr.splice(0, introLength)
+            enemiesArr.splice(0, tutorial)
             enemiesArr.forEach((line) => {
                 line.leftOffset -= timeOffset
             })
@@ -34,6 +37,7 @@ export const enemy = (() => {
         remove: (id) => {
             enemiesArr.splice(id, 1)
             Dom[id].remove()
+            removed += 1
         },
         removeAll: () => {
             while (Dom.length > 0) {
@@ -74,7 +78,7 @@ export const enemy = (() => {
         positionRefresh: () => {
             for (let id = 0; id < Dom.length; id++) {
                 Dom[id].style.left = enemiesArr[id].leftOffset + normalized - enemiesArr[id].type.speed + 'px'
-                if (enemiesArr[id].type.destructible) {
+                if (enemiesArr[id].type.tricky) {
                     Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top - gamearea.top, id) + 'px'
                 }
             }

@@ -21,8 +21,6 @@ const render = () => {
     }
 }
 
-
-
 export const game = (() => {
     return {
         play: () => {
@@ -31,7 +29,9 @@ export const game = (() => {
                 GUI.hideMenu()
                 mothership.init()
                 bullet.init()
-                enemy.test_init()
+                gameState.tutorialOff
+                    ? enemy.init()
+                    : enemy.initTutorial()
                 mothership.spawn()
 
                 if (!gameState.reset) {
@@ -41,7 +41,6 @@ export const game = (() => {
                     document.addEventListener('keyup', (event) => {
                         controlState[event.key] = false
                     })
-                    enemy.init()
                     mothership.animate()
                     bullet.listener()
                     requestAnimationFrame(render)
@@ -69,6 +68,7 @@ export const game = (() => {
             }
         },
         reset: () => {
+            gameState.tutorialOff = false
             if (gameState.lostwarning) {
                 gameState.lostwarning = false
                 gameState.play = false
@@ -88,6 +88,9 @@ export const game = (() => {
                 return
             }
             if (gameState.wasted) {
+                enemy.skipTutorial()
+                    ? gameState.tutorialOff = true
+                    : gameState.tutorialOff = false
                 setTimeout(() => {
                     gameState.reset = true
                     gameState.wasted = false

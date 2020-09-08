@@ -1,7 +1,10 @@
+import { message } from './data.js'
+
 const meta = {
   lightFighter: {
     class: "fighter",
     destructible: true,
+    tricky: true,
     speed: 2.5,
     height: 14,
     length: 24,
@@ -35,25 +38,25 @@ const meta = {
     briefing: true,
     speed: 5,
     length: 1,
-    message: `press \u2191 to move UP`
+    message: message.tutorialUP
   },
   bannerDOWN: {
     briefing: true,
     speed: 5,
     length: 1,
-    message: `press \u2193 to move DOWN`
+    message: message.tutorialDOWN
   },
   bannerSHOOT: {
     briefing: true,
     speed: 5,
     length: 1,
-    message: `press space to FIRE`
+    message: message.tutorialSHOOT
   },
   bannerDONE: {
     briefing: true,
     speed: 5,
     length: 1,
-    message: `you're all set!\ngood luck!`
+    message: message.tutorialDONE
   },
   rmBanner: {
     briefing: true,
@@ -62,7 +65,7 @@ const meta = {
     message: ''
   }
 };
-export const introLength = 29
+export const tutorial = 29
 export const timeOffset = 2100
 export const enemies = [
   ///intro///

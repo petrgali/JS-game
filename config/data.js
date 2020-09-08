@@ -6,6 +6,10 @@ export const message = {
   wasted: `REKT!!`,
   levelend: `congratulations!\n\nyou survived!\n\nfinal score `,
   gameover: `**GAME OVER**\n\nfinal score `,
+  tutorialUP: `press \u2191 to move UP`,
+  tutorialDOWN: `press \u2193 to move DOWN`,
+  tutorialSHOOT: `press space to FIRE`,
+  tutorialDONE: `you're all set!\ngood luck!`
 };
 
 export const hotKey = {
