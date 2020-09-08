@@ -13,7 +13,10 @@ export const enemy = (() => {
     let normalized
     let score = 0
     let removed = 0
+    let distance
     return {
+        wayTotal: () => distance,
+        setDistance: () => distance = enemiesArr[enemiesArr.length - 1].leftOffset,
         skipTutorial: () => { if (removed >= tutorial) return true },
         score: () => score,
         resetScore: () => score = 0,
@@ -21,6 +24,7 @@ export const enemy = (() => {
             removed = 0
             enemiesArr = JSON.parse(JSON.stringify(enemies))
             normalized = gamearea.right - gamearea.left
+            enemy.setDistance()
         },
         init: () => {
             enemiesArr = JSON.parse(JSON.stringify(enemies))
@@ -28,6 +32,7 @@ export const enemy = (() => {
             enemiesArr.forEach((line) => {
                 line.leftOffset -= timeOffset
             })
+            enemy.setDistance()
         },
         spawn: (axisX, axisY, objType) => {
             document.getElementById('enemies').innerHTML += `<div class='enemy'

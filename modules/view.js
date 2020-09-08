@@ -55,7 +55,7 @@ export const GUI = (() => {
         },
         timeElapsed: () => {
             timeElapsed += _.speedX
-            percent = (timeElapsed / (enemies[enemies.length - 1].leftOffset +
+            percent = (timeElapsed / (enemy.wayTotal() +
                 enemies[enemies.length - 1].type.length)) * 100
             percent <= 100 ?
                 percent > 99.6 ?

@@ -1,11 +1,19 @@
 import { message } from './data.js'
 
 const meta = {
-  lightFighter: {
+  trickyFighter: {
     class: "fighter",
     destructible: true,
     tricky: true,
     speed: 2.5,
+    height: 14,
+    length: 24,
+    points: 100,
+  },
+  speedyFighter: {
+    class: "fighter",
+    destructible: true,
+    speed: 3.5,
     height: 14,
     length: 24,
     points: 100,
@@ -101,20 +109,20 @@ export const enemies = [
   //////
 
 
-  { topOffset: 220, leftOffset: 2165, dev: -1.5, type: meta.lightFighter },
-  { topOffset: 260, leftOffset: 2200, dev: 0.5, type: meta.lightFighter },
-  { topOffset: 320, leftOffset: 2250, dev: 1, type: meta.lightFighter },
+  { topOffset: 220, leftOffset: 2165, dev: -1.5, type: meta.trickyFighter },
+  { topOffset: 260, leftOffset: 2200, dev: 0.5, type: meta.trickyFighter },
+  { topOffset: 320, leftOffset: 2250, dev: 1, type: meta.trickyFighter },
   { topOffset: 180, leftOffset: 2300, type: meta.comet },
-  { topOffset: 80, leftOffset: 2350, dev: -0.7, type: meta.lightFighter },
+  { topOffset: 80, leftOffset: 2350, dev: -0.7, type: meta.trickyFighter },
   { topOffset: 280, leftOffset: 2400, type: meta.comet },
-  { topOffset: 260, leftOffset: 2430, dev: -0.4, type: meta.lightFighter },
-  { topOffset: 280, leftOffset: 2460, dev: 0.7, type: meta.lightFighter },
+  { topOffset: 260, leftOffset: 2430, dev: -0.4, type: meta.trickyFighter },
+  { topOffset: 280, leftOffset: 2460, dev: 0.7, type: meta.trickyFighter },
   { topOffset: 100, leftOffset: 2550, type: meta.comet },
   { topOffset: 300, leftOffset: 2600, type: meta.comet },
-  { topOffset: 80, leftOffset: 2650, dev: 0.8, type: meta.lightFighter },
-  { topOffset: 220, leftOffset: 2660, dev: 1., type: meta.lightFighter },
-  { topOffset: 260, leftOffset: 2700, dev: -1, type: meta.lightFighter },
+  { topOffset: 80, leftOffset: 2650, dev: 0.8, type: meta.trickyFighter },
+  { topOffset: 220, leftOffset: 2660, dev: 1., type: meta.trickyFighter },
+  { topOffset: 260, leftOffset: 2700, dev: -1, type: meta.trickyFighter },
   { topOffset: 80, leftOffset: 2730, type: meta.comet },
   { topOffset: 180, leftOffset: 2770, type: meta.comet },
-  { topOffset: 320, leftOffset: 2900, dev: -0.5, type: meta.lightFighter },
+  { topOffset: 320, leftOffset: 2900, dev: -0.5, type: meta.trickyFighter },
 ];
