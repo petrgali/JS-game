@@ -9,8 +9,8 @@ export const message = {
   tutorialUP: `press \u2191 to move UP`,
   tutorialDOWN: `press \u2193 to move DOWN`,
   tutorialSHOOT: `press space to FIRE`,
-  tutorialDONE: `you're all set!\ngood luck!`
-};
+  tutorialDONE: `you're all set!\neliminate attackers!`
+}
 
 export const hotKey = {
   shipUP: "ArrowUp", //
@@ -23,7 +23,7 @@ export const hotKey = {
   pause: 17, //// ctrl
   yes: 89, //// y
   no: 78, //// n
-};
+}
 
 export const _ = {
   shipYposition: 200, // ship init top position
@@ -46,5 +46,4 @@ export const _ = {
   try: 2, // number of lives
   multiplier: 1000, // final score multiplier
   splashSize: 32, // splash size - CSS value
-  Ydev: 40, // enemy vertical deviation range
-};
+}

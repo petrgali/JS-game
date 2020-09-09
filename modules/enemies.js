@@ -74,8 +74,8 @@ export const enemy = (() => {
             return false
         },
         verticalDeviation: (num, id) => {
-            if (num + enemiesArr[id].dev >= enemiesArr[id].topOffset + _.Ydev ||
-                num + enemiesArr[id].dev <= enemiesArr[id].topOffset - _.Ydev) {
+            if (num + enemiesArr[id].dev >= enemiesArr[id].topOffset + enemiesArr[id].Ydev ||
+                num + enemiesArr[id].dev <= enemiesArr[id].topOffset - enemiesArr[id].Ydev) {
                 enemiesArr[id].dev = -enemiesArr[id].dev
             }
             return num + enemiesArr[id].dev

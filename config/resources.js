@@ -34,5 +34,6 @@ export const resources = [
   "comet_mod2.png",
   "comet_mod3.png",
   "comet_mod4.png",
+  "cruiser.png",
   "life_indicator.png",
 ];

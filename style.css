@@ -97,6 +97,12 @@ div .enemy.comet {
     animation: comet 0.3s infinite;
 }
 
+div .enemy.cruiser {
+    width: 30px;
+    height: 30px;
+    background-image: url('./assets/sprites/cruiser.png');
+}
+
 div .enemy.fighter {
     width: 24px;
     height: 14px;
