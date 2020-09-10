@@ -3,6 +3,7 @@ import { effects } from '../config/resources.js'
 import { _ } from '../config/data.js'
 import { GUI, gamearea } from './view.js'
 import { SFX } from './sound.js'
+import { game } from './game.js'
 
 
 
@@ -43,6 +44,9 @@ export const enemy = (() => {
             enemiesArr.splice(id, 1)
             Dom[id].remove()
             removed += 1
+            if (enemy.total() < 1) {
+                game.levelEnd()
+            }
         },
         removeAll: () => {
             while (Dom.length > 0) {
@@ -95,7 +99,7 @@ export const enemy = (() => {
                 if (position + enemiesArr[id].type.length > gamearea.right - enemiesArr[id].type.speed &&
                     position + enemiesArr[id].type.length - enemiesArr[id].type.speed <=
                     gamearea.right - enemiesArr[id].type.speed) {
-                    switch (enemiesArr[id].type.briefing) {
+                    switch (enemiesArr[id].type.text) {
                         case true: {
                             GUI.showMenu(enemiesArr[id].type.message)
                         }

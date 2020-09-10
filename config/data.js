@@ -6,10 +6,12 @@ export const message = {
   wasted: `REKT!!`,
   levelend: `congratulations!\n\nyou survived!\n\nfinal score `,
   gameover: `**GAME OVER**\n\nfinal score `,
+  tutorial: `battle is coming...\n\ncheck your\nspace devastator`,
   tutorialUP: `press \u2191 to move UP`,
   tutorialDOWN: `press \u2193 to move DOWN`,
-  tutorialSHOOT: `press space to FIRE`,
-  tutorialDONE: `you're all set!\neliminate attackers!`
+  tutorialSHOOT: `press space to use\nPLASMA CANNON`,
+  tutorialDONE: `eliminate attackers\nNO MERCY!`,
+  moar: `\n\nFOR THE GLORY!!!`
 }
 
 export const hotKey = {
@@ -43,7 +45,7 @@ export const _ = {
   fadingRate: 450, // opacity changing speed rate - less is faster
   gameareaBorder: 4, // CSS setting - used for calculations
   borderOffset: 25, // dead zone for ship
-  try: 2, // number of lives
+  try: 3, // number of lives
   multiplier: 1000, // final score multiplier
   splashSize: 32, // splash size - CSS value
 }
