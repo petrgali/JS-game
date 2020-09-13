@@ -16,22 +16,29 @@ export const enemy = (() => {
     let removed = 0
     let distance
     return {
-        wayTotal: () => distance,
-        setDistance: () => distance = enemiesArr[enemiesArr.length - 1].leftOffset,
         skipTutorial: () => { if (removed >= tutorial) return true },
         score: () => score,
+        wayTotal: () => distance,
         resetScore: () => score = 0,
-        initTutorial: () => {
-            removed = 0
+        setDistance: () => {
+            distance = enemiesArr[enemiesArr.length - 1].leftOffset
+        },
+        deploy: () => {
             enemiesArr = JSON.parse(JSON.stringify(enemies))
             normalized = gamearea.right - gamearea.left
+        },
+        initTutorial: () => {
+            removed = 0
+            enemy.deploy()
             enemy.setDistance()
         },
         init: () => {
-            enemiesArr = JSON.parse(JSON.stringify(enemies))
+            enemy.deploy()
             enemiesArr.splice(0, tutorial)
             enemiesArr.forEach((line) => {
-                line.leftOffset -= timeOffset
+                line.type.fast
+                    ? line.leftOffset -= 2 * timeOffset
+                    : line.leftOffset -= timeOffset
             })
             enemy.setDistance()
         },

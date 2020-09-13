@@ -63,9 +63,6 @@ export const mothership = (() => {
                 GUI.explodeMothership()
                 gameState['wasted'] = true
             } else {
-                // if (enemy.total() < 1) {
-                //     game.levelEnd()
-                // }
                 mothership.positionRefresh()
             }
         }

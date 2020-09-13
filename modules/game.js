@@ -29,9 +29,10 @@ export const game = (() => {
                 GUI.hideMenu()
                 mothership.init()
                 bullet.init()
-                gameState.tutorialOff
-                    ? enemy.init()
-                    : enemy.initTutorial()
+                // gameState.tutorialOff
+                // ? 
+                enemy.init()
+                // : enemy.initTutorial()
                 mothership.spawn()
 
                 if (!gameState.reset) {
