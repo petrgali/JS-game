@@ -132,8 +132,8 @@ const meta = {
     message: ''
   }
 };
-export const tutorial = 188//304//116
-export const timeOffset = 9000//11700//6050
+export const tutorial = 29//188//304//116
+export const timeOffset = 3500//9000//11700//6050
 export const enemies = [
   ///intro///
   { topOffset: 50, leftOffset: 150, type: meta.tutorial },
@@ -448,9 +448,9 @@ export const enemies = [
   { topOffset: 175, leftOffset: 21980, Ydev: 50, dev: -1.85, type: meta.trickyCruiser },
   { topOffset: 290, leftOffset: 22040, Ydev: 70, dev: 2.5, type: meta.trickyCruiser },
 
-
   { topOffset: 50, leftOffset: 11200, type: meta.ingameFinal },
   { topOffset: 50, leftOffset: 11450, type: meta.ingameRM },
+
   /////scene3-final -- 268
   { topOffset: 40, leftOffset: 23120, type: meta.cruiser },
   { topOffset: 70, leftOffset: 23121, type: meta.cruiser },
@@ -503,71 +503,4 @@ export const enemies = [
   { topOffset: 210, leftOffset: 23510, Ydev: 130, dev: -3.0, type: meta.trickyCruiser },
   { topOffset: 210, leftOffset: 23520, Ydev: 150, dev: 3.2, type: meta.trickyCruiser },
   { topOffset: 210, leftOffset: 23530, Ydev: 150, dev: -3.2, type: meta.trickyCruiser },
-
-  // { topOffset: 55, leftOffset: 23160, type: meta.cruiser },
-  // { topOffset: 85, leftOffset: 23161, type: meta.cruiser },
-  // { topOffset: 115, leftOffset: 23162, type: meta.cruiser },
-  // { topOffset: 145, leftOffset: 23163, type: meta.cruiser },
-  // { topOffset: 175, leftOffset: 23164, type: meta.cruiser },
-  // { topOffset: 205, leftOffset: 23165, type: meta.cruiser },
-  // { topOffset: 235, leftOffset: 23166, type: meta.cruiser },
-  // { topOffset: 265, leftOffset: 23167, type: meta.cruiser },
-  // { topOffset: 295, leftOffset: 23168, type: meta.cruiser },
-  // { topOffset: 325, leftOffset: 23169, type: meta.cruiser },
-  // { topOffset: 355, leftOffset: 23170, type: meta.cruiser },
-
-
-  // { topOffset: 275, leftOffset: 12220, type: meta.speedComet },
-  // { topOffset: 50, leftOffset: 12260, type: meta.speedComet },
-  // { topOffset: 330, leftOffset: 12280, type: meta.speedComet },
-  // { topOffset: 360, leftOffset: 12300, type: meta.speedComet },
-
-
-  // { topOffset: 275, leftOffset: 12220, type: meta.speedComet },
-  // { topOffset: 50, leftOffset: 12260, type: meta.speedComet },
-  // { topOffset: 330, leftOffset: 12280, type: meta.speedComet },
-  // { topOffset: 360, leftOffset: 12300, type: meta.speedComet },
-
-
-
-
-  // { topOffset: 100, leftOffset: 6300, Ydev: 60, dev: -3.0, type: meta.trickyFighter },
-  // { topOffset: 300, leftOffset: 6320, Ydev: 40, dev: 1.5, type: meta.trickyFighter },
-  // { topOffset: 200, leftOffset: 6340, Ydev: 100, dev: 2.5, type: meta.trickyFighter },
-  // { topOffset: 280, leftOffset: 6400, Ydev: 40, dev: -1.5, type: meta.trickyFighter },
-  // { topOffset: 120, leftOffset: 6450, Ydev: 40, dev: 0.5, type: meta.trickyFighter },
-  // { topOffset: 170, leftOffset: 6481, Ydev: 80, dev: -1.0, type: meta.trickyFighter },
-
-  // { topOffset: 100, leftOffset: 6300, Ydev: 60, dev: -3.0, type: meta.trickyFighter },
-  // { topOffset: 300, leftOffset: 6320, Ydev: 40, dev: 1.5, type: meta.trickyFighter },
-  // { topOffset: 200, leftOffset: 6340, Ydev: 100, dev: 2.5, type: meta.trickyFighter },
-  // { topOffset: 280, leftOffset: 6400, Ydev: 40, dev: -1.5, type: meta.trickyFighter },
-  // { topOffset: 120, leftOffset: 6450, Ydev: 40, dev: 0.5, type: meta.trickyFighter },
-  // { topOffset: 170, leftOffset: 6481, Ydev: 80, dev: -1.0, type: meta.trickyFighter },
-
-
-
-
-
-
-
-  // { topOffset: 250, leftOffset: 4950, type: meta.fighter },
-  // { topOffset: 300, leftOffset: 4980, type: meta.fighter },
-  // { topOffset: 330, leftOffset: 5050, type: meta.fighter },
-  // { topOffset: 220, leftOffset: 2165, Ydev: 40, dev: -1.5, type: meta.trickyFighter },
-  // { topOffset: 260, leftOffset: 2200, Ydev: 40, dev: 0.5, type: meta.trickyFighter },
-  // { topOffset: 320, leftOffset: 2250, Ydev: 40, dev: 1.0, type: meta.trickyFighter },
-  // { topOffset: 180, leftOffset: 2300, type: meta.comet },
-  // { topOffset: 80, leftOffset: 2350, Ydev: 40, dev: -0.7, type: meta.trickyFighter },
-  // { topOffset: 280, leftOffset: 2400, type: meta.comet },
-  // { topOffset: 260, leftOffset: 2430, Ydev: 40, dev: -0.4, type: meta.trickyFighter },
-  // { topOffset: 280, leftOffset: 2460, Ydev: 40, dev: 0.7, type: meta.trickyFighter },
-  // { topOffset: 100, leftOffset: 2550, type: meta.comet },
-  // { topOffset: 300, leftOffset: 2600, type: meta.comet },
-  // { topOffset: 80, leftOffset: 2650, Ydev: 40, dev: 0.8, type: meta.trickyFighter },
-  // { topOffset: 220, leftOffset: 2660, Ydev: 40, dev: 1.0, type: meta.trickyFighter },
-  // { topOffset: 260, leftOffset: 2700, Ydev: 40, dev: -1.0, type: meta.trickyFighter },
-  // { topOffset: 80, leftOffset: 2730, type: meta.comet },
-  // { topOffset: 180, leftOffset: 2770, type: meta.comet },
-  // { topOffset: 320, leftOffset: 2900, Ydev: 40, dev: -0.5, type: meta.trickyFighter },
 ];

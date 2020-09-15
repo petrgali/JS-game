@@ -4,7 +4,7 @@ export const message = {
   pause: `**GAME MENU**\n\npress ctrl to resume\npress shift to restart`,
   warning: "**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n",
   wasted: `REKT!!`,
-  levelend: `congratulations!\n\nyou survived!\n\nfinal score `,
+  levelend: `VICTORY!\nenemy retreat!!\n\nfinal score `,
   gameover: `**DEFEAT!**\n\nfinal score `,
   tutorial: `battle is coming...\n\ncheck your\nspace devastator`,
   tutorialUP: `press \u2191 to move UP`,

@@ -54,11 +54,11 @@ export const GUI = (() => {
             scoreInfo.innerText = `score ${enemy.score()}`
         },
         timeElapsed: () => {
-            timeElapsed += _.speedX
+            timeElapsed += enemies[enemies.length - 1].type.speed
             percent = (timeElapsed / (enemy.wayTotal() +
                 enemies[enemies.length - 1].type.length)) * 100
             percent <= 100 ?
-                percent > 99.6 ?
+                percent > 99.8 ?
                     progressBar.style.width = 100 + '%' :
                     progressBar.style.width = `${percent}` + '%' :
                 percent

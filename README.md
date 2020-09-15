@@ -3,7 +3,7 @@
  
  *TO-DO*
  * ~~SFX~~ done
- * "BOSS" level 
+ * ~~"BOSS"~~ level 
  * player profile
  * highscore rankings
  * ?maps generator?

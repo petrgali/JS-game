@@ -29,10 +29,9 @@ export const game = (() => {
                 GUI.hideMenu()
                 mothership.init()
                 bullet.init()
-                // gameState.tutorialOff
-                // ? 
-                enemy.init()
-                // : enemy.initTutorial()
+                gameState.tutorialOff
+                    ? enemy.init()
+                    : enemy.initTutorial()
                 mothership.spawn()
 
                 if (!gameState.reset) {
@@ -112,7 +111,7 @@ export const game = (() => {
             GUI.showMenu(message.levelend.concat(GUI.finalScore()))
             setTimeout(() => {
                 game.reset()
-            }, 2000)
+            }, 4000)
         },
         over: () => {
             gameState['gameover'] = true
@@ -120,7 +119,7 @@ export const game = (() => {
             GUI.showMenu(message.gameover.concat(GUI.finalScore()))
             setTimeout(() => {
                 game.reset()
-            }, 2000)
+            }, 4000)
         },
         lostWarning: () => {
             if (gameState.pause) {
