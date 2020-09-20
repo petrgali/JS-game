@@ -4,8 +4,10 @@ import { enemy } from './enemies.js'
 import { GUI } from './view.js'
 import { message } from '../config/data.js'
 
-export let gameState = {}
-export let controlState = {}
+export { gameState, controlState, game }
+
+let gameState = {}
+let controlState = {}
 
 const render = () => {
     if (!gameState.wasted) {
@@ -21,7 +23,7 @@ const render = () => {
     }
 }
 
-export const game = (() => {
+const game = (() => {
     return {
         play: () => {
             if (!gameState.play || (gameState.play && gameState.reset)) {

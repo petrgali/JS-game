@@ -1,4 +1,6 @@
-export const message = {
+export { message, hotKey, _ }
+
+const message = {
   loading: `please wait\nloading resources...`,
   start: `press enter to start`,
   pause: `**GAME MENU**\n\npress ctrl to resume\npress shift to restart`,
@@ -16,7 +18,7 @@ export const message = {
   final: `STAY STRONG!!!`
 }
 
-export const hotKey = {
+const hotKey = {
   shipUP: "ArrowUp", //
   shipDown: "ArrowDown", //
   shipLeft: "ArrowLeft", //  ship control keys bindings
@@ -29,7 +31,7 @@ export const hotKey = {
   no: 78, //// n
 }
 
-export const _ = {
+const _ = {
   shipYposition: 200, // ship init top position
   shipXposition: 50, // ship init left position
   shipSkinHeight: 22, // ship skin size

@@ -5,8 +5,11 @@ import { mothership } from './ship.js'
 import { _, message } from '../config/data.js'
 import { enemy } from './enemies.js'
 import { game, gameState } from './game.js'
-export let gamearea = document.getElementById('gamefield').getBoundingClientRect()
-export const GUI = (() => {
+
+export { gamearea, GUI }
+
+let gamearea = document.getElementById('gamefield').getBoundingClientRect()
+const GUI = (() => {
     let splash
     let lifes
     let indicator

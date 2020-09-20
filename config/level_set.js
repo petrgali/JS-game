@@ -1,5 +1,7 @@
 import { message } from './data.js'
 
+export { tutorial, timeOffset, enemies }
+
 const meta = {
   fighter: {
     class: "fighter",
@@ -132,9 +134,9 @@ const meta = {
     message: ''
   }
 };
-export const tutorial = 29//188//304//116
-export const timeOffset = 3500//9000//11700//6050
-export const enemies = [
+const tutorial = 29//188//304//116
+const timeOffset = 3500//9000//11700//6050
+const enemies = [
   ///intro///
   { topOffset: 50, leftOffset: 150, type: meta.tutorial },
   { topOffset: 50, leftOffset: 1200, type: meta.rmBanner },
