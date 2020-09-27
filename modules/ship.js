@@ -1,5 +1,5 @@
 import { sprites, effects, path } from '../config/resources.js'
-import { game, controlState, gameState } from './game.js'
+import {  controlState, gameState } from './game.js'
 import { _, hotKey } from '../config/data.js'
 import { enemy } from './enemies.js'
 import { SFX } from './sound.js'

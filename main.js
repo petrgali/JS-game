@@ -21,7 +21,7 @@ export const gameController = async () => {
     await Promise.all(resources.map(x => preloadImage(path.concat(x))))
     GUI.showMenu(message.start)
     document.addEventListener('keydown', (event) => {
-        switch (event.keyCode) {
+        switch (event.key) {
             case hotKey.start:
                 game.play()
                 break

@@ -1,9 +1,21 @@
 export { message, hotKey, _ }
 
+const hotKey = {
+  shipUP: "ArrowUp", //
+  shipDown: "ArrowDown", //
+  shipLeft: "ArrowLeft", //  ship control keys bindings
+  shipRight: "ArrowRight", //
+  shipFire: ' ', ////
+  start: 'Enter', //// Enter
+  restart: 'Shift', //// shift     game control keys bindings
+  pause: 'Control', //// ctrl
+  yes: 'y', //// y
+  no: 'n', //// n
+}
 const message = {
   loading: `please wait\nloading resources...`,
-  start: `press enter to start`,
-  pause: `**GAME MENU**\n\npress ctrl to resume\npress shift to restart`,
+  start: `press ${hotKey.start} to start`,
+  pause: `**GAME MENU**\n\npress ${hotKey.pause} to resume\npress ${hotKey.restart} to restart`,
   warning: "**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n",
   wasted: `REKT!!`,
   levelend: `VICTORY!\nenemy retreat!!\n\nfinal score `,
@@ -18,18 +30,6 @@ const message = {
   final: `STAY STRONG!!!`
 }
 
-const hotKey = {
-  shipUP: "ArrowUp", //
-  shipDown: "ArrowDown", //
-  shipLeft: "ArrowLeft", //  ship control keys bindings
-  shipRight: "ArrowRight", //
-  shipFire: " ", ////
-  start: 13, //// Enter
-  restart: 16, //// shift     game control keys bindings
-  pause: 17, //// ctrl
-  yes: 89, //// y
-  no: 78, //// n
-}
 
 const _ = {
   shipYposition: 200, // ship init top position
