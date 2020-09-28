@@ -1,6 +1,6 @@
 export { path, sprites, sounds, effects, resources }
 
-const path = "./assets/sprites/";
+const path = "./static/assets/sprites/";
 
 const sprites = [
   "ship_mod1.png",
@@ -10,8 +10,8 @@ const sprites = [
 ];
 
 const sounds = [
-  "./assets/sfx/shot.mp3",
-  "./assets/sfx/explode.mp3",
+  "./static/assets/sfx/shot.mp3",
+  "./static/assets/sfx/explode.mp3",
 ];
 const effects = {
   shot: 0,

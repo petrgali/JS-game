@@ -5,7 +5,7 @@ const hotKey = {
   shipDown: "ArrowDown", //
   shipLeft: "ArrowLeft", //  ship control keys bindings
   shipRight: "ArrowRight", //
-  shipFire: ' ', ////
+  shipFire: 'w', ////
   start: 'Enter', //// Enter
   restart: 'Shift', //// shift     game control keys bindings
   pause: 'Control', //// ctrl

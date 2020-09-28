@@ -1,19 +1,24 @@
 package main
 
 import (
-	"fmt"
+	"html/template"
 	"net/http"
-	"text/template"
 )
 
 func main() {
+	http.HandleFunc("/scoreboard", scoreHandler)
 	http.HandleFunc("/", indexHandler)
+
+	fs := http.FileServer(http.Dir("./static/"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
 	err := http.ListenAndServe(":8000", nil)
-	fs := http.FileServer(http.Dir("/"))
-	http.Handle("/sample/", http.StripPrefix("/sample/", fs))
 	if err != nil {
-		fmt.Println("Listen & Serve", err)
+		panic(err)
 	}
+}
+
+func scoreHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
