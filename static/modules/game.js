@@ -3,7 +3,7 @@ import { bullet } from './firepower.js'
 import { enemy } from './enemies.js'
 import { GUI } from './view.js'
 import { message } from '../config/data.js'
-
+import { player } from './player.js'
 export { gameState, controlState, game }
 
 let gameState = {}
@@ -26,6 +26,8 @@ const render = () => {
 const game = (() => {
     return {
         play: () => {
+            player.stopwatchOn()
+
             if (!gameState.play || (gameState.play && gameState.reset)) {
                 gameState['play'] = true
                 GUI.hideMenu()
@@ -39,6 +41,9 @@ const game = (() => {
                 if (!gameState.reset) {
                     document.addEventListener('keydown', (event) => {
                         controlState[event.key] = true
+                        gameState.listen
+                            ? player.setName(event.key)
+                            : event.key
                     })
                     document.addEventListener('keyup', (event) => {
                         controlState[event.key] = false
@@ -105,23 +110,38 @@ const game = (() => {
                 return
             }
         },
+        timeout: () => {
+            player.stopwatchOff()
+            player.setGameTime()
+            player.setScore(GUI.finalScore())
+
+            setTimeout(() => {
+                gameState.listen = false
+                console.log(player.stat())
+                game.reset()
+            }, 4000)
+        },
         levelEnd: () => {
             gameState['levelend'] = true
             gameState.gameover = true
             gameState.wasted = true
             GUI.hideStat()
             GUI.showMenu(message.levelend.concat(GUI.finalScore()))
-            setTimeout(() => {
-                game.reset()
-            }, 4000)
+            // TO DO 
+            // add player
+            gameState.listen = true
+            player.new()
+            game.timeout()
         },
         over: () => {
             gameState['gameover'] = true
             GUI.hideStat()
             GUI.showMenu(message.gameover.concat(GUI.finalScore()))
-            setTimeout(() => {
-                game.reset()
-            }, 4000)
+            // TO DO 
+            // add player
+            gameState.listen = true
+            player.new()
+            game.timeout()
         },
         lostWarning: () => {
             if (gameState.pause) {

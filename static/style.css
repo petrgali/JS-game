@@ -60,8 +60,8 @@ div #bar {
 
 #gamefield {
     background-color: black;
-    width: 28.125em;
-    height: 28.125em;
+    width: 450px;
+    height: 430px;
     margin: auto;
     color: azure;
     position: relative;

@@ -49,7 +49,7 @@ const _ = {
   fadingRate: 450, // opacity changing speed rate - less is faster
   gameareaBorder: 4, // CSS setting - used for calculations
   borderOffset: 25, // dead zone for ship
-  try: 3, // number of lives
+  try: 1, // number of lives
   multiplier: 1000, // final score multiplier
   splashSize: 32, // splash size - CSS value
 }
