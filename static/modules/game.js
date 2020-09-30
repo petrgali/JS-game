@@ -24,9 +24,9 @@ const render = () => {
 }
 
 const game = (() => {
+    let inputWaiter
     return {
         play: () => {
-            player.stopwatchOn()
 
             if (!gameState.play || (gameState.play && gameState.reset)) {
                 gameState['play'] = true
@@ -48,6 +48,8 @@ const game = (() => {
                     document.addEventListener('keyup', (event) => {
                         controlState[event.key] = false
                     })
+                    player.new()
+                    player.stopwatchOn()
                     mothership.animate()
                     bullet.listener()
                     requestAnimationFrame(render)
@@ -110,38 +112,37 @@ const game = (() => {
                 return
             }
         },
-        timeout: () => {
+        inputMode: (msg) => {
             player.stopwatchOff()
             player.setGameTime()
+            player.calcAccuracy()
             player.setScore(GUI.finalScore())
-
+            inputWaiter = setInterval(() => {
+                GUI.showMenu(msg + message.inputName + `\n${player.name()}`)
+            }, 30)
+        },
+        timeout: () => {
+            gameState.listen = false
+            window.clearInterval(inputWaiter)
             setTimeout(() => {
-                gameState.listen = false
                 console.log(player.stat())
                 game.reset()
-            }, 4000)
+            }, 500)
+
         },
         levelEnd: () => {
             gameState['levelend'] = true
             gameState.gameover = true
             gameState.wasted = true
             GUI.hideStat()
-            GUI.showMenu(message.levelend.concat(GUI.finalScore()))
-            // TO DO 
-            // add player
             gameState.listen = true
-            player.new()
-            game.timeout()
+            game.inputMode(message.levelend.concat(GUI.finalScore()))
         },
         over: () => {
             gameState['gameover'] = true
             GUI.hideStat()
-            GUI.showMenu(message.gameover.concat(GUI.finalScore()))
-            // TO DO 
-            // add player
             gameState.listen = true
-            player.new()
-            game.timeout()
+            game.inputMode(message.gameover.concat(GUI.finalScore()))
         },
         lostWarning: () => {
             if (gameState.pause) {

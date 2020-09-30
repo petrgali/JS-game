@@ -5,6 +5,7 @@ import { mothership } from './ship.js'
 import { enemy } from './enemies.js'
 import { SFX } from './sound.js'
 import { gamearea } from './view.js'
+import { player } from './player.js'
 
 
 
@@ -40,6 +41,7 @@ export const bullet = (() => {
                     left: mothership.x() + _.bulletXoffset, compare: mothership.x() + _.bulletXoffset,
                     top: mothership.y() + _.bulletYoffet
                 })
+                player.addShot()
                 SFX.play(effects.shot)
                 bullet.spawn(mothership.x() + _.bulletXoffset, mothership.y() + _.bulletYoffet)
             }

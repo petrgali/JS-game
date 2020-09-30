@@ -4,6 +4,7 @@ import { _ } from '../config/data.js'
 import { GUI, gamearea } from './view.js'
 import { SFX } from './sound.js'
 import { game } from './game.js'
+import { player } from './player.js'
 
 
 
@@ -78,6 +79,7 @@ export const enemy = (() => {
                             Dom[id].getBoundingClientRect().top)
                         SFX.play(effects.explode)
                         enemy.remove(id)
+                        player.addPoint()
                     }
                     return true
                 }
