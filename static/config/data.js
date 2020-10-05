@@ -1,6 +1,7 @@
 export { message, hotKey, _ }
 
 const hotKey = {
+  backspace: "Backspace",
   shipUP: "ArrowUp", //
   shipDown: "ArrowDown", //
   shipLeft: "ArrowLeft", //  ship control keys bindings

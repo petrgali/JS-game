@@ -1,5 +1,5 @@
 import { game } from './game.js'
-import { _ } from '../config/data.js'
+import { _, hotKey } from '../config/data.js'
 export { player }
 
 
@@ -31,9 +31,9 @@ const player = (() => {
         calcAccuracy: () => stat.accuracy = Math.ceil(stat.destroyed / stat.shotsFired * 100)
             || 0,
         trimName: (char) => {
-            char === 'Backspace'
+            char === hotKey.backspace
                 ? stat.name = stat.name.slice(0, -1)
-                : char === 'Enter'
+                : char === hotKey.start
                     ? game.timeout()
                     : char
         },
