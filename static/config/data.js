@@ -13,7 +13,7 @@ const hotKey = {
   no: 'n', //// n
 }
 const message = {
-  inputName: `\n\ntype your name, hero`,
+  inputName: `\n\nHero!\ntype your name & hit enter`,
   loading: `please wait\nloading resources...`,
   start: `press ${hotKey.start} to start`,
   pause: `**GAME MENU**\n\npress ${hotKey.pause} to resume\npress ${hotKey.restart} to restart`,
@@ -33,6 +33,8 @@ const message = {
 
 
 const _ = {
+  serverURL: 'http://localhost:8000/',
+  maxNameSize: 15,
   shipYposition: 200, // ship init top position
   shipXposition: 50, // ship init left position
   shipSkinHeight: 22, // ship skin size
@@ -50,7 +52,7 @@ const _ = {
   fadingRate: 450, // opacity changing speed rate - less is faster
   gameareaBorder: 4, // CSS setting - used for calculations
   borderOffset: 25, // dead zone for ship
-  try: 2, // number of lives
+  try: 1, // number of lives
   multiplier: 1000, // final score multiplier
   splashSize: 32, // splash size - CSS value
 }

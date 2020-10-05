@@ -30,6 +30,8 @@ const game = (() => {
 
             if (!gameState.play || (gameState.play && gameState.reset)) {
                 gameState['play'] = true
+                player.new()
+                player.stopwatchOn()
                 GUI.hideMenu()
                 mothership.init()
                 bullet.init()
@@ -48,8 +50,6 @@ const game = (() => {
                     document.addEventListener('keyup', (event) => {
                         controlState[event.key] = false
                     })
-                    player.new()
-                    player.stopwatchOn()
                     mothership.animate()
                     bullet.listener()
                     requestAnimationFrame(render)
@@ -125,7 +125,12 @@ const game = (() => {
             gameState.listen = false
             window.clearInterval(inputWaiter)
             setTimeout(() => {
+                ///////////////
+                ///////////////
                 console.log(player.stat())
+                ///////////////
+                ///////////////
+                player.sendJSONstat()
                 game.reset()
             }, 500)
 

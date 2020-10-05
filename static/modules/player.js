@@ -1,4 +1,5 @@
 import { game } from './game.js'
+import { _ } from '../config/data.js'
 export { player }
 
 
@@ -6,6 +7,12 @@ const player = (() => {
     let stat = {}
     let startTime
     let endTime
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
     return {
         stat: () => stat,
         name: () => stat.name,
@@ -17,11 +24,12 @@ const player = (() => {
         addPoint: () => stat.destroyed += 1,
         addShot: () => stat.shotsFired += 1,
         setName: (char) => {
-            char.length === 1
+            char.length === 1 && stat.name.length < _.maxNameSize
                 ? stat.name += char
                 : player.trimName(char)
         },
-        calcAccuracy: () => stat.accuracy = Math.ceil(stat.destroyed / stat.shotsFired * 100) || 0,
+        calcAccuracy: () => stat.accuracy = Math.ceil(stat.destroyed / stat.shotsFired * 100)
+            || 0,
         trimName: (char) => {
             char === 'Backspace'
                 ? stat.name = stat.name.slice(0, -1)
@@ -42,7 +50,13 @@ const player = (() => {
             let diff = new Date(endTime - startTime)
             let minutes = diff.getMinutes()
             let seconds = diff.getSeconds()
-            stat.time = `${minutes}:${seconds}`
+            stat.minutes = minutes
+            stat.seconds = seconds
+        },
+        sendJSONstat: async () => {
+            options.body = JSON.stringify(player.stat())
+            await fetch(_.serverURL, options)
         }
     }
 })()
+
