@@ -17,7 +17,7 @@ type Player struct {
 	Shots     int    `json:"shotsFired"`
 	Minutes   int    `json:"munites"`
 	Seconds   int    `json:"seconds"`
-	Accuracy  string `json:"accuracy"`
+	Accuracy  int    `json:"accuracy"`
 	Score     int    `json:"score"`
 }
 type Handlers struct {
@@ -33,16 +33,23 @@ func createPlayer(reqBody []byte) {
 	if player.Seconds > 0 {
 		Players = append(Players, player)
 		sortPlayers()
-		// saveResults(reqBody)
+		saveResults()
 		fmt.Println(Players)
 	}
 }
-func saveResults(payload []byte) {
-	file, err := os.OpenFile("score.json", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+func saveResults() {
+	stat, err := json.MarshalIndent(Players, "", "")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer file.Close()
+	f, err := os.OpenFile("stat.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+	if _, err = f.Write(stat); err != nil {
+		log.Fatal(err)
+	}
 }
 func sortPlayers() {
 	swap := true
@@ -66,6 +73,7 @@ func handleRequests(handlers Handlers) {
 }
 
 func (h *Handlers) scoreBoard(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(Players)
 }
 func (h *Handlers) index(w http.ResponseWriter, r *http.Request) {
