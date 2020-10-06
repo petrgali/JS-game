@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 )
 
 /*Player - api json container*/
@@ -20,6 +19,7 @@ type Player struct {
 	Accuracy  int    `json:"accuracy"`
 	Score     int    `json:"score"`
 }
+
 type Handlers struct {
 	Tmpl *template.Template
 }
@@ -37,17 +37,30 @@ func createPlayer(reqBody []byte) {
 		fmt.Println(Players)
 	}
 }
+
+func fillStruct() {
+	body, err := ioutil.ReadFile("stat.json")
+	if err == nil {
+		if err = json.Unmarshal(body, &Players); err != nil {
+			fmt.Println(err)
+		}
+	}
+	fmt.Println(Players)
+}
 func saveResults() {
 	stat, err := json.MarshalIndent(Players, "", "")
 	if err != nil {
 		log.Fatal(err)
 	}
-	f, err := os.OpenFile("stat.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-	if _, err = f.Write(stat); err != nil {
+	// f, err := os.OpenFile("stat.json", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer f.Close()
+	// if _, err = f.Write(stat); err != nil {
+	// 	log.Fatal(err)
+	// }
+	if err = ioutil.WriteFile("stat.json", stat, 0644); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -93,5 +106,6 @@ func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
+	fillStruct()
 	handleRequests(*handlers)
 }
