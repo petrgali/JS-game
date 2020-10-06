@@ -33,7 +33,7 @@ const player = (() => {
         trimName: (char) => {
             char === hotKey.backspace
                 ? stat.name = stat.name.slice(0, -1)
-                : char === hotKey.start
+                : char === hotKey.start && stat.name.length > 0
                     ? game.timeout()
                     : char
         },
