@@ -121,19 +121,16 @@ const game = (() => {
                 GUI.showMenu(msg + message.inputName + `\n${player.name()}`)
             }, 30)
         },
+        scoreMode: () => {
+            player.JSONexchange()
+            game.timeout()
+        },
         timeout: () => {
             gameState.listen = false
             window.clearInterval(inputWaiter)
             setTimeout(() => {
-                ///////////////
-                ///////////////
-                console.log(player.stat())
-                ///////////////
-                ///////////////
-                player.sendJSONstat()
                 game.reset()
             }, 500)
-
         },
         levelEnd: () => {
             gameState['levelend'] = true

@@ -34,7 +34,9 @@ const message = {
 
 
 const _ = {
+  scoreMsg: 'rank__name__score__time',
   serverURL: 'http://localhost:8000/',
+  apiURL: 'http://localhost:8000/scoreboard',
   maxNameSize: 15,
   shipYposition: 200, // ship init top position
   shipXposition: 50, // ship init left position

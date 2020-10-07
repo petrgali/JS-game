@@ -7,6 +7,7 @@ const player = (() => {
     let stat = {}
     let startTime
     let endTime
+    let statAPI
     const options = {
         method: 'POST',
         headers: {
@@ -34,7 +35,7 @@ const player = (() => {
             char === hotKey.backspace
                 ? stat.name = stat.name.slice(0, -1)
                 : char === hotKey.start && stat.name.length > 0
-                    ? game.timeout()
+                    ? game.scoreMode()
                     : char
         },
         setScore: (finalScore) => {
@@ -56,6 +57,13 @@ const player = (() => {
         sendJSONstat: async () => {
             options.body = JSON.stringify(player.stat())
             await fetch(_.serverURL, options)
+        },
+        readJSONstat: async () => {
+            statAPI = await (await fetch(_.apiURL)).json()
+        },
+        JSONexchange: () => {
+            player.sendJSONstat()
+            player.readJSONstat()
         }
     }
 })()

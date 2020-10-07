@@ -97,6 +97,9 @@ const GUI = (() => {
                 document.getElementById('ship_decal').remove()
             }, 600);
         },
+        createScoreMessage: () => {
+
+        },
         stepBackward: () => {
             if (gameState.lostwarning) {
                 gameState.lostwarning = false
