@@ -1,5 +1,43 @@
-export { message, hotKey, _ }
-
+export { message, hotKey, board, _ }
+const board = {
+  title: '<p>hall of fame<br><br></p>',
+  legend: ['rank', 'name', 'score', 'time'],
+  table: `<table style="width: 70%; margin-left: auto; margin-right: auto;">
+	<tbody>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>`,
+  delimeter: ' '
+}
 const hotKey = {
   backspace: "Backspace",
   shipUP: "ArrowUp", //
@@ -14,7 +52,7 @@ const hotKey = {
   no: 'n', //// n
 }
 const message = {
-  inputName: `\n\nHero!\ntype your name & hit enter`,
+  inputName: `\n\nHero!\ntype your name & hit enter\n`,
   loading: `please wait\nloading resources...`,
   start: `press ${hotKey.start} to start`,
   pause: `**GAME MENU**\n\npress ${hotKey.pause} to resume\npress ${hotKey.restart} to restart`,
@@ -25,7 +63,7 @@ const message = {
   tutorial: `you're the last hope\nprotect our world\n\nbattle is coming...`,
   tutorialUP: `press \u2191 to move UP`,
   tutorialDOWN: `press \u2193 to move DOWN`,
-  tutorialSHOOT: `press space to use\nPLASMA CANNON`,
+  tutorialSHOOT: `press ${hotKey.shipFire} to use\nPLASMA CANNON`,
   tutorialDONE: `eliminate attackers\nNO MERCY!`,
   moar: `next wave approaching\n\nFOR THE GLORY!!!`,
   alarm: `enemy CRUISERS approaching\n\nfire at will!!!`,
@@ -34,10 +72,9 @@ const message = {
 
 
 const _ = {
-  scoreMsg: 'rank__name__score__time',
   serverURL: 'http://localhost:8000/',
   apiURL: 'http://localhost:8000/scoreboard',
-  maxNameSize: 15,
+  maxNameSize: 12,    // input player name max length 
   shipYposition: 200, // ship init top position
   shipXposition: 50, // ship init left position
   shipSkinHeight: 22, // ship skin size

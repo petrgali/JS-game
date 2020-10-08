@@ -4,6 +4,7 @@ import { enemy } from './enemies.js'
 import { GUI } from './view.js'
 import { message } from '../config/data.js'
 import { player } from './player.js'
+import { scoreBoard } from './scoreboard.js'
 export { gameState, controlState, game }
 
 let gameState = {}
@@ -43,7 +44,7 @@ const game = (() => {
                 if (!gameState.reset) {
                     document.addEventListener('keydown', (event) => {
                         controlState[event.key] = true
-                        gameState.listen
+                        gameState.nameInput
                             ? player.setName(event.key)
                             : event.key
                     })
@@ -118,33 +119,35 @@ const game = (() => {
             player.calcAccuracy()
             player.setScore(GUI.finalScore())
             inputWaiter = setInterval(() => {
-                GUI.showMenu(msg + message.inputName + `\n${player.name()}`)
+                GUI.showMenu(msg.concat(GUI.finalScore()) + message.inputName + player.name())
             }, 30)
         },
         scoreMode: () => {
             player.JSONexchange()
+            window.clearInterval(inputWaiter)
+            GUI.clearField()
+            scoreBoard.showTable()
             game.timeout()
         },
         timeout: () => {
-            gameState.listen = false
-            window.clearInterval(inputWaiter)
+            gameState.nameInput = false
             setTimeout(() => {
                 game.reset()
-            }, 500)
+            }, 3000)
         },
         levelEnd: () => {
             gameState['levelend'] = true
             gameState.gameover = true
             gameState.wasted = true
             GUI.hideStat()
-            gameState.listen = true
-            game.inputMode(message.levelend.concat(GUI.finalScore()))
+            gameState.nameInput = true
+            game.inputMode(message.levelend)
         },
         over: () => {
             gameState['gameover'] = true
             GUI.hideStat()
-            gameState.listen = true
-            game.inputMode(message.gameover.concat(GUI.finalScore()))
+            gameState.nameInput = true
+            game.inputMode(message.gameover)
         },
         lostWarning: () => {
             if (gameState.pause) {

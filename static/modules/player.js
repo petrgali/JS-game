@@ -29,8 +29,6 @@ const player = (() => {
                 ? stat.name += char
                 : player.trimName(char)
         },
-        calcAccuracy: () => stat.accuracy = Math.ceil(stat.destroyed / stat.shotsFired * 100)
-            || 0,
         trimName: (char) => {
             char === hotKey.backspace
                 ? stat.name = stat.name.slice(0, -1)
@@ -38,6 +36,8 @@ const player = (() => {
                     ? game.scoreMode()
                     : char
         },
+        calcAccuracy: () => stat.accuracy = Math.ceil(stat.destroyed / stat.shotsFired * 100)
+            || 0,
         setScore: (finalScore) => {
             stat.score = finalScore
         },

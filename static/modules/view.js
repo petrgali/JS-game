@@ -2,7 +2,7 @@
 import { enemies } from '../config/level_set.js'
 import { bullet } from './firepower.js'
 import { mothership } from './ship.js'
-import { _, message } from '../config/data.js'
+import { _, message, board } from '../config/data.js'
 import { enemy } from './enemies.js'
 import { game, gameState } from './game.js'
 
@@ -39,6 +39,9 @@ const GUI = (() => {
         },
         showMenu: (text) => {
             mainMenu.innerText = text
+        },
+        constructTable: () => {
+            mainMenu.innerHTML = board.title.concat(board.table)
         },
         hideMenu: () => mainMenu.textContent = '',
         gameStat: () => {
@@ -96,9 +99,6 @@ const GUI = (() => {
             setTimeout(() => {
                 document.getElementById('ship_decal').remove()
             }, 600);
-        },
-        createScoreMessage: () => {
-
         },
         stepBackward: () => {
             if (gameState.lostwarning) {
