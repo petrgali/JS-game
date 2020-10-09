@@ -123,7 +123,9 @@ const game = (() => {
             }, 30)
         },
         scoreMode: () => {
-            player.JSONexchange()
+            // player.JSONexchange()
+            player.sendJSONstat()
+            player.readJSONstat().then(data => console.log(data))
             window.clearInterval(inputWaiter)
             GUI.clearField()
             scoreBoard.showTable()
