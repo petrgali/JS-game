@@ -28,7 +28,6 @@ const game = (() => {
     let inputWaiter
     return {
         play: () => {
-
             if (!gameState.play || (gameState.play && gameState.reset)) {
                 gameState['play'] = true
                 player.new()
@@ -125,7 +124,7 @@ const game = (() => {
         scoreMode: () => {
             // player.JSONexchange()
             player.sendJSONstat()
-            player.readJSONstat().then(data => console.log(data))
+            player.readJSONstat()
             window.clearInterval(inputWaiter)
             GUI.clearField()
             scoreBoard.showTable()

@@ -17,9 +17,6 @@ const player = (() => {
     return {
         stat: () => stat,
         name: () => stat.name,
-        showStatAPI: () => {
-            player.readJSONstat(), then(data => console.log(data))
-        },
         new: () => {
             stat.name = ''
             stat.destroyed = 0
@@ -62,7 +59,9 @@ const player = (() => {
             await fetch(_.serverURL, options)
         },
         readJSONstat: async () => {
-            return await (await fetch(_.apiURL)).json()
+            let data = await (await fetch(_.apiURL)).json()
+            console.log(data)
+
         },
         JSONexchange: () => {
             player.sendJSONstat()
