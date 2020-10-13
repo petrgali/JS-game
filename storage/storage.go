@@ -9,10 +9,11 @@ import (
 
 /*Player - api json container*/
 type Player struct {
+	Rank      int    `json:"rank"`
 	Name      string `json:"name"`
 	Destroyed int    `json:"destroyed"`
 	Shots     int    `json:"shotsFired"`
-	Minutes   int    `json:"munites"`
+	Minutes   int    `json:"minutes"`
 	Seconds   int    `json:"seconds"`
 	Accuracy  int    `json:"accuracy"`
 	Score     int    `json:"score"`
@@ -42,6 +43,9 @@ func sortPlayers() {
 				}
 			}
 		}
+	}
+	for idx := range Players {
+		Players[idx].Rank = idx + 1
 	}
 }
 func ReadHistory() {

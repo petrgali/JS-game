@@ -7,7 +7,6 @@ const player = (() => {
     let stat = {}
     let startTime
     let endTime
-    let statAPI
     const options = {
         method: 'POST',
         headers: {
@@ -59,14 +58,14 @@ const player = (() => {
             await fetch(_.serverURL, options)
         },
         readJSONstat: async () => {
-            let data = await (await fetch(_.apiURL)).json()
-            console.log(data)
-
+            return await (await fetch(_.apiURL))
+                .json()
+                .then(data => data.reduce((arr, obj) => {
+                    arr.push(obj.rank, obj.name, obj.score)
+                    arr.push(String(obj.minutes) + 'm:' + String(obj.seconds) + 's')
+                    return arr
+                }, []))
         },
-        JSONexchange: () => {
-            player.sendJSONstat()
-            player.readJSONstat()
-        }
     }
 })()
 

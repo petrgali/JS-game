@@ -1,22 +1,23 @@
 import { GUI } from './view.js'
-import { player } from './player.js'
+import { board } from '../config/data.js'
 export { scoreBoard }
 
 const scoreBoard = (() => {
     let blocks
-    let scoreArr = []
     return {
-        testing: () => {
-
-        },
         showTable: () => {
-            // GUI.showMenu(board.title)
             GUI.constructTable()
             blocks = document.querySelectorAll('td')
-            scoreBoard.fillTable()
         },
-        fillTable: () => {
-            blocks.forEach(cell => cell.innerText = 'hello')
+        fillTable: (data) => {
+            let idx = 0
+            let filler = board.legend.concat(data)
+            blocks.forEach(cell => {
+                if (idx < filler.length) {
+                    cell.innerText = filler[idx]
+                    idx += 1
+                }
+            })
         }
     }
 })()

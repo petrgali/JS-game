@@ -122,19 +122,18 @@ const game = (() => {
             }, 30)
         },
         scoreMode: () => {
-            // player.JSONexchange()
-            player.sendJSONstat()
-            player.readJSONstat()
-            window.clearInterval(inputWaiter)
             GUI.clearField()
             scoreBoard.showTable()
-            game.timeout()
+            player.sendJSONstat()
+            player.readJSONstat().then(data => scoreBoard.fillTable(data))
+            window.clearInterval(inputWaiter)
+            // game.timeout()
         },
         timeout: () => {
             gameState.nameInput = false
             setTimeout(() => {
                 game.reset()
-            }, 3000)
+            }, 30000)
         },
         levelEnd: () => {
             gameState['levelend'] = true

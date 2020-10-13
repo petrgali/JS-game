@@ -2,7 +2,8 @@ export { message, hotKey, board, _ }
 const board = {
   title: '<p>hall of fame<br><br></p>',
   legend: ['rank', 'name', 'score', 'time'],
-  table: `<table style="width: 70%; margin-left: auto; margin-right: auto;">
+  stat: ['name', 'score', 'minutes', 'seconds'],
+  table: `<table style="width: 70%; margin-left: auto; margin-right: auto;font-size: 80%;">
 	<tbody>
 		<tr>
 			<td></td>
@@ -69,7 +70,9 @@ const message = {
   alarm: `enemy CRUISERS approaching\n\nfire at will!!!`,
   final: `STAY STRONG!!!`
 }
+const table = {
 
+}
 
 const _ = {
   serverURL: 'http://localhost:8000/',
