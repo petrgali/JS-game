@@ -40,20 +40,8 @@ const game = (() => {
                     : enemy.initTutorial()
                 mothership.spawn()
 
-                if (!gameState.reset) {
-                    document.addEventListener('keydown', (event) => {
-                        controlState[event.key] = true
-                        gameState.nameInput
-                            ? player.setName(event.key)
-                            : event.key
-                    })
-                    document.addEventListener('keyup', (event) => {
-                        controlState[event.key] = false
-                    })
-                    mothership.animate()
-                    bullet.listener()
-                    requestAnimationFrame(render)
-                }
+                if (!gameState.reset) game.initGameCore()
+
                 if (gameState.gameover) {
                     gameState.gameover = false
                     gameState.wasted = false
@@ -62,6 +50,25 @@ const game = (() => {
                 }
                 GUI.gameStat()
             }
+        },
+        initGameCore: () => {
+            document.addEventListener('keydown', (event) => {
+                controlState[event.key] = true
+                game.nameListener(event)
+                game.boardListener(event)
+            })
+            document.addEventListener('keyup', (event) => {
+                controlState[event.key] = false
+            })
+            mothership.animate()
+            bullet.listener()
+            requestAnimationFrame(render)
+        },
+        nameListener: (event) => {
+            if (gameState.nameInput) player.setName(event.key)
+        },
+        boardListener: (event) => {
+            if (gameState.scoreBoard) scoreBoard.rotatePage(event.key)
         },
         pause: () => {
             if (gameState.pause) {
@@ -122,18 +129,22 @@ const game = (() => {
             }, 30)
         },
         scoreMode: () => {
+            clearInterval(inputWaiter)
+            gameState.nameInput = false
             GUI.clearField()
-            scoreBoard.showTable()
             player.sendJSONstat()
-            player.readJSONstat().then(data => scoreBoard.fillTable(data))
-            window.clearInterval(inputWaiter)
+            player.readJSONstat().then(data => {
+                scoreBoard.createTable()
+                scoreBoard.fillTable(data)
+            })
+            gameState.scoreBoard = true
             // game.timeout()
         },
-        timeout: () => {
-            gameState.nameInput = false
+        stop: () => {
+            gameState.scoreBoard = false
             setTimeout(() => {
                 game.reset()
-            }, 30000)
+            }, 1000)
         },
         levelEnd: () => {
             gameState['levelend'] = true

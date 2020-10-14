@@ -7,6 +7,7 @@ const player = (() => {
     let stat = {}
     let startTime
     let endTime
+    let totalPlayers = 0
     const options = {
         method: 'POST',
         headers: {
@@ -16,6 +17,7 @@ const player = (() => {
     return {
         stat: () => stat,
         name: () => stat.name,
+        totalPlayers: () => totalPlayers,
         new: () => {
             stat.name = ''
             stat.destroyed = 0
@@ -63,6 +65,7 @@ const player = (() => {
                 .then(data => data.reduce((arr, obj) => {
                     arr.push(obj.rank, obj.name, obj.score)
                     arr.push(String(obj.minutes) + 'm:' + String(obj.seconds) + 's')
+                    totalPlayers += 1
                     return arr
                 }, []))
         },

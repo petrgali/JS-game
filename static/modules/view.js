@@ -5,7 +5,7 @@ import { mothership } from './ship.js'
 import { _, message, board } from '../config/data.js'
 import { enemy } from './enemies.js'
 import { game, gameState } from './game.js'
-
+import { player } from './player.js'
 export { gamearea, GUI }
 
 let gamearea = document.getElementById('gamefield').getBoundingClientRect()
@@ -41,7 +41,20 @@ const GUI = (() => {
             mainMenu.innerText = text
         },
         constructTable: () => {
-            mainMenu.innerHTML = board.title.concat(board.table)
+            mainMenu.innerHTML = board.title.concat(GUI.autoTable())
+            document.querySelector('table').classList.add('scoretable')
+        },
+        autoTable: () => {
+            let sample = `<table><tbody>`
+            for (let idx = 0; idx <= player.totalPlayers(); idx++) {
+                sample += `<tr>`
+                for (let i = 0; i < board.cols.length; i++) {
+                    sample += `<td></td>`
+                }
+                sample += `</tr>`
+            }
+            sample.concat(`</tbody></table>`)
+            return sample
         },
         hideMenu: () => mainMenu.textContent = '',
         gameStat: () => {

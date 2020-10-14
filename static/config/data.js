@@ -1,43 +1,11 @@
 export { message, hotKey, board, _ }
 const board = {
   title: '<p>hall of fame<br><br></p>',
-  legend: ['rank', 'name', 'score', 'time'],
+  cols: ['rank', 'name', 'score', 'time'],
+  visibleRows: 5,
   stat: ['name', 'score', 'minutes', 'seconds'],
-  table: `<table style="width: 70%; margin-left: auto; margin-right: auto;font-size: 80%;">
-	<tbody>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-	</tbody>
-</table>`,
-  delimeter: ' '
+  // table: `<table>
+  // <tbody>`
 }
 const hotKey = {
   backspace: "Backspace",
@@ -69,9 +37,6 @@ const message = {
   moar: `next wave approaching\n\nFOR THE GLORY!!!`,
   alarm: `enemy CRUISERS approaching\n\nfire at will!!!`,
   final: `STAY STRONG!!!`
-}
-const table = {
-
 }
 
 const _ = {
