@@ -5,7 +5,7 @@
  * ~~SFX~~ done
  * ~~"BOSS"~~ level 
  * ~~player~~ profile
- * highscore rankings
+ * ~~highscore rankings~~
  * ?maps generator?
  * different maps
  
