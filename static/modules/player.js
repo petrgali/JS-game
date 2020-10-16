@@ -7,7 +7,7 @@ const player = (() => {
     let stat = {}
     let startTime
     let endTime
-    let totalPlayers = 0
+    let totalPlayers
     const options = {
         method: 'POST',
         headers: {
@@ -22,6 +22,7 @@ const player = (() => {
             stat.name = ''
             stat.destroyed = 0
             stat.shotsFired = 0
+            totalPlayers = 0
         },
         addPoint: () => stat.destroyed += 1,
         addShot: () => stat.shotsFired += 1,

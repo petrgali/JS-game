@@ -4,8 +4,11 @@ const board = {
   cols: ['rank', 'name', 'score', 'time'],
   visibleRows: 5,
   stat: ['name', 'score', 'minutes', 'seconds'],
-  // table: `<table>
-  // <tbody>`
+  navLeft: '\u2190',
+  navRight: '\u2192',
+  delimeter: '/',
+  spacer: '\n',
+  navTitle: 'page '
 }
 const hotKey = {
   backspace: "Backspace",
@@ -42,7 +45,7 @@ const message = {
 const _ = {
   serverURL: 'http://localhost:8000/',
   apiURL: 'http://localhost:8000/scoreboard',
-  maxNameSize: 12,    // input player name max length 
+  maxNameSize: 8,    // input player name max length 
   shipYposition: 200, // ship init top position
   shipXposition: 50, // ship init left position
   shipSkinHeight: 22, // ship skin size

@@ -54,21 +54,15 @@ const game = (() => {
         initGameCore: () => {
             document.addEventListener('keydown', (event) => {
                 controlState[event.key] = true
-                game.nameListener(event)
-                game.boardListener(event)
+                if (gameState.nameInput) player.setName(event.key)
             })
             document.addEventListener('keyup', (event) => {
                 controlState[event.key] = false
+                if (gameState.scoreBoard) scoreBoard.rotatePage(event.key)
             })
             mothership.animate()
             bullet.listener()
             requestAnimationFrame(render)
-        },
-        nameListener: (event) => {
-            if (gameState.nameInput) player.setName(event.key)
-        },
-        boardListener: (event) => {
-            if (gameState.scoreBoard) scoreBoard.rotatePage(event.key)
         },
         pause: () => {
             if (gameState.pause) {
@@ -98,6 +92,7 @@ const game = (() => {
             }
             if (gameState.gameover) {
                 gameState.reset = true
+                GUI.removeFooter()
                 GUI.reset()
                 GUI.showMenu(message.start)
                 gameState.play = true
@@ -136,15 +131,14 @@ const game = (() => {
             player.readJSONstat().then(data => {
                 scoreBoard.createTable()
                 scoreBoard.fillTable(data)
+                gameState.scoreBoard = true
             })
-            gameState.scoreBoard = true
-            // game.timeout()
         },
         stop: () => {
             gameState.scoreBoard = false
             setTimeout(() => {
                 game.reset()
-            }, 1000)
+            }, 500)
         },
         levelEnd: () => {
             gameState['levelend'] = true

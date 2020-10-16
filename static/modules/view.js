@@ -6,15 +6,17 @@ import { _, message, board } from '../config/data.js'
 import { enemy } from './enemies.js'
 import { game, gameState } from './game.js'
 import { player } from './player.js'
+import { scoreBoard } from './scoreboard.js'
 export { gamearea, GUI }
 
 let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 const GUI = (() => {
+    let footerInterval
     let splash
+    let footer
     let lifes
     let indicator
     let mainMenu
-    let playerMenu
     let scoreInfo
     let progressBar
     let lifeInfo
@@ -31,7 +33,6 @@ const GUI = (() => {
             document.getElementById('progress').innerHTML += `<div id='bar'></div>`
             mainMenu = document.getElementById('menu_screen')
             splash = document.getElementById('splash')
-            playerMenu = document.getElementById('info')
             scoreInfo = document.getElementById('score')
             lifeInfo = document.getElementById('lifes')
             progressBar = document.getElementById('bar')
@@ -41,8 +42,27 @@ const GUI = (() => {
             mainMenu.innerText = text
         },
         constructTable: () => {
-            mainMenu.innerHTML = board.title.concat(GUI.autoTable())
+            mainMenu.innerHTML = board.title
+                .concat(GUI.autoTable())
+            GUI.addFooter()
             document.querySelector('table').classList.add('scoretable')
+        },
+        addFooter: () => {
+            footer = document.createElement('div')
+            document.getElementById('gamefield').appendChild(footer)
+            footer.classList.add('footer')
+        },
+        refreshFooter: () => {
+            footerInterval = setInterval(() => {
+                footer.innerText = board.navTitle
+                    .concat(`${scoreBoard.currentPage() + 1}`)
+                    .concat(board.delimeter)
+                    .concat(`${scoreBoard.totalPages()}`)
+            })
+        },
+        removeFooter: () => {
+            clearInterval(footerInterval)
+            footer.remove()
         },
         autoTable: () => {
             let sample = `<table><tbody>`
@@ -53,7 +73,8 @@ const GUI = (() => {
                 }
                 sample += `</tr>`
             }
-            sample.concat(`</tbody></table>`)
+            sample
+                .concat(`</tbody></table>`)
             return sample
         },
         hideMenu: () => mainMenu.textContent = '',
