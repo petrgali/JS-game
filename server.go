@@ -1,20 +1,29 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 
-	"./handlers"
-	"./storage"
+	"./server/handlers"
+	"./server/middleware"
+	"./server/storage"
 )
 
 func main() {
 	handler := &handlers.Handlers{
-		Tmpl: template.Must(template.ParseFiles("index.html")),
+		Tmpl:       template.Must(template.ParseFiles("index.html")),
+		FileServer: http.FileServer(http.Dir("./static")),
 	}
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
 	storage.ReadHistory()
-	handlers.HandleRequests(*handler)
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", handler.Index)
+	mux.HandleFunc("/scoreboard", handler.ScoreBoard)
+	mux.Handle("/static/", http.StripPrefix("/static/", handler.FileServer))
+	loggerMux := middleware.NewLogger(mux)
+
+	fmt.Println("SERVER is listening on port:8080")
+	log.Fatal(http.ListenAndServe(":8000", loggerMux))
 }

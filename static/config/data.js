@@ -1,9 +1,9 @@
 export { message, hotKey, board, _ }
 const board = {
   title: '<p>hall of fame<br><br></p>',
-  cols: ['rank', 'name', 'score', 'time'],
+  cols: ['rank', 'name', 'score', 'shots', 'acc,%', 'time'],
   visibleRows: 5,
-  stat: ['name', 'score', 'minutes', 'seconds'],
+  // stat: ['name', 'score', 'minutes', 'seconds'], DEPRECATED?
   navLeft: '\u2190',
   navRight: '\u2192',
   delimeter: '/',
@@ -16,18 +16,18 @@ const hotKey = {
   shipDown: "ArrowDown", //
   shipLeft: "ArrowLeft", //  ship control keys bindings
   shipRight: "ArrowRight", //
-  shipFire: 'w', ////
+  shipFire: 'KeyW', ////
   start: 'Enter', //// Enter
-  restart: 'Shift', //// shift     game control keys bindings
-  pause: 'Control', //// ctrl
-  yes: 'y', //// y
-  no: 'n', //// n
+  restart: 'ShiftRight', //// shift     game control keys bindings
+  pause: 'ControlRight', //// ctrl
+  yes: 'KeyY', //// y
+  no: 'KeyN', //// n
 }
 const message = {
   inputName: `\n\nHero!\ntype your name & hit enter\n`,
   loading: `please wait\nloading resources...`,
   start: `press ${hotKey.start} to start`,
-  pause: `**GAME MENU**\n\npress ${hotKey.pause} to resume\npress ${hotKey.restart} to restart`,
+  pause: `**GAME MENU**\n\npress ${hotKey.pause.slice(0, -5)} to resume\npress ${hotKey.restart.slice(0, -5)} to restart`,
   warning: "**GAME MENU**\n\nyour progress will be lost\nare you sure?\ny/n",
   wasted: `REKT!!`,
   levelend: `VICTORY!\nenemy retreat!!\n\nfinal score `,
@@ -35,7 +35,7 @@ const message = {
   tutorial: `you're the last hope\nprotect our world\n\nbattle is coming...`,
   tutorialUP: `press \u2191 to move UP`,
   tutorialDOWN: `press \u2193 to move DOWN`,
-  tutorialSHOOT: `press ${hotKey.shipFire} to use\nPLASMA CANNON`,
+  tutorialSHOOT: `press ${hotKey.shipFire.slice(-1)} to use\nPLASMA CANNON`,
   tutorialDONE: `eliminate attackers\nNO MERCY!`,
   moar: `next wave approaching\n\nFOR THE GLORY!!!`,
   alarm: `enemy CRUISERS approaching\n\nfire at will!!!`,

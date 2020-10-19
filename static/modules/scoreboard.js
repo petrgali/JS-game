@@ -15,7 +15,7 @@ const scoreBoard = (() => {
             rows = document.querySelectorAll('tr')
             blocks = document.querySelectorAll('td')
         },
-        doubleClick: () => skippedEnter = 0,
+        initDoubleClick: () => skippedEnter = 0,
         fillTable: (data) => {
             let idx = 0
             let filler = board.cols.concat(data)
@@ -26,7 +26,7 @@ const scoreBoard = (() => {
                 }
             })
             scoreBoard.hideRecords()
-            scoreBoard.doubleClick()
+            scoreBoard.initDoubleClick()
             GUI.refreshFooter()
             scoreBoard.showPage(pageNum)
         },

@@ -53,11 +53,11 @@ const game = (() => {
         },
         initGameCore: () => {
             document.addEventListener('keydown', (event) => {
-                controlState[event.key] = true
+                controlState[event.code] = true
                 if (gameState.nameInput) player.setName(event.key)
             })
             document.addEventListener('keyup', (event) => {
-                controlState[event.key] = false
+                controlState[event.code] = false
                 if (gameState.scoreBoard) scoreBoard.rotatePage(event.key)
             })
             mothership.animate()

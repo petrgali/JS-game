@@ -1,4 +1,4 @@
-    
+
 import { game } from './modules/game.js'
 import { path, resources } from './config/resources.js'
 import { message, _, hotKey } from './config/data.js'
@@ -21,7 +21,7 @@ export const gameController = async () => {
     await Promise.all(resources.map(filename => preloadImage(path.concat(filename))))
     GUI.showMenu(message.start)
     document.addEventListener('keydown', (event) => {
-        switch (event.key) {
+        switch (event.code) {
             case hotKey.start:
                 game.play()
                 break

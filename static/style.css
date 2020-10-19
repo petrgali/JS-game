@@ -95,11 +95,12 @@ div .footer {
     font-size: 75%;
 }
 .scoretable {
-    width: 70%; 
+    width: 98%; 
     table-layout: fixed;
     margin-left: auto;
     margin-right: auto;
     font-size: 80%;
+    align: right;
 }
 
 div #ship_decal {

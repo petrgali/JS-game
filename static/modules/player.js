@@ -64,8 +64,12 @@ const player = (() => {
             return await (await fetch(_.apiURL))
                 .json()
                 .then(data => data.reduce((arr, obj) => {
-                    arr.push(obj.rank, obj.name, obj.score)
-                    arr.push(String(obj.minutes) + 'm:' + String(obj.seconds) + 's')
+                    let sec
+                    arr.push(obj.rank, obj.name, obj.score, obj.shotsFired, obj.accuracy)
+                    obj.seconds < 10
+                        ? sec = '0'.concat(String(obj.seconds))
+                        : sec = String(obj.seconds)
+                    arr.push(String(obj.minutes) + 'm:' + sec + 's')
                     totalPlayers += 1
                     return arr
                 }, []))
