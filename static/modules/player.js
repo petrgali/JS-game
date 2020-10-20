@@ -58,7 +58,7 @@ const player = (() => {
         },
         sendJSONstat: async () => {
             options.body = JSON.stringify(player.stat())
-            await fetch(_.serverURL, options)
+            await fetch(_.apiURL, options)
         },
         readJSONstat: async () => {
             return await (await fetch(_.apiURL))

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 )
 
 /*Player - api json container*/
@@ -53,16 +54,16 @@ func ReadHistory() {
 	body, err := ioutil.ReadFile("stat.json")
 	if err == nil {
 		if err = json.Unmarshal(body, &Players); err != nil {
-			fmt.Println(err, "read")
+			fmt.Println(err)
 		}
 	}
 }
 func saveResults() {
 	stat, err := json.MarshalIndent(Players, "", "")
 	if err != nil {
-		// log.Fatal(err)
+		log.Fatal(err)
 	}
 	if err = ioutil.WriteFile("stat.json", stat, 0644); err != nil {
-		// log.Fatal(err)
+		log.Fatal(err)
 	}
 }

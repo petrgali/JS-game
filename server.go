@@ -3,27 +3,30 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
+	"os"
 
-	"./server/handlers"
-	"./server/middleware"
+	procs "./server/handlers"
 	"./server/storage"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	handler := &handlers.Handlers{
+	handler := &procs.Handlers{
 		Tmpl:       template.Must(template.ParseFiles("index.html")),
 		FileServer: http.FileServer(http.Dir("./static")),
 	}
 	storage.ReadHistory()
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", handler.Index)
-	mux.HandleFunc("/scoreboard", handler.ScoreBoard)
-	mux.Handle("/static/", http.StripPrefix("/static/", handler.FileServer))
-	loggerMux := middleware.NewLogger(mux)
+	r := mux.NewRouter()
+	r.HandleFunc("/", handler.Index).Methods("GET")
+	r.HandleFunc("/scoreboard", handler.GetData).Methods("GET")
+	r.HandleFunc("/scoreboard", handler.SetData).Methods("POST")
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", handler.FileServer))
 
-	fmt.Println("SERVER is listening on port:8080")
-	log.Fatal(http.ListenAndServe(":8000", loggerMux))
+	loggerMux := handlers.LoggingHandler(os.Stdout, r)
+
+	fmt.Println("SERVER is listening on port:8000")
+	http.ListenAndServe(":8000", loggerMux)
 }
