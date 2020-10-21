@@ -6,18 +6,18 @@ import (
 	"net/http"
 	"os"
 
-	procs "./server/handlers"
-	"./server/storage"
+	"./server/models"
+	"./server/routehandlers"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
 func main() {
-	handler := &procs.Handlers{
+	handler := &routehandlers.Handlers{
 		Tmpl:       template.Must(template.ParseFiles("index.html")),
 		FileServer: http.FileServer(http.Dir("./static")),
 	}
-	storage.ReadHistory()
+	models.ReadHistory()
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", handler.Index).Methods("GET")
@@ -27,6 +27,6 @@ func main() {
 
 	loggerMux := handlers.LoggingHandler(os.Stdout, r)
 
-	fmt.Println("SERVER is listening on port:8000")
+	fmt.Println("server is listening on port:8000")
 	http.ListenAndServe(":8000", loggerMux)
 }
