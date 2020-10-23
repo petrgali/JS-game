@@ -16,6 +16,7 @@ const player = (() => {
     }
     return {
         stat: () => stat,
+        rank: () => stat.rank,
         name: () => stat.name,
         totalPlayers: () => totalPlayers,
         new: () => {
@@ -27,7 +28,7 @@ const player = (() => {
         addPoint: () => stat.destroyed += 1,
         addShot: () => stat.shotsFired += 1,
         setName: (char) => {
-            char.length === 1 && stat.name.length < _.maxNameSize
+            char.length === 1 && char != _.strictSymbol && stat.name.length < _.maxNameSize
                 ? stat.name += char
                 : player.trimName(char)
         },
@@ -66,6 +67,7 @@ const player = (() => {
                 .then(data => data.reduce((arr, obj) => {
                     let sec
                     arr.push(obj.rank, obj.name, obj.score, obj.shotsFired, obj.accuracy)
+                    if (obj.name === player.name()) stat.rank = obj.rank
                     obj.seconds < 10
                         ? sec = '0'.concat(String(obj.seconds))
                         : sec = String(obj.seconds)

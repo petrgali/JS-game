@@ -20,6 +20,10 @@ div #info {
     margin-left: 2em;
     margin-top: 0.5em;
 }
+div #header {
+    font-size: 13px; 
+    margin-bottom: 2%;
+}
 
 #lifes {
     position: absolute;
@@ -88,7 +92,7 @@ div .decal {
 
 div .footer {
     position: absolute;
-    bottom: 24%;
+    bottom: 22%;
     width:50%;
     margin-left: 51%;
     text-align: center;

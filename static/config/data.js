@@ -1,6 +1,6 @@
 export { message, hotKey, board, _ }
 const board = {
-  title: '<p>hall of fame<br><br></p>',
+  title: '<p>hall of fame<br></p>',
   cols: ['rank', 'name', 'score', 'shots', 'acc,%', 'time'],
   visibleRows: 5,
   // stat: ['name', 'score', 'minutes', 'seconds'], DEPRECATED?
@@ -45,6 +45,7 @@ const message = {
 const _ = {
   serverURL: 'http://localhost:8000/',
   apiURL: 'http://localhost:8000/scoreboard',
+  strictSymbol: ' ',
   maxNameSize: 8,    // input player name max length 
   shipYposition: 200, // ship init top position
   shipXposition: 50, // ship init left position

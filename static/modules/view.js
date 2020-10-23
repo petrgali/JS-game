@@ -42,15 +42,22 @@ const GUI = (() => {
             mainMenu.innerText = text
         },
         constructTable: () => {
-            mainMenu.innerHTML = board.title
+            let boardHeader = board.title
+                .concat(GUI.tableHeader())
+            mainMenu.innerHTML = boardHeader
                 .concat(GUI.autoTable())
             GUI.addFooter()
             document.querySelector('table').classList.add('scoretable')
         },
+        tableHeader: () => {
+            return `<div id='header'>congrats "${player.name()}"<br> 
+            you're in top ${Math.round(player.rank() / player.totalPlayers() * 100)}% 
+            in ${player.rank()} place</div>`
+        },
         addFooter: () => {
             footer = document.createElement('div')
             document.getElementById('gamefield').appendChild(footer)
-            footer.classList.add('footer')
+                .classList.add('footer')
         },
         refreshFooter: () => {
             footerInterval = setInterval(() => {
