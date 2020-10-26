@@ -39,3 +39,4 @@ export const gameController = async () => {
         }
     })
 }
+gameController()

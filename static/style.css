@@ -6,6 +6,7 @@ div #ship {
 body {
     overflow: hidden;
     font-family: 'Press Start 2P', cursive;
+    background: url('/static/assets/gr_2.png') no-repeat center center fixed black;
 }
 
 div #menu_screen {
@@ -68,8 +69,12 @@ div #bar {
     height: 430px;
     margin: auto;
     color: azure;
-    position: relative;
+    position: absolute;
     clip-path: inset(1% 1% 1% 1%);
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
 }
 
 img {
@@ -133,11 +138,18 @@ div .enemy.fighter {
     background-image: url('./assets/sprites/UFO.png');
 }
 
-div #stars{
-     width:3px;
-     height:3px;
+
+div .red {
+    width:2px;
+     height:2px;
      position: absolute;
      background-color: #df0606;
+}
+div .white {
+    width:2px;
+     height:2px;
+     position: absolute;
+     background-color:white;
 }
 
 .bullet {

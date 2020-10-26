@@ -4,7 +4,7 @@ import { _, hotKey } from '../config/data.js'
 import { mothership } from './ship.js'
 import { enemy } from './enemies.js'
 import { SFX } from './sound.js'
-import { gamearea } from './view.js'
+import { GUI } from './view.js'
 import { player } from './player.js'
 
 
@@ -53,7 +53,7 @@ export const bullet = (() => {
         controller: () => {
             for (let idx = 0; idx < bulletsArr.length; idx++) {
                 if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
-                    bulletsArr[idx].left >= gamearea.right - _.borderOffset ||
+                    bulletsArr[idx].left >= GUI.gamearea().right - _.borderOffset ||
                     enemy.collision(bulletsArr[idx].left, _.bulletXsize, bulletsArr[idx].top, _.bulletYsize)) {
                     bullet.remove(idx)
                 } else {

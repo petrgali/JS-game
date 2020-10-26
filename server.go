@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"./server/models"
-	"./server/routehandlers"
+	"./back/models"
+	"./back/routehandlers"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )

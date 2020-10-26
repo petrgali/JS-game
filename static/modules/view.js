@@ -7,9 +7,8 @@ import { enemy } from './enemies.js'
 import { game, gameState } from './game.js'
 import { player } from './player.js'
 import { scoreBoard } from './scoreboard.js'
-export { gamearea, GUI }
+export { GUI }
 
-let gamearea = document.getElementById('gamefield').getBoundingClientRect()
 const GUI = (() => {
     let footerInterval
     let splash
@@ -24,6 +23,7 @@ const GUI = (() => {
     let percent = 0
     let timeElapsed = 0
     return {
+        gamearea: () => document.getElementById('gamefield').getBoundingClientRect(),
         finalScore: () => enemy.score() + lifes * _.multiplier,
         init: () => {
             document.getElementById('gamefield').innerHTML += `<div id='menu_screen'></div>`

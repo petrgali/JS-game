@@ -1,9 +1,9 @@
 import { sprites, effects, path } from '../config/resources.js'
-import {  controlState, gameState } from './game.js'
+import { controlState, gameState } from './game.js'
 import { _, hotKey } from '../config/data.js'
 import { enemy } from './enemies.js'
 import { SFX } from './sound.js'
-import { GUI, gamearea } from './view.js'
+import { GUI } from './view.js'
 
 export const mothership = (() => {
     let ship
@@ -26,13 +26,13 @@ export const mothership = (() => {
         positionCorrection: () => {
             if (shipY < _.gameareaBorder + _.borderOffset) {
                 shipY = _.gameareaBorder + _.borderOffset
-            } else if (shipY > gamearea.bottom - gamearea.top - _.shipSkinHeight - _.gameareaBorder - _.borderOffset) {
-                shipY = gamearea.bottom - gamearea.top - _.shipSkinHeight - _.gameareaBorder - _.borderOffset
+            } else if (shipY > GUI.gamearea().bottom - GUI.gamearea().top - _.shipSkinHeight - _.gameareaBorder - _.borderOffset) {
+                shipY = GUI.gamearea().bottom - GUI.gamearea().top - _.shipSkinHeight - _.gameareaBorder - _.borderOffset
             }
             if (shipX < _.borderOffset / 2) {
                 shipX = _.borderOffset / 2
-            } else if (shipX > gamearea.right - gamearea.left - _.shipSkinWidth - _.borderOffset / 2) {
-                shipX = gamearea.right - gamearea.left - _.shipSkinWidth - _.borderOffset / 2
+            } else if (shipX > GUI.gamearea().right - GUI.gamearea().left - _.shipSkinWidth - _.borderOffset / 2) {
+                shipX = GUI.gamearea().right - GUI.gamearea().left - _.shipSkinWidth - _.borderOffset / 2
             }
         },
         positionRefresh: () => {

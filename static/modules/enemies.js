@@ -1,7 +1,7 @@
 import { enemies, tutorial, timeOffset } from '../config/level_set.js'
 import { effects } from '../config/resources.js'
 import { _ } from '../config/data.js'
-import { GUI, gamearea } from './view.js'
+import { GUI } from './view.js'
 import { SFX } from './sound.js'
 import { game } from './game.js'
 import { player } from './player.js'
@@ -26,7 +26,7 @@ export const enemy = (() => {
         },
         deploy: () => {
             enemiesArr = JSON.parse(JSON.stringify(enemies))
-            normalized = gamearea.right - gamearea.left
+            normalized = GUI.gamearea().right - GUI.gamearea().left
         },
         initTutorial: () => {
             removed = 0
@@ -69,14 +69,14 @@ export const enemy = (() => {
         collision: (axisX, offsetX, axisY, offsetY) => {
 
             for (let id = 0; id < Dom.length; id++) {
-                if (axisY >= Dom[id].getBoundingClientRect().top - gamearea.top - offsetY &&
-                    axisY <= Dom[id].getBoundingClientRect().top - gamearea.top + enemiesArr[id].type.height &&
+                if (axisY >= Dom[id].getBoundingClientRect().top - GUI.gamearea().top - offsetY &&
+                    axisY <= Dom[id].getBoundingClientRect().top - GUI.gamearea().top + enemiesArr[id].type.height &&
                     axisX >= enemiesArr[id].leftOffset + normalized - offsetX &&
                     axisX <= enemiesArr[id].leftOffset + normalized + enemiesArr[id].type.length / 3) {
                     score += enemiesArr[id].type.points
                     if (enemiesArr[id].type.destructible) {
                         GUI.explodeEnemy(enemiesArr[id].leftOffset + normalized,
-                            Dom[id].getBoundingClientRect().top)
+                            Dom[id].getBoundingClientRect().top - GUI.gamearea().top + _.gameareaBorder)
                         SFX.play(effects.explode)
                         enemy.remove(id)
                         player.addPoint()
@@ -97,17 +97,18 @@ export const enemy = (() => {
             for (let id = 0; id < Dom.length; id++) {
                 Dom[id].style.left = enemiesArr[id].leftOffset + normalized - enemiesArr[id].type.speed + 'px'
                 if (enemiesArr[id].type.tricky) {
-                    Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top - gamearea.top, id) + 'px'
+                    Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top
+                        - GUI.gamearea().top, id) + 'px'
                 }
             }
         },
         controller: () => {
             for (let id in enemiesArr) {
                 enemiesArr[id].leftOffset -= enemiesArr[id].type.speed
-                position = enemiesArr[id].leftOffset + gamearea.right
-                if (position + enemiesArr[id].type.length > gamearea.right - enemiesArr[id].type.speed &&
+                position = enemiesArr[id].leftOffset + GUI.gamearea().right
+                if (position + enemiesArr[id].type.length > GUI.gamearea().right - enemiesArr[id].type.speed &&
                     position + enemiesArr[id].type.length - enemiesArr[id].type.speed <=
-                    gamearea.right - enemiesArr[id].type.speed) {
+                    GUI.gamearea().right - enemiesArr[id].type.speed) {
                     switch (enemiesArr[id].type.text) {
                         case true: {
                             GUI.showMenu(enemiesArr[id].type.message)
@@ -116,8 +117,8 @@ export const enemy = (() => {
                             enemy.spawn(position, enemiesArr[id].topOffset, enemiesArr[id].type.class)
                         }
                     }
-                } else if (position >= gamearea.left + _.gameareaBorder &&
-                    position - enemiesArr[id].type.speed < gamearea.left + _.gameareaBorder) {
+                } else if (position >= GUI.gamearea().left + _.gameareaBorder &&
+                    position - enemiesArr[id].type.speed < GUI.gamearea().left + _.gameareaBorder) {
                     enemy.remove(id)
                 }
             }
