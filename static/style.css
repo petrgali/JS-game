@@ -139,17 +139,19 @@ div .enemy.fighter {
 }
 
 
-div .red {
+#stars .red {
     width:2px;
      height:2px;
      position: absolute;
-     background-color: #df0606;
+     background-color: red; 
+     z-index: -200;
 }
-div .white {
+#stars .white {
     width:2px;
      height:2px;
      position: absolute;
      background-color:white;
+     z-index: -200;
 }
 
 .bullet {

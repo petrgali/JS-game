@@ -29,9 +29,10 @@ const game = (() => {
     return {
         play: () => {
             if (!gameState.play || (gameState.play && gameState.reset)) {
-                gameState['play'] = true
+                // if (!gameState.reset && gameState.play) player.stopwatchOn()
                 player.new()
                 player.stopwatchOn()
+                gameState['play'] = true
                 GUI.hideMenu()
                 mothership.init()
                 bullet.init()
@@ -39,7 +40,6 @@ const game = (() => {
                     ? enemy.init()
                     : enemy.initTutorial()
                 mothership.spawn()
-
                 if (!gameState.reset) game.initGameCore()
 
                 if (gameState.gameover) {

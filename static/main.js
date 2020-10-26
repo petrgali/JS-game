@@ -4,6 +4,7 @@ import { path, resources } from './config/resources.js'
 import { message, _, hotKey } from './config/data.js'
 import { SFX } from './modules/sound.js'
 import { GUI } from './modules/view.js'
+import { stars } from './modules/stars.js'
 
 
 const preloadImage = (src) =>
@@ -17,6 +18,7 @@ const preloadImage = (src) =>
 export const gameController = async () => {
     GUI.init()
     SFX.init()
+    stars.setStars()
     GUI.showMenu(message.loading)
     await Promise.all(resources.map(filename => preloadImage(path.concat(filename))))
     GUI.showMenu(message.start)

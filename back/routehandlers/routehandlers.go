@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"html/template"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"../models"
@@ -23,11 +24,16 @@ func (h *Handlers) GetData(w http.ResponseWriter, r *http.Request) {
 
 /*SetData - API data setter*/
 func (h *Handlers) SetData(w http.ResponseWriter, r *http.Request) {
-	reqBody, _ := ioutil.ReadAll(r.Body)
+	reqBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
 	models.CreatePlayer(reqBody)
 }
 
 /*Index - default handler*/
 func (h *Handlers) Index(w http.ResponseWriter, r *http.Request) {
-	h.Tmpl.Execute(w, nil)
+	if err := h.Tmpl.Execute(w, nil); err != nil {
+		log.Fatal(err)
+	}
 }

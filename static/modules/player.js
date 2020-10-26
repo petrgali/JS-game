@@ -64,7 +64,7 @@ const player = (() => {
         readJSONstat: async () => {
             return await (await fetch(_.apiURL))
                 .json()
-                .then(data => data.reduce((arr, obj) => {
+                .then((data) => data.reduce((arr, obj) => {
                     let sec
                     arr.push(obj.rank, obj.name, obj.score, obj.shotsFired, obj.accuracy)
                     if (obj.name === player.name()) stat.rank = obj.rank
