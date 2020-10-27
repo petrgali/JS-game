@@ -29,9 +29,10 @@ const game = (() => {
     return {
         play: () => {
             if (!gameState.play || (gameState.play && gameState.reset)) {
-                // if (!gameState.reset && gameState.play) player.stopwatchOn()
-                player.new()
-                player.stopwatchOn()
+                if (!gameState.reset && !gameState.play || gameState.gameover) {
+                    player.new()
+                    player.stopwatchOn()
+                }
                 gameState['play'] = true
                 GUI.hideMenu()
                 mothership.init()

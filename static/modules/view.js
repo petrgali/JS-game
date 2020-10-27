@@ -22,10 +22,15 @@ const GUI = (() => {
     let decal = document.getElementsByClassName('decal')
     let percent = 0
     let timeElapsed = 0
+    let gamearea
     return {
-        gamearea: () => document.getElementById('gamefield').getBoundingClientRect(),
+        gamearea: () => gamearea,
+        setGamearea: () => {
+            gamearea = document.getElementById('gamefield').getBoundingClientRect()
+        },
         finalScore: () => enemy.score() + lifes * _.multiplier,
         init: () => {
+            gamearea = document.getElementById('gamefield').getBoundingClientRect()
             document.getElementById('gamefield').innerHTML += `<div id='menu_screen'></div>`
             document.getElementById('gamefield').innerHTML += `<div id='splash'></div>`
             document.getElementById('info').innerHTML += `<div id='score'></div>`
@@ -172,3 +177,6 @@ const GUI = (() => {
         }
     }
 })()
+
+
+window.onresize = () => GUI.setGamearea()
