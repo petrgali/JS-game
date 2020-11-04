@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"../models"
+	"make-your-game-back/models"
 )
 
 /*Handlers - basic handler stuct*/

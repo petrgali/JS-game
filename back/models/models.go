@@ -2,7 +2,6 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 )
@@ -25,7 +24,7 @@ var Players []Player
 func CreatePlayer(reqBody []byte) {
 	var player Player
 	if err := json.Unmarshal(reqBody, &player); err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	if player.Seconds > 0 {
 		Players = append(Players, player)
@@ -51,10 +50,10 @@ func sortPlayers() {
 	}
 }
 func ReadHistory() {
-	body, err := ioutil.ReadFile("stat.json")
+	body, err := ioutil.ReadFile("./storage/stat.json")
 	if err == nil {
 		if err = json.Unmarshal(body, &Players); err != nil {
-			fmt.Println(err)
+			log.Fatal(err)
 		}
 	}
 }
@@ -63,7 +62,7 @@ func saveResults() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if err = ioutil.WriteFile("stat.json", stat, 0644); err != nil {
+	if err = ioutil.WriteFile("./storage/stat.json", stat, 0644); err != nil {
 		log.Fatal(err)
 	}
 }
