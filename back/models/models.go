@@ -3,7 +3,6 @@ package models
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 )
 
 /*Player - api json container*/
@@ -21,17 +20,27 @@ type Player struct {
 /*Players - consist of player api data*/
 var Players []Player
 
-func CreatePlayer(reqBody []byte) {
+func CreatePlayer(reqBody []byte) (string, bool) {
 	var player Player
 	if err := json.Unmarshal(reqBody, &player); err != nil {
-		log.Fatal(err)
+		return err.Error(), false
 	}
-	if player.Seconds > 0 {
+	if validData(player) {
 		Players = append(Players, player)
 		sortPlayers()
 		saveResults()
+	} else {
+		return "invalid data", false
 	}
+	return "", true
 }
+func validData(player Player) bool {
+	if player.Seconds > 0 && player.Minutes >= 0 && len(player.Name) <= 8 {
+		return true
+	}
+	return false
+}
+
 func sortPlayers() {
 	swap := true
 	for swap {
@@ -49,20 +58,22 @@ func sortPlayers() {
 		Players[idx].Rank = idx + 1
 	}
 }
-func ReadHistory() {
+func ReadHistory() (string, bool) {
 	body, err := ioutil.ReadFile("./storage/stat.json")
 	if err == nil {
 		if err = json.Unmarshal(body, &Players); err != nil {
-			log.Fatal(err)
+			return err.Error(), false
 		}
 	}
+	return "", true
 }
-func saveResults() {
+func saveResults() (string, bool) {
 	stat, err := json.MarshalIndent(Players, "", "")
 	if err != nil {
-		log.Fatal(err)
+		return err.Error(), false
 	}
 	if err = ioutil.WriteFile("./storage/stat.json", stat, 0644); err != nil {
-		log.Fatal(err)
+		return err.Error(), false
 	}
+	return "", true
 }

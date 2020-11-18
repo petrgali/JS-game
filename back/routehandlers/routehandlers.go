@@ -2,6 +2,7 @@ package routehandlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -26,9 +27,15 @@ func (h *Handlers) GetData(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) SetData(w http.ResponseWriter, r *http.Request) {
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Fatal(err)
+		w.WriteHeader(400)
+		fmt.Println(err.Error())
+		return
 	}
-	models.CreatePlayer(reqBody)
+	if err, ok := models.CreatePlayer(reqBody); !ok {
+		w.WriteHeader(400)
+		fmt.Println(err)
+		return
+	}
 }
 
 /*Index - default handler*/
