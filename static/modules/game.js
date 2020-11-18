@@ -35,6 +35,7 @@ const game = (() => {
                 }
                 gameState['play'] = true
                 GUI.hideMenu()
+                GUI.setGamearea()
                 mothership.init()
                 bullet.init()
                 gameState.tutorialOff
