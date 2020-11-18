@@ -1,152 +1,42 @@
 [
 {
 "rank": 1,
-"name": "sefsdagr",
-"destroyed": 205,
-"shotsFired": 613,
+"name": "aa",
+"destroyed": 143,
+"shotsFired": 497,
 "minutes": 2,
-"seconds": 25,
-"accuracy": 34,
-"score": 22530
+"seconds": 4,
+"accuracy": 29,
+"score": 11590
 },
 {
 "rank": 2,
-"name": "dfgdfgdf",
-"destroyed": 126,
-"shotsFired": 384,
+"name": "qq",
+"destroyed": 68,
+"shotsFired": 430,
 "minutes": 1,
-"seconds": 37,
-"accuracy": 33,
-"score": 9840
+"seconds": 54,
+"accuracy": 16,
+"score": 5200
 },
 {
 "rank": 3,
-"name": "ff",
-"destroyed": 122,
-"shotsFired": 416,
+"name": "wwwwwwww",
+"destroyed": 30,
+"shotsFired": 378,
 "minutes": 1,
-"seconds": 35,
-"accuracy": 30,
-"score": 9740
+"seconds": 58,
+"accuracy": 8,
+"score": 2720
 },
 {
 "rank": 4,
-"name": "sdfs",
-"destroyed": 79,
-"shotsFired": 261,
-"minutes": 1,
-"seconds": 16,
-"accuracy": 31,
-"score": 6120
-},
-{
-"rank": 5,
-"name": "JohnDoe",
-"destroyed": 79,
-"shotsFired": 275,
-"minutes": 1,
-"seconds": 32,
-"accuracy": 29,
-"score": 5661
-},
-{
-"rank": 6,
-"name": "gg",
-"destroyed": 74,
-"shotsFired": 245,
-"minutes": 1,
-"seconds": 8,
-"accuracy": 30,
-"score": 5560
-},
-{
-"rank": 7,
-"name": "sdfds",
-"destroyed": 56,
-"shotsFired": 310,
-"minutes": 1,
-"seconds": 13,
-"accuracy": 19,
-"score": 4120
-},
-{
-"rank": 8,
-"name": "audit",
+"name": "qq",
 "destroyed": 0,
-"shotsFired": 5,
+"shotsFired": 99,
 "minutes": 0,
-"seconds": 30,
+"seconds": 38,
 "accuracy": 0,
-"score": 0
-},
-{
-"rank": 9,
-"name": "test1",
-"destroyed": 0,
-"shotsFired": 0,
-"minutes": 0,
-"seconds": 25,
-"accuracy": 0,
-"score": 0
-},
-{
-"rank": 10,
-"name": "test2",
-"destroyed": 0,
-"shotsFired": 0,
-"minutes": 0,
-"seconds": 23,
-"accuracy": 0,
-"score": 0
-},
-{
-"rank": 11,
-"name": "test3",
-"destroyed": 0,
-"shotsFired": 0,
-"minutes": 0,
-"seconds": 24,
-"accuracy": 0,
-"score": 0
-},
-{
-"rank": 12,
-"name": "test4",
-"destroyed": 0,
-"shotsFired": 0,
-"minutes": 0,
-"seconds": 25,
-"accuracy": 0,
-"score": 0
-},
-{
-"rank": 13,
-"name": "fsdf",
-"destroyed": 0,
-"shotsFired": 0,
-"minutes": 0,
-"seconds": 24,
-"accuracy": 0,
-"score": 0
-},
-{
-"rank": 14,
-"name": "kemalele",
-"destroyed": 0,
-"shotsFired": 0,
-"minutes": 3,
-"seconds": 55,
-"accuracy": 0,
-"score": 0
-},
-{
-"rank": 15,
-"name": "ds",
-"destroyed": 3,
-"shotsFired": 113,
-"minutes": 0,
-"seconds": 43,
-"accuracy": 3,
 "score": 0
 }
 ]

@@ -134,8 +134,8 @@ const meta = {
     message: ''
   }
 };
-const tutorial = 29//188//304//116
-const timeOffset = 3500//9000//11700//6050
+const tutorial = 116//29//188//304//
+const timeOffset = 6050//3500//9000//11700//
 const enemies = [
   ///intro///
   { topOffset: 50, leftOffset: 150, type: meta.tutorial },

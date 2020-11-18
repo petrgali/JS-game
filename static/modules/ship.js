@@ -34,7 +34,8 @@ export const mothership = (() => {
             }
         },
         positionRefresh: () => {
-            ship.style.transform = `translate(${shipX}px, ${shipY - _.shipSkinHeight / 2 - _.gameareaBorder}px)`
+            ship.style.transform = `translate(${shipX}px, 
+                ${shipY - _.shipSkinHeight / 2 - _.gameareaBorder}px)`
         },
         sprite: () => {
             let num = parseInt(ship.src.slice(-5, -4))

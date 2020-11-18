@@ -16,7 +16,7 @@ export const bullet = (() => {
         init: () => bulletsArr.length = 0,
         spawn: (axisX, axisY) => {
             document.getElementById('burstfire').innerHTML += `<div class='bullet' 
-                style='top:${axisY}px; left:${axisX}px'></div>`
+            style='transform: translate(${axisX}px, ${axisY}px)'></div>`
         },
         remove: (id) => {
             bulletsArr.splice(id, 1)
@@ -33,7 +33,8 @@ export const bullet = (() => {
         positionRefresh: (id) => {
             bulletsArr[id].left += _.firingRate
             Dom[id].style.opacity = 1 + (bulletsArr[id].compare - bulletsArr[id].left) / _.fadingRate
-            Dom[id].style.left = bulletsArr[id].left + 'px'
+            Dom[id].style.transform = `translate(${bulletsArr[id].left}px,
+                ${bulletsArr[id].top - _.shipSkinHeight / 2 - _.gameareaBorder}px )`
         },
         generator: () => {
             if (controlState[hotKey.shipFire] && bulletsArr.length <= _.burstSize && !gameState.wasted && !gameState.pause) {

@@ -26,6 +26,7 @@ const render = () => {
 
 const game = (() => {
     let inputWaiter
+    gameState.tutorialOff = true
     return {
         play: () => {
             if (!gameState.play || (gameState.play && gameState.reset)) {
