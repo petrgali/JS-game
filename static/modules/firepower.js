@@ -38,8 +38,9 @@ export const bullet = (() => {
         generator: () => {
             if (controlState[hotKey.shipFire] && bulletsArr.length <= _.burstSize && !gameState.wasted && !gameState.pause) {
                 bulletsArr.push({
-                    left: mothership.x() + _.bulletXoffset, compare: mothership.x() + _.bulletXoffset,
-                    top: mothership.y() + _.bulletYoffet
+                    left: mothership.x() + _.bulletXoffset,
+                    top: mothership.y() + _.bulletYoffet,
+                    compare: mothership.x() + _.bulletXoffset,
                 })
                 player.addShot()
                 SFX.play(effects.shot)

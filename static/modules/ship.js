@@ -7,15 +7,12 @@ import { GUI } from './view.js'
 
 export const mothership = (() => {
     let ship, shipX, shipY
-    let prevX, prevY
     return {
         x: () => shipX,
         y: () => shipY,
         init: () => {
             shipX = _.shipXposition
             shipY = _.shipYposition
-            prevX = 0
-            prevY = 0
         },
         spawn: () => {
             document.getElementById('mothership').innerHTML += `<img src=${path}${sprites[0]} id='ship'>`
@@ -37,13 +34,7 @@ export const mothership = (() => {
             }
         },
         positionRefresh: () => {
-            // ship.style.top = shipY + 'px'
-            // ship.style.left = shipX + 'px'
-            // console.log(shipX, shipY)
-            // // ship.add
-            ship.style.transform = `translate(${shipX - prevX}px, ${shipY - prevY}px)`
-            prevX = shipX
-            prevY = shipY
+            ship.style.transform = `translate(${shipX}px, ${shipY - _.shipSkinHeight / 2 - _.gameareaBorder}px)`
         },
         sprite: () => {
             let num = parseInt(ship.src.slice(-5, -4))
@@ -55,7 +46,6 @@ export const mothership = (() => {
         }, 100),
 
         controller: () => {
-
             if (controlState[hotKey.shipDown]) shipY += _.shipSpeedY
             if (controlState[hotKey.shipUP]) shipY -= _.shipSpeedY
             if (controlState[hotKey.shipLeft]) shipX -= _.shipSpeedX
