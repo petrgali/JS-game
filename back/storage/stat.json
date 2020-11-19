@@ -1,42 +1,22 @@
 [
 {
 "rank": 1,
-"name": "aa",
-"destroyed": 143,
-"shotsFired": 497,
-"minutes": 2,
-"seconds": 4,
-"accuracy": 29,
-"score": 11590
+"name": "ff",
+"destroyed": 118,
+"shotsFired": 380,
+"minutes": 1,
+"seconds": 35,
+"accuracy": 32,
+"score": 9340
 },
 {
 "rank": 2,
-"name": "qq",
-"destroyed": 68,
-"shotsFired": 430,
-"minutes": 1,
-"seconds": 54,
-"accuracy": 16,
-"score": 5200
-},
-{
-"rank": 3,
-"name": "wwwwwwww",
-"destroyed": 30,
-"shotsFired": 378,
-"minutes": 1,
-"seconds": 58,
-"accuracy": 8,
-"score": 2720
-},
-{
-"rank": 4,
-"name": "qq",
-"destroyed": 0,
-"shotsFired": 99,
+"name": "test",
+"destroyed": 1,
+"shotsFired": 41,
 "minutes": 0,
-"seconds": 38,
-"accuracy": 0,
+"seconds": 36,
+"accuracy": 3,
 "score": 0
 }
 ]

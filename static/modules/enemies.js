@@ -45,7 +45,8 @@ export const enemy = (() => {
         },
         spawn: (axisX, axisY, objType) => {
             document.getElementById('enemies').innerHTML += `<div class='enemy'
-            style='transfrom: translate(${axisX}px,${axisY - _.gameareaBorder}px);'></div>`
+            style='top:${axisY}px; left:${axisX}px;'></div>`
+
             Dom[Dom.length - 1].classList.add(objType)
         },
         remove: (id) => {
@@ -95,17 +96,14 @@ export const enemy = (() => {
         },
         positionRefresh: () => {
             for (let id = 0; id < Dom.length; id++) {
+                Dom[id].style.left = enemiesArr[id].leftOffset + normalized - enemiesArr[id].type.speed + 'px'
                 if (enemiesArr[id].type.tricky) {
-                    // Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top
-                    //     - GUI.gamearea().top, id) + 'px'
-                    let y = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top - GUI.gamearea().top - _.gameareaBorder, id)
-                    Dom[id].style.transform = `translate(${enemiesArr[id].leftOffset + normalized}px,${y}px)`
-                } else {
-                    Dom[id].style.transform = `translate(${enemiesArr[id].leftOffset + normalized}px,
-                        ${enemiesArr[id].topOffset - _.gameareaBorder}px)`
+                    Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top
+                        - GUI.gamearea().top, id) + 'px'
                 }
             }
         },
+
         controller: () => {
             for (let id in enemiesArr) {
                 enemiesArr[id].leftOffset -= enemiesArr[id].type.speed
