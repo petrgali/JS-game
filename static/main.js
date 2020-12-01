@@ -5,6 +5,7 @@ import { message, _, hotKey } from './config/data.js'
 import { SFX } from './modules/sound.js'
 import { GUI } from './modules/view.js'
 import { stars } from './modules/stars.js'
+import { levelMap } from './config/level_set.js'
 
 
 const preloadImage = (src) =>
@@ -26,6 +27,7 @@ export const gameController = async () => {
         switch (event.code) {
             case hotKey.start:
                 game.play()
+                buildMap()
                 break
             case hotKey.restart:
                 game.lostWarning()
@@ -40,5 +42,16 @@ export const gameController = async () => {
                 GUI.stepBackward()
         }
     })
+}
+
+
+
+const buildMap = () => {
+    let num = 0
+    while (num < levelMap.cols * levelMap.rows) {
+        console.log(levelMap.atlas[num])
+        num++
+    }
+
 }
 gameController()

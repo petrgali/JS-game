@@ -1,6 +1,6 @@
 import { message } from './data.js'
 
-export { tutorial, timeOffset, enemies }
+export { tutorial, timeOffset, enemies, levelMap }
 
 const meta = {
   fighter: {
@@ -133,7 +133,7 @@ const meta = {
     length: 1,
     message: ''
   }
-};
+}
 const tutorial = 29//188//304//116
 const timeOffset = 3500//9000//11700//6050
 const enemies = [
@@ -505,4 +505,20 @@ const enemies = [
   { topOffset: 210, leftOffset: 23510, Ydev: 130, dev: -3.0, type: meta.trickyCruiser },
   { topOffset: 210, leftOffset: 23520, Ydev: 150, dev: 3.2, type: meta.trickyCruiser },
   { topOffset: 210, leftOffset: 23530, Ydev: 150, dev: -3.2, type: meta.trickyCruiser },
-];
+]
+
+const levelMap = {
+  cols: 4,
+  rows: 4,
+  tile: {
+    size: 30
+  },
+  atlas: [
+    0, 0, 1, 1,
+    1, 1, 1, 1,
+    0, 0, 0, 0,
+    0, 0, 0, 0
+  ],
+  img: '../assets/sprites/cruiser.png',
+  getTile: (col, row) => { return atlas[(row - 1) * levelMap.cols + col] }
+}
