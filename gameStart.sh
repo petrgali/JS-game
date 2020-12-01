@@ -1,2 +1,2 @@
 #!/bin/bash
-cd back && ./make-your-game-back
+cd back && go build && ./make-your-game-back
