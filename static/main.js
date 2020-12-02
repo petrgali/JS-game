@@ -47,11 +47,23 @@ export const gameController = async () => {
 
 
 const buildMap = () => {
-    let num = 0
-    while (num < levelMap.cols * levelMap.rows) {
-        console.log(levelMap.atlas[num])
-        num++
+    let terrain = document.querySelector('#terrain')
+    for (let col = 1; col <= levelMap.cols; col++) {
+        for (let row = 1; row <= levelMap.rows; row++) {
+            if (levelMap.getTile(col, row) === 1) {
+                terrain.innerHTML += `<img src='${levelMap.img}' id='obj'
+                style='transform: translate(${(col) * levelMap.tile.size}px,${(row - 1) * levelMap.tile.size}px); position: absolute;'>`
+            }
+        }
     }
+    let map = document.querySelectorAll('#obj')
+    setInterval(() => {
+        Object.values(map).forEach((obj) => {
+            // console.log(obj.getBoundingClientRect().left)
+            obj.style.transform = `translate(${obj.getBoundingClientRect().left - 540 - 1}px)`
+        })
+    }, 2000)
+
 
 }
 gameController()

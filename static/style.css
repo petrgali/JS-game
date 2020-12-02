@@ -21,8 +21,9 @@ div #info {
     margin-left: 2em;
     margin-top: 0.5em;
 }
+
 div #header {
-    font-size: 13px; 
+    font-size: 13px;
     margin-bottom: 2%;
 }
 
@@ -71,10 +72,10 @@ div #bar {
     color: azure;
     position: absolute;
     clip-path: inset(1% 1% 1% 1%);
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 img {
@@ -91,20 +92,22 @@ div .decal {
     height: 32px;
     animation: splash 0.6s infinite;
 }
+
 .hidden {
-    display:none;
+    display: none;
 }
 
 div .footer {
     position: absolute;
     bottom: 22%;
-    width:50%;
+    width: 50%;
     margin-left: 51%;
     text-align: center;
     font-size: 75%;
 }
+
 .scoretable {
-    width: 98%; 
+    width: 98%;
     table-layout: fixed;
     margin-left: auto;
     margin-right: auto;
@@ -138,20 +141,20 @@ div .enemy.fighter {
     background-image: url('./assets/sprites/UFO.png');
 }
 
-
 #stars .red {
-    width:2px;
-     height:2px;
-     position: absolute;
-     background-color: red; 
-     z-index: -200;
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    background-color: red;
+    z-index: -200;
 }
+
 #stars .white {
-    width:2px;
-     height:2px;
-     position: absolute;
-     background-color:white;
-     z-index: -200;
+    width: 2px;
+    height: 2px;
+    position: absolute;
+    background-color: white;
+    z-index: -200;
 }
 
 .bullet {

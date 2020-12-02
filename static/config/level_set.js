@@ -519,6 +519,6 @@ const levelMap = {
     0, 0, 0, 0,
     0, 0, 0, 0
   ],
-  img: '../assets/sprites/cruiser.png',
-  getTile: (col, row) => { return atlas[(row - 1) * levelMap.cols + col] }
+  img: './static/assets/sprites/cruiser.png',
+  getTile: (col, row) => { return levelMap.atlas[(row - 1) * levelMap.cols + col - 1] },
 }
