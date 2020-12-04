@@ -78,6 +78,10 @@ div #bar {
     right: 0;
 }
 
+.map {
+    position: absolute;
+}
+
 img {
     overflow: scroll;
 }

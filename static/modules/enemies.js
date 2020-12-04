@@ -58,17 +58,12 @@ export const enemy = (() => {
             }
         },
         removeAll: () => {
-            while (Dom.length > 0) {
-                Dom[Dom.length - 1].remove()
-            }
-            while (enemiesArr > 0) {
-                enemiesArr.splice(enemiesArr.length - 1, 1)
-            }
+            while (Dom.length > 0) Dom[Dom.length - 1].remove()
+            while (enemiesArr > 0) enemiesArr.splice(enemiesArr.length - 1, 1)
         },
         total: () => { return enemiesArr.length },
 
         collision: (axisX, offsetX, axisY, offsetY) => {
-
             for (let id = 0; id < Dom.length; id++) {
                 if (axisY >= Dom[id].getBoundingClientRect().top - GUI.gamearea().top - offsetY &&
                     axisY <= Dom[id].getBoundingClientRect().top - GUI.gamearea().top + enemiesArr[id].type.height &&

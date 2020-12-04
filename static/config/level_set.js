@@ -508,16 +508,20 @@ const enemies = [
 ]
 
 const levelMap = {
-  cols: 4,
-  rows: 4,
+  cols: 8,
+  rows: 8,
   tile: {
     size: 30
   },
   atlas: [
-    0, 0, 1, 1,
-    1, 1, 1, 1,
-    0, 0, 0, 0,
-    0, 0, 0, 0
+    0, 0, 1, 1, 0, 0, 0, 0,
+    1, 1, 1, 1, 0, 0, 1, 1,
+    0, 0, 0, 0, 0, 0, 1, 1,
+    0, 0, 0, 0, 1, 1, 1, 1,
+    0, 0, 1, 1, 0, 0, 0, 0,
+    1, 1, 1, 1, 0, 0, 1, 1,
+    0, 0, 0, 0, 0, 0, 1, 1,
+    0, 0, 0, 0, 1, 1, 1, 1,
   ],
   img: './static/assets/sprites/cruiser.png',
   getTile: (col, row) => { return levelMap.atlas[(row - 1) * levelMap.cols + col - 1] },

@@ -7,6 +7,7 @@ import { enemy } from './enemies.js'
 import { game, gameState } from './game.js'
 import { player } from './player.js'
 import { scoreBoard } from './scoreboard.js'
+import { level } from './terrain.js'
 export { GUI }
 
 const GUI = (() => {
@@ -160,6 +161,7 @@ const GUI = (() => {
         clearField: () => {
             bullet.removeAll()
             enemy.removeAll()
+            level.removeAll()
             mothership.remove()
         },
         reset: () => {

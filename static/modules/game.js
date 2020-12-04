@@ -5,6 +5,7 @@ import { GUI } from './view.js'
 import { message } from '../config/data.js'
 import { player } from './player.js'
 import { scoreBoard } from './scoreboard.js'
+import { level } from './terrain.js'
 export { gameState, controlState, game }
 
 let gameState = {}
@@ -14,6 +15,8 @@ const render = () => {
     if (!gameState.wasted) {
         mothership.controller()
         enemy.controller()
+        level.controller()
+
         if (!gameState.levelend) {
             GUI.controller()
         }
@@ -38,10 +41,13 @@ const game = (() => {
                 GUI.setGamearea()
                 mothership.init()
                 bullet.init()
+                level.init()
                 gameState.tutorialOff
                     ? enemy.init()
                     : enemy.initTutorial()
+                level.buildMap()
                 mothership.spawn()
+
                 if (!gameState.reset) game.initGameCore()
 
                 if (gameState.gameover) {
@@ -164,3 +170,6 @@ const game = (() => {
         }
     }
 })()
+
+
+
