@@ -42,10 +42,10 @@ const game = (() => {
                 mothership.init()
                 bullet.init()
                 level.init()
+                level.initMap()
                 gameState.tutorialOff
                     ? enemy.init()
                     : enemy.initTutorial()
-                level.buildMap()
                 mothership.spawn()
 
                 if (!gameState.reset) game.initGameCore()

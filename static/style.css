@@ -80,6 +80,7 @@ div #bar {
 
 .map {
     position: absolute;
+    z-index: -4000;
 }
 
 img {

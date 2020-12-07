@@ -56,6 +56,7 @@ const _ = {
   speedX: 2.5, // enemy speed
   firingRate: 10, // burst fire speed
   firingRange: 450, // max fire range
+  borderOffset: 25, // dead zone for ship
   burstSize: 5, // max-1 bullets count in burst firemode
   bulletXsize: 6, // CSS setting
   bulletYsize: 2, // CSS setting
@@ -65,7 +66,6 @@ const _ = {
   gameareaBorder: 4, // CSS setting - used for calculations
   gameareaWidth: 600,
   gameareaHeight: 430,
-  borderOffset: 25, // dead zone for ship
   try: 3, // number of lives
   multiplier: 1000, // final score multiplier
   splashSize: 32, // splash size - CSS value

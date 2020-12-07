@@ -53,15 +53,15 @@ export const bullet = (() => {
         }, 120),
 
         controller: () => {
-            for (let idx = 0; idx < bulletsArr.length; idx++) {
-                if ((bulletsArr[idx].left - bulletsArr[idx].compare) >= _.firingRange ||
-                    bulletsArr[idx].left >= GUI.gamearea().right - _.borderOffset ||
-                    enemy.collision(bulletsArr[idx].left, _.bulletXsize, bulletsArr[idx].top, _.bulletYsize)) {
+            bulletsArr.forEach((elem, idx) => {
+                if (elem.left - elem.compare >= _.firingRange ||
+                    elem.left >= GUI.gamearea().right - _.borderOffset ||
+                    enemy.collision(elem.left, _.bulletXsize, elem.top, _.bulletYsize)) {
                     bullet.remove(idx)
                 } else {
                     bullet.positionRefresh(idx)
                 }
-            }
+            })
         }
     }
 })()
