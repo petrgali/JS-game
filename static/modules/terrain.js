@@ -19,6 +19,10 @@ const level = (() => {
             while (mapObj.length > 0) mapObj[mapObj.length - 1].remove()
             while (mapArr.length > 0) mapArr.splice(mapArr.length - 1, 1)
         },
+        tileRemove: (idx) => {
+            mapObj[idx].remove()
+            mapArr.splice(idx, 1)
+        },
         initMap: () => {
             for (let col = 1; col <= levelMap.cols; col++) {
                 for (let row = 1; row <= levelMap.rows; row++) {
@@ -28,34 +32,35 @@ const level = (() => {
                             left: (col) * levelMap.tile.size + GUI.gamearea().right - GUI.gamearea().left,
                             type: levelMap.getTile(col, row)
                         })
-                        terrain.innerHTML += `<img src='${levelMap.img}' class='map hidden'
-                        style='transform: translate(0px,0px);'>`
                     }
                 }
             }
         },
-        tileGen: (obj, idx) => {
-            if (mapArr[idx].left > GUI.gamearea().right - GUI.gamearea().left - _.borderOffset
-                && mapArr[idx].left - 1.5 <= GUI.gamearea().right - GUI.gamearea().left - _.borderOffset)
-            //     || mapArr[idx].left > GUI.gamearea().left + _.borderOffset
-            //     && mapArr[idx].left - 1.5 < GUI.gamearea().left + _.borderOffset) 
-            {
-                obj.classList.toggle('hidden')
-            }
+        tileSpawn: () => {
+            terrain.innerHTML += `<img src='${levelMap.img}' class='map'
+            style='transform: translate(0px,0px);'>`
         },
         positionCorrection: (idx) => {
             ////custom speed setting - should be replaced
-            mapArr[idx].left -= 1.5
+            mapArr[idx].left -= 1
         },
-        positionRefresh: (obj, idx) => {
-            obj.style.transform = `translate(${mapArr[idx].left}px, ${mapArr[idx].top}px)`
+        positionRefresh: () => {
+            Object.values(mapObj).forEach((elem, idx) => {
+                elem.style.transform = `translate(${mapArr[idx].left}px, ${mapArr[idx].top}px)`
+            })
         },
         controller: () => {
-            Object.values(mapObj).forEach((obj, idx) => {
-                if (obj.className.includes('hidden')) level.tileGen(obj, idx)
+            for (let idx in mapArr) {
                 level.positionCorrection(idx)
-                level.positionRefresh(obj, idx)
-            })
+                if (mapArr[idx].left > GUI.gamearea().right - GUI.gamearea().left - _.borderOffset
+                    && mapArr[idx].left - 1 <= GUI.gamearea().right - GUI.gamearea().left - _.borderOffset) {
+                    level.tileSpawn()
+                } else if (mapArr[idx].left >= levelMap.tile.size / 2 - _.borderOffset
+                    && mapArr[idx].left - 1 < levelMap.tile.size / 2 - _.borderOffset) {
+                    level.tileRemove(idx)
+                }
+            }
+            level.positionRefresh()
         }
     }
 
