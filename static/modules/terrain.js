@@ -2,6 +2,7 @@
 import { levelMap } from '../config/level_set.js'
 import { _ } from '../config/data.js'
 import { GUI } from './view.js'
+import { tiles, tilesPath } from '../config/resources.js'
 export { level }
 
 
@@ -36,13 +37,12 @@ const level = (() => {
                 }
             }
         },
-        tileSpawn: () => {
-            terrain.innerHTML += `<img src='${levelMap.img}' class='map'
+        tileSpawn: (type) => {
+            terrain.innerHTML += `<img src='${tilesPath.concat(tiles[type - 1])}' class='map'
             style='transform: translate(0px,0px);'>`
         },
         positionCorrection: (idx) => {
-            ////custom speed setting - should be replaced
-            mapArr[idx].left -= 1
+            mapArr[idx].left -= _.terrainSpeed
         },
         positionRefresh: () => {
             Object.values(mapObj).forEach((elem, idx) => {
@@ -52,11 +52,11 @@ const level = (() => {
         controller: () => {
             for (let idx in mapArr) {
                 level.positionCorrection(idx)
-                if (mapArr[idx].left > GUI.gamearea().right - GUI.gamearea().left - _.borderOffset
-                    && mapArr[idx].left - 1 <= GUI.gamearea().right - GUI.gamearea().left - _.borderOffset) {
-                    level.tileSpawn()
-                } else if (mapArr[idx].left >= levelMap.tile.size / 2 - _.borderOffset
-                    && mapArr[idx].left - 1 < levelMap.tile.size / 2 - _.borderOffset) {
+                if (mapArr[idx].left > GUI.gamearea().right - GUI.gamearea().left - _.gameareaBorder * 2
+                    && mapArr[idx].left - _.terrainSpeed <= GUI.gamearea().right - GUI.gamearea().left - _.gameareaBorder * 2) {
+                    level.tileSpawn(mapArr[idx].type)
+                } else if (mapArr[idx].left >= -_.borderOffset
+                    && mapArr[idx].left - _.terrainSpeed < -_.borderOffset) {
                     level.tileRemove(idx)
                 }
             }

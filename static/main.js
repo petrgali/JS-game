@@ -1,6 +1,6 @@
 
 import { game } from './modules/game.js'
-import { path, resources } from './config/resources.js'
+import { path, resources, tilesPath, tiles } from './config/resources.js'
 import { message, _, hotKey } from './config/data.js'
 import { SFX } from './modules/sound.js'
 import { GUI } from './modules/view.js'
@@ -21,6 +21,7 @@ export const gameController = async () => {
     stars.setStars()
     GUI.showMenu(message.loading)
     await Promise.all(resources.map(filename => preloadImage(path.concat(filename))))
+    await Promise.all(tiles.map(tile => preloadImage(tilesPath.concat(tile))))
     GUI.showMenu(message.start)
     document.addEventListener('keydown', (event) => {
         switch (event.code) {

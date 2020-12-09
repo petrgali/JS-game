@@ -44,10 +44,8 @@ export const enemy = (() => {
             enemy.setDistance()
         },
         spawn: (axisX, axisY, objType) => {
-            document.getElementById('enemies').innerHTML += `<div class='enemy'
+            document.getElementById('enemies').innerHTML += `<div class='enemy ${objType}'
             style='top:${axisY}px; left:${axisX}px;'></div>`
-
-            Dom[Dom.length - 1].classList.add(objType)
         },
         remove: (id) => {
             enemiesArr.splice(id, 1)
