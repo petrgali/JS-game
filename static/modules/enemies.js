@@ -87,13 +87,11 @@ export const enemy = (() => {
             }
             return num + enemiesArr[id].dev
         },
-        positionRefresh: () => {
-            for (let id = 0; id < Dom.length; id++) {
-                Dom[id].style.left = enemiesArr[id].leftOffset + normalized - enemiesArr[id].type.speed + 'px'
-                if (enemiesArr[id].type.tricky) {
-                    Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top
-                        - GUI.gamearea().top, id) + 'px'
-                }
+        positionRefresh: (id) => {
+            Dom[id].style.left = enemiesArr[id].leftOffset + normalized - enemiesArr[id].type.speed + 'px'
+            if (enemiesArr[id].type.tricky) {
+                Dom[id].style.top = enemy.verticalDeviation(Dom[id].getBoundingClientRect().top
+                    - GUI.gamearea().top, id) + 'px'
             }
         },
 
@@ -116,8 +114,8 @@ export const enemy = (() => {
                     position - enemiesArr[id].type.speed < GUI.gamearea().left + _.gameareaBorder) {
                     enemy.remove(id)
                 }
+                if (Dom[id] != undefined) enemy.positionRefresh(id)
             }
-            enemy.positionRefresh()
         },
     }
 })()

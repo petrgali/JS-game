@@ -1,7 +1,6 @@
 
 import { levelMap } from '../config/level_set.js'
 import { _ } from '../config/data.js'
-import { GUI } from './view.js'
 import { tiles, tilesPath } from '../config/resources.js'
 export { level }
 
@@ -30,7 +29,7 @@ const level = (() => {
                     if (levelMap.getTile(col, row) != 0) {
                         mapArr.push({
                             top: (row - 1) * levelMap.tile.size,
-                            left: (col) * levelMap.tile.size + GUI.gamearea().right - GUI.gamearea().left,
+                            left: (col) * levelMap.tile.size + _.gameareaWidth,
                             type: levelMap.getTile(col, row)
                         })
                     }
@@ -44,23 +43,21 @@ const level = (() => {
         positionCorrection: (idx) => {
             mapArr[idx].left -= _.terrainSpeed
         },
-        positionRefresh: () => {
-            Object.values(mapObj).forEach((elem, idx) => {
-                elem.style.transform = `translate(${mapArr[idx].left}px, ${mapArr[idx].top}px)`
-            })
+        positionRefresh: (idx) => {
+            mapObj[idx].style.transform = `translate(${mapArr[idx].left}px, ${mapArr[idx].top}px)`
         },
         controller: () => {
             for (let idx in mapArr) {
                 level.positionCorrection(idx)
-                if (mapArr[idx].left > GUI.gamearea().right - GUI.gamearea().left - _.gameareaBorder * 2
-                    && mapArr[idx].left - _.terrainSpeed <= GUI.gamearea().right - GUI.gamearea().left - _.gameareaBorder * 2) {
-                    level.tileSpawn(mapArr[idx].type)
+                if (mapArr[idx].left > _.gameareaWidth - _.gameareaBorder * 2
+                    && mapArr[idx].left - _.terrainSpeed <= _.gameareaWidth - _.gameareaBorder * 2) {
+                    // level.tileSpawn(mapArr[idx].type)
                 } else if (mapArr[idx].left >= -_.borderOffset
                     && mapArr[idx].left - _.terrainSpeed < -_.borderOffset) {
-                    level.tileRemove(idx)
+                    // level.tileRemove(idx)
                 }
+                // if (mapObj[idx] != undefined) level.positionRefresh(idx)
             }
-            level.positionRefresh()
         }
     }
 
