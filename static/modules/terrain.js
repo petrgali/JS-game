@@ -56,7 +56,7 @@ const level = (() => {
                     && mapArr[idx].left - _.terrainSpeed < -_.borderOffset) {
                     level.tileRemove(idx)
                 }
-                // if (mapObj[idx] != undefined) level.positionRefresh(idx)
+                if (mapObj[idx] != undefined) level.positionRefresh(idx)
             }
         }
     }
