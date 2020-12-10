@@ -51,10 +51,10 @@ const level = (() => {
                 level.positionCorrection(idx)
                 if (mapArr[idx].left > _.gameareaWidth - _.gameareaBorder * 2
                     && mapArr[idx].left - _.terrainSpeed <= _.gameareaWidth - _.gameareaBorder * 2) {
-                    // level.tileSpawn(mapArr[idx].type)
+                    level.tileSpawn(mapArr[idx].type)
                 } else if (mapArr[idx].left >= -_.borderOffset
                     && mapArr[idx].left - _.terrainSpeed < -_.borderOffset) {
-                    // level.tileRemove(idx)
+                    level.tileRemove(idx)
                 }
                 // if (mapObj[idx] != undefined) level.positionRefresh(idx)
             }
