@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 div #ship {
     position: absolute;
+    will-change: transform;
 }
 
 body {
@@ -48,6 +49,20 @@ div #header {
     display: inline;
 }
 
+#burstfire {
+    will-change: transform;
+}
+
+#enemies {
+    will-change: auto;
+}
+
+#terrain {
+    position: absolute;
+    will-change: transform;
+    z-index: -4000;
+}
+
 div #progress {
     position: relative;
     margin: auto;
@@ -80,7 +95,6 @@ div #bar {
 
 .map {
     position: absolute;
-    z-index: -4000;
 }
 
 img {
