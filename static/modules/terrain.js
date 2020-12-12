@@ -32,6 +32,8 @@ const level = (() => {
                             left: (col) * levelMap.tile.size + _.gameareaWidth,
                             type: levelMap.getTile(col, row)
                         })
+                        terrain.innerHTML += `<img src='${tilesPath.concat(tiles[levelMap.getTile(col, row) - 1])}' class='map hidden'
+            style='transform: translate(0px,0px);'>`
                     }
                 }
             }
@@ -51,12 +53,14 @@ const level = (() => {
                 level.positionCorrection(idx)
                 if (mapArr[idx].left > _.gameareaWidth - _.gameareaBorder * 2
                     && mapArr[idx].left - _.terrainSpeed <= _.gameareaWidth - _.gameareaBorder * 2) {
-                    level.tileSpawn(mapArr[idx].type)
+                    mapObj[idx].classList.toggle('hidden')
+                    // level.tileSpawn(mapArr[idx].type)
                 } else if (mapArr[idx].left >= -_.borderOffset
                     && mapArr[idx].left - _.terrainSpeed < -_.borderOffset) {
                     level.tileRemove(idx)
                 }
-                if (mapObj[idx] != undefined) level.positionRefresh(idx)
+                // console.log(!mapObj[0].classList.contains('hidden'))
+                if (mapObj[idx] != undefined && !mapObj[0].classList.contains('hidden')) level.positionRefresh(idx)
             }
         }
     }
