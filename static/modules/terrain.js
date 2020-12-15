@@ -48,18 +48,28 @@ const level = (() => {
         positionRefresh: (idx) => {
             mapObj[idx].style.transform = `translate(${mapArr[idx].left}px, ${mapArr[idx].top}px)`
         },
+        collision: (axisX, offsetX, axisY, offsetY) => {
+            for (let idx in mapArr) {
+                if (mapObj[idx].classList.contains('hidden')) return
+                if (axisX + offsetX * 0.2 >= mapArr[idx].left &&
+                    axisX - offsetX * 0.3 <= mapArr[idx].left &&
+                    axisY + offsetY * 0.2 >= mapArr[idx].top &&
+                    axisY - offsetY * 0.3 <= mapArr[idx].top) {
+                    return true
+                }
+            }
+            return false
+        },
         controller: () => {
             for (let idx in mapArr) {
                 level.positionCorrection(idx)
                 if (mapArr[idx].left > _.gameareaWidth - _.gameareaBorder * 2
                     && mapArr[idx].left - _.terrainSpeed <= _.gameareaWidth - _.gameareaBorder * 2) {
                     mapObj[idx].classList.toggle('hidden')
-                    // level.tileSpawn(mapArr[idx].type)
                 } else if (mapArr[idx].left >= -_.borderOffset
                     && mapArr[idx].left - _.terrainSpeed < -_.borderOffset) {
                     level.tileRemove(idx)
                 }
-                // console.log(!mapObj[0].classList.contains('hidden'))
                 if (mapObj[idx] != undefined && !mapObj[0].classList.contains('hidden')) level.positionRefresh(idx)
             }
         }

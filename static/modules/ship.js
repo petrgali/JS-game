@@ -4,6 +4,7 @@ import { _, hotKey } from '../config/data.js'
 import { enemy } from './enemies.js'
 import { SFX } from './sound.js'
 import { GUI } from './view.js'
+import { level } from './terrain.js'
 
 export const mothership = (() => {
     let ship, shipX, shipY
@@ -54,7 +55,8 @@ export const mothership = (() => {
 
             mothership.positionCorrection()
 
-            if (enemy.collision(shipX, _.shipSkinWidth, shipY, _.shipSkinHeight)) {
+            if (enemy.collision(shipX, _.shipSkinWidth, shipY, _.shipSkinHeight)
+                || level.collision(shipX, _.shipSkinWidth, shipY, _.shipSkinHeight)) {
                 mothership.remove()
                 SFX.play(effects.explode)
                 GUI.explodeMothership()
