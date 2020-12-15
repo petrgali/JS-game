@@ -54,7 +54,8 @@ const _ = {
   shipSpeedY: 3.5, // ship vertical speed
   shipSpeedX: 3.5, // ship horizontal speed
   speedX: 2.5, // enemy speed
-  terrainSpeed: 1.5, // terrains translate speed 
+  terrainSpeed: 1.5, // terrains translate speed
+  collideMultiplier: 0.3, // used to adjust backward movement collision 
   firingRate: 10, // burst fire speed
   firingRange: 450, // max fire range
   borderOffset: 25, // dead zone for ship

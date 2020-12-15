@@ -6,6 +6,7 @@ import { enemy } from './enemies.js'
 import { SFX } from './sound.js'
 import { GUI } from './view.js'
 import { player } from './player.js'
+import { level } from './terrain.js'
 
 
 
@@ -56,7 +57,8 @@ export const bullet = (() => {
             bulletsArr.forEach((elem, idx) => {
                 if (elem.left - elem.compare >= _.firingRange ||
                     elem.left >= GUI.gamearea().right - _.borderOffset ||
-                    enemy.collision(elem.left, _.bulletXsize, elem.top, _.bulletYsize)) {
+                    enemy.collision(elem.left, _.bulletXsize, elem.top, _.bulletYsize) ||
+                    level.collision(elem.left, _.bulletXsize, elem.top, _.bulletYsize)) {
                     bullet.remove(idx)
                 } else {
                     bullet.positionRefresh(idx)

@@ -2,6 +2,7 @@
 import { levelMap } from '../config/level_set.js'
 import { _ } from '../config/data.js'
 import { tiles, tilesPath } from '../config/resources.js'
+import { GUI } from './view.js'
 export { level }
 
 
@@ -48,13 +49,13 @@ const level = (() => {
         positionRefresh: (idx) => {
             mapObj[idx].style.transform = `translate(${mapArr[idx].left}px, ${mapArr[idx].top}px)`
         },
+
         collision: (axisX, offsetX, axisY, offsetY) => {
             for (let idx in mapArr) {
-                if (mapObj[idx].classList.contains('hidden')) return
-                if (axisX + offsetX * 0.2 >= mapArr[idx].left &&
-                    axisX - offsetX * 0.3 <= mapArr[idx].left &&
-                    axisY + offsetY * 0.2 >= mapArr[idx].top &&
-                    axisY - offsetY * 0.3 <= mapArr[idx].top) {
+                if (axisY >= mapArr[idx].top + _.borderOffset - _.gameareaBorder - offsetY &&
+                    axisY <= mapArr[idx].top + _.borderOffset - _.gameareaBorder + levelMap.tile.size &&
+                    axisX >= mapArr[idx].left - offsetX &&
+                    axisX <= mapArr[idx].left + levelMap.tile.size * _.collideMultiplier) {
                     return true
                 }
             }
@@ -70,7 +71,7 @@ const level = (() => {
                     && mapArr[idx].left - _.terrainSpeed < -_.borderOffset) {
                     level.tileRemove(idx)
                 }
-                if (mapObj[idx] != undefined && !mapObj[0].classList.contains('hidden')) level.positionRefresh(idx)
+                if (mapObj[idx] != undefined && !mapObj[idx].classList.contains('hidden')) level.positionRefresh(idx)
             }
         }
     }

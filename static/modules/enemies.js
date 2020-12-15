@@ -66,7 +66,7 @@ export const enemy = (() => {
                 if (axisY >= Dom[id].getBoundingClientRect().top - GUI.gamearea().top - offsetY &&
                     axisY <= Dom[id].getBoundingClientRect().top - GUI.gamearea().top + enemiesArr[id].type.height &&
                     axisX >= enemiesArr[id].leftOffset + normalized - offsetX &&
-                    axisX <= enemiesArr[id].leftOffset + normalized + enemiesArr[id].type.length / 3) {
+                    axisX <= enemiesArr[id].leftOffset + normalized + enemiesArr[id].type.length * _.collideMultiplier) {
                     score += enemiesArr[id].type.points
                     if (enemiesArr[id].type.destructible) {
                         GUI.explodeEnemy(enemiesArr[id].leftOffset + normalized,

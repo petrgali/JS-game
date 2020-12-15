@@ -60,7 +60,7 @@ div #header {
 #terrain {
     position: absolute;
     will-change: transform;
-    z-index: -4000;
+    z-index: -100;
 }
 
 div #progress {
