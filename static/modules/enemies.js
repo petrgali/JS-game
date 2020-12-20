@@ -119,8 +119,8 @@ export const enemy = (() => {
                             enemy.spawn(position, enemiesArr[id].topOffset, enemiesArr[id].type.class)
                         }
                     }
-                } else if (position >= GUI.gamearea().left + _.gameareaBorder &&
-                    position - enemiesArr[id].type.speed < GUI.gamearea().left + _.gameareaBorder) {
+                } else if (enemiesArr[id].leftOffset + _.gameareaWidth >= - _.borderOffset &&
+                    enemiesArr[id].leftOffset + _.gameareaWidth - enemiesArr[id].type.speed < - _.borderOffset) {
                     enemy.remove(id)
                 }
             }
