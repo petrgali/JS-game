@@ -43,8 +43,8 @@ const message = {
 }
 
 const _ = {
-  serverURL: 'http://localhost:8000/',
-  apiURL: 'http://localhost:8000/scoreboard',
+  serverURL: '/',
+  apiURL: '/scoreboard',
   strictSymbol: ' ',
   maxNameSize: 8,    // input player name max length 
   shipYposition: 200, // ship init top position

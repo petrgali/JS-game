@@ -14,6 +14,7 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
 	handler := &routehandlers.Handlers{
 		Tmpl:       template.Must(template.ParseFiles("./index.html")),
 		FileServer: http.FileServer(http.Dir("../static")),
@@ -28,6 +29,6 @@ func main() {
 
 	loggerMux := handlers.LoggingHandler(os.Stdout, r)
 
-	fmt.Println("server is listening on port:8000")
-	http.ListenAndServe(":8000", loggerMux)
+	fmt.Println("server is listening on port:" + port)
+	http.ListenAndServe(":"+port, loggerMux)
 }
