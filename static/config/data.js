@@ -32,9 +32,11 @@ const message = {
   wasted: `REKT!!`,
   levelend: `VICTORY!\nenemy retreat!!\n\nfinal score `,
   gameover: `**DEFEAT!**\n\nworld has fallen\nfinal score `,
-  tutorial: `you're the last hope\nprotect our world\n\nbattle is coming...`,
+  // tutorial: `you're the last hope\nprotect our world\n\nbattle is coming...`,
+  tutorial: `enemies still dangerous!\n\nstay focused!`,
   tutorialUP: `press \u2191 to move UP`,
   tutorialDOWN: `press \u2193 to move DOWN`,
+  tutorialStrafe: `press \u2192 & \u2191`,
   tutorialSHOOT: `press ${hotKey.shipFire.slice(-1)} to use\nPLASMA CANNON`,
   tutorialDONE: `eliminate attackers\nNO MERCY!`,
   moar: `next wave approaching\n\nFOR THE GLORY!!!`,
@@ -43,8 +45,8 @@ const message = {
 }
 
 const _ = {
-  serverURL: 'http://localhost:8000/',
-  apiURL: 'http://localhost:8000/scoreboard',
+  serverURL: '/',
+  apiURL: '/scoreboard',
   strictSymbol: ' ',
   maxNameSize: 8,    // input player name max length 
   shipYposition: 200, // ship init top position
@@ -68,7 +70,7 @@ const _ = {
   gameareaBorder: 4, // CSS setting - used for calculations
   gameareaWidth: 600,
   gameareaHeight: 430,
-  try: 3, // number of lives
+  try: 1, // number of lives
   multiplier: 1000, // final score multiplier
   splashSize: 32, // splash size - CSS value
   starsCount: 25

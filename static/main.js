@@ -22,7 +22,14 @@ export const gameController = async () => {
     GUI.showMenu(message.loading)
     await Promise.all(resources.map(filename => preloadImage(path.concat(filename))))
     await Promise.all(tiles.map(tile => preloadImage(tilesPath.concat(tile))))
+
     GUI.showMenu(message.start)
+
+    ///////////////////////////
+    //SHOW LOGO ANIMATION
+    ///////////////////////////
+
+    ///////////////////////////
     document.addEventListener('keydown', (event) => {
         switch (event.code) {
             case hotKey.start:
