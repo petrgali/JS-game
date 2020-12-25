@@ -1,34 +1,38 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
-	"net/http"
-	"os"
-
+	"log"
+	"make-your-game-back/database"
 	"make-your-game-back/models"
 	"make-your-game-back/routehandlers"
-
-	"github.com/gorilla/handlers"
-	"github.com/gorilla/mux"
+	"net/http"
+	"os"
+	"time"
 )
 
 func main() {
-	port := os.Getenv("PORT")
-	handler := &routehandlers.Handlers{
-		Tmpl:       template.Must(template.ParseFiles("./index.html")),
-		FileServer: http.FileServer(http.Dir("../static")),
+	if err := database.Init(os.Getenv("DATABASE_URL")); err != nil {
+		log.Printf("Database connection failed. Reason: %s", err.Error())
 	}
+	mux := routehandlers.Init()
 	models.ReadHistory()
 
-	r := mux.NewRouter()
-	r.HandleFunc("/", handler.Index).Methods("GET")
-	r.HandleFunc("/scoreboard", handler.GetData).Methods("GET")
-	r.HandleFunc("/scoreboard", handler.SetData).Methods("POST")
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", handler.FileServer))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		log.Printf("PORT set to default value `8080`. Reason: %s", "%PORT not set.")
+	}
+	s := &http.Server{
+		Addr:           ":" + port,
+		Handler:        *mux,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
 
-	loggerMux := handlers.LoggingHandler(os.Stdout, r)
+	log.Printf("server is listening on port" + s.Addr)
+	if err := s.ListenAndServe(); err != nil {
+		log.Printf("Server startup failed. Reason: %s", err.Error())
+	}
 
-	fmt.Println("server is listening on port:" + port)
-	http.ListenAndServe(":"+port, loggerMux)
 }
