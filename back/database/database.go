@@ -47,9 +47,9 @@ func (db *DBconn) CreateStat(player models.Player) (err error) {
 	}
 	return nil
 }
-func (db *DBconn) ReadStat() ([]*models.Player, error) {
-	players := []*models.Player{}
-	rows, err := db.Conn.Query("SELECT (name,destroyed,shots,minutes,seconds,accuracy,score) FROM stat ORDER BY score DESC")
+func (db *DBconn) ReadStat() ([]models.Player, error) {
+	players := []models.Player{}
+	rows, err := db.Conn.Query("SELECT name, destroyed, shots, minutes, seconds, accuracy, score FROM stat ORDER BY score DESC")
 	if err != nil {
 		return players, err
 	}
@@ -62,7 +62,7 @@ func (db *DBconn) ReadStat() ([]*models.Player, error) {
 		}
 		player.Rank = idx
 		idx++
-		players = append(players, player)
+		players = append(players, *player)
 	}
 	return players, nil
 }
