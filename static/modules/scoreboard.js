@@ -34,7 +34,7 @@ const scoreBoard = (() => {
             if (key === hotKey.shipLeft) pageNum--
             if (key === hotKey.shipRight) pageNum++
             if (key === hotKey.start) skippedEnter++
-            if (skippedEnter >= 2) game.stop()
+            if (skippedEnter >= 1) game.stop()
             if (pageNum >= scoreBoard.totalPages()) pageNum = scoreBoard.totalPages() - 1
             if (pageNum < 0) pageNum = 0
             scoreBoard.hidePrevious()

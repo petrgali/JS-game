@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"make-your-game-back/database"
-	"make-your-game-back/models"
 	"make-your-game-back/routehandlers"
 	"net/http"
 	"os"
@@ -15,7 +14,6 @@ func main() {
 		log.Printf("Database connection failed. Reason: %s", err.Error())
 	}
 	mux := routehandlers.Init()
-	models.ReadHistory()
 
 	port := os.Getenv("PORT")
 	if port == "" {
