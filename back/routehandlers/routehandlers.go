@@ -46,7 +46,7 @@ func (h *Handlers) GetData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Add("Content-Type", "application/json")
-	// stat, _ := json.MarshalIndent(data, "", "")
+	stat, _ := json.MarshalIndent(data, "", "")
 	json.NewEncoder(w).Encode(data)
 }
 
