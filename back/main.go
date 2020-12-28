@@ -10,10 +10,11 @@ import (
 )
 
 func main() {
-	if err := database.Init(os.Getenv("DATABASE_URL")); err != nil {
+	db, err := database.Init(os.Getenv("DATABASE_URL"))
+	if err != nil {
 		log.Printf("Database connection failed. Reason: %s", err.Error())
 	}
-	mux := routehandlers.Init()
+	mux := routehandlers.Init(db)
 
 	port := os.Getenv("PORT")
 	if port == "" {

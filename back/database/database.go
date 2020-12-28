@@ -12,19 +12,18 @@ type DBconn struct {
 	Conn *sql.DB
 }
 
-var DB = &DBconn{}
-
-func Init(url string) error {
+func Init(url string) (*DBconn, error) {
+	db := &DBconn{}
 	conn, err := sql.Open("postgres", url)
 	if err != nil {
-		return err
+		return nil, err
 	} else {
-		DB.Conn = conn
+		db.Conn = conn
 	}
-	DB.CreateDB()
-	DB.Conn.SetMaxOpenConns(20)
-	DB.Conn.SetMaxIdleConns(20)
-	return DB.Conn.Ping()
+	db.CreateDB()
+	db.Conn.SetMaxOpenConns(20)
+	db.Conn.SetMaxIdleConns(20)
+	return db, db.Conn.Ping()
 }
 func (db *DBconn) CreateDB() {
 	_, err := db.Conn.Exec("CREATE TABLE IF NOT EXISTS stat (name VARCHAR(10) NOT NULL, destroyed INT, shots INT, minutes INT, seconds INT, accuracy INT, score INT)")

@@ -21,13 +21,19 @@ func ValidateStat(reqBody []byte) (string, Player) {
 	if err := json.Unmarshal(reqBody, &player); err != nil {
 		return err.Error(), player
 	}
-	if !validData(player) {
-		return "invalid data", player
+	if !valid(player) {
+		return "invalid data format", player
 	}
 	return "", player
 }
-func validData(player Player) bool {
-	if player.Seconds > 0 && player.Minutes >= 0 && len(player.Name) <= 8 {
+func valid(player Player) bool {
+	if player.Seconds > 0 && player.Seconds <= 60 &&
+		player.Minutes >= 0 &&
+		player.Destroyed >= 0 &&
+		player.Shots > 0 &&
+		player.Accuracy >= 0 && player.Accuracy <= 100 &&
+		player.Score >= 0 &&
+		len(player.Name) <= 8 {
 		return true
 	}
 	return false

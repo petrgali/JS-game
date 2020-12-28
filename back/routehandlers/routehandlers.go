@@ -22,11 +22,11 @@ type Handlers struct {
 	DB         *database.DBconn
 }
 
-func Init() *http.Handler {
+func Init(conn *database.DBconn) *http.Handler {
 	handler := &Handlers{
 		Tmpl:       template.Must(template.ParseFiles("./index.html")),
 		FileServer: http.FileServer(http.Dir("../static")),
-		DB:         database.DB,
+		DB:         conn,
 	}
 	r := mux.NewRouter()
 	r.HandleFunc("/", handler.Index).Methods("GET")
@@ -41,32 +41,35 @@ func Init() *http.Handler {
 func (h *Handlers) GetData(w http.ResponseWriter, r *http.Request) {
 	data, err := h.DB.ReadStat()
 	if err != nil {
-		w.WriteHeader(400)
-		log.Printf("DB: read failed. Reason: %s", err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Printf("DB: read entries failed. Reason: %s", err.Error())
 		return
 	}
 	w.Header().Add("Content-Type", "application/json")
-	stat, _ := json.MarshalIndent(data, "", "")
-	json.NewEncoder(w).Encode(data)
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Printf("API: JSON encode failed. Reason: %s", err.Error())
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 }
 
 /*SetData - API data setter*/
 func (h *Handlers) SetData(w http.ResponseWriter, r *http.Request) {
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		w.WriteHeader(400)
+		w.WriteHeader(http.StatusInternalServerError)
 		log.Printf("API: read request failed. Reason: %s", err.Error())
 		return
 	}
 	fatal, body := models.ValidateStat(reqBody)
 	if fatal != "" {
-		w.WriteHeader(400)
-		log.Printf("API: set data failed. Reason: %s", fatal)
+		w.WriteHeader(http.StatusBadRequest)
+		log.Printf("API: data validation failed. Reason: %s", fatal)
 		return
 	}
 	if err = h.DB.CreateStat(body); err != nil {
-		w.WriteHeader(400)
-		log.Printf("DB: create failed. Reason: %s", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Printf("DB: create new entry failed. Reason: %s", err)
 	}
 }
 
