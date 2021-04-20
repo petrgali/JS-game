@@ -12,7 +12,7 @@ Project created using:
 * Golang 1.12.10
 	
 ## Setup
-To run this project:
+To run this project locally:
 
 ```
 $ bash gameStart.sh
@@ -26,5 +26,7 @@ $ docker run -p 8000:8000 game:arcade
 ```
 
 and then navigate to localhost:8000/ in your browser.
+
+Also you can check deploy https://devastator.herokuapp.com/
 
 Have fun!
